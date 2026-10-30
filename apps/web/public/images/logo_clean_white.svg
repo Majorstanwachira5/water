@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 120" width="100%" height="100%">
+  <!-- Left Pipe Monogram Icon MF E in Brand Red #D92D36 with white highlights -->
+  <g transform="translate(10, 10)">
+    <rect x="15" y="42" width="70" height="20" rx="4" fill="#FF4D57"/>
+    <rect x="5" y="36" width="12" height="32" rx="3" fill="#D92D36"/>
+    <rect x="83" y="36" width="12" height="32" rx="3" fill="#D92D36"/>
+    <rect x="42" y="16" width="16" height="30" rx="2" fill="#FF4D57"/>
+    <ellipse cx="50" cy="14" rx="18" ry="6" fill="#D92D36"/>
+    <ellipse cx="50" cy="14" rx="10" ry="3" fill="#FFFFFF"/>
+    <text x="22" y="36" font-family="'Inter', sans-serif" font-weight="900" font-size="22" fill="#FF4D57">M</text>
+    <text x="60" y="36" font-family="'Inter', sans-serif" font-weight="900" font-size="22" fill="#FF4D57">F</text>
+    <text x="42" y="86" font-family="'Inter', sans-serif" font-weight="900" font-size="22" fill="#FF4D57">E</text>
+  </g>
+
+  <!-- Vertical Divider Bar -->
+  <line x1="125" y1="18" x2="125" y2="102" stroke="#FF850D" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Wordmark MICHAFORGE in White -->
+  <text x="142" y="52" font-family="'Inter', -apple-system, sans-serif" font-weight="900" font-size="38" letter-spacing="1" fill="#FFFFFF">MICHAFORGE</text>
+
+  <!-- ENTERPRISES with side rules -->
+  <line x1="145" y1="68" x2="185" y2="68" stroke="#FF850D" stroke-width="2"/>
+  <text x="195" y="74" font-family="'Inter', sans-serif" font-weight="800" font-size="16" letter-spacing="3" fill="#FF850D">ENTERPRISES</text>
+  <line x1="335" y1="68" x2="375" y2="68" stroke="#FF850D" stroke-width="2"/>
+
+  <!-- White Pill Badge with Navy Text: DEALERS IN ALL PLUMBING MATERIALS -->
+  <rect x="142" y="86" width="380" height="24" rx="12" fill="#FFFFFF"/>
+  <text x="332" y="103" text-anchor="middle" font-family="'Inter', sans-serif" font-weight="800" font-size="11.5" letter-spacing="1.2" fill="#073253">• DEALERS IN ALL PLUMBING MATERIALS •</text>
+</svg>

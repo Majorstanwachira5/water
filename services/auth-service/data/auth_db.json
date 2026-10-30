@@ -1,0 +1,16 @@
+{
+  "users": [
+    {
+      "id": "usr_admin_01",
+      "email": "admin@michaforge.co.ke",
+      "name": "Michaforge Administrator",
+      "role": "Super Admin",
+      "isActive": true,
+      "passwordHash": "fa31728079ebe3ea1d91744ab3e350644f4e59553d2e06959db7af58dd9914189e34e7bd2effe1c7f01dac64a50a8ccf76835c0dd563d5f0d0f011c69c510b91",
+      "salt": "f7321d7415273329f90c87a425676873",
+      "createdAt": "2026-10-30T04:57:26.391Z",
+      "updatedAt": "2026-10-30T04:57:26.391Z"
+    }
+  ],
+  "refreshTokens": []
+}

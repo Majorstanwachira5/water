@@ -1,0 +1,53 @@
+{
+  "brand": {
+    "businessName": "MICHAFORGE ENTERPRISES",
+    "tagline": "DEALERS IN ALL PLUMBING MATERIALS",
+    "primaryPhone": "0714843208",
+    "primaryPhoneFormatted": "+254714843208",
+    "whatsappNumber": "+254714843208",
+    "smsNumber": "+254714843208",
+    "email": "info@michaforge.co.ke",
+    "address": "Nairobi, Kenya",
+    "country": "Kenya",
+    "currency": "KES",
+    "timezone": "Africa/Nairobi",
+    "logoUrl": "/images/logo_navbar.png",
+    "logoWhiteUrl": "/images/logo_footer.png",
+    "faviconUrl": "/favicon.ico",
+    "heroHeadline": "Quality Plumbing & Hardware Materials",
+    "heroSubheadline": "WELCOME TO MICHAFORGE ENTERPRISES",
+    "heroDescription": "Your trusted supplier of plumbing materials, pipes, fittings, taps, valves and all hardware essentials.",
+    "heroImageUrl": "/images/hero_plumbing_supplies.png",
+    "announcementText": "Quality Plumbing & Hardware Solutions",
+    "colors": {
+      "deepNavy": "#073253",
+      "primaryNavy": "#0B3556",
+      "orange": "#FF850D",
+      "redLogoAccent": "#D92D36",
+      "white": "#FFFFFF",
+      "lightGrey": "#F5F7FA",
+      "borderGrey": "#DFE5EB",
+      "whatsAppGreen": "#0BAA58",
+      "darkText": "#172B3A",
+      "mutedText": "#667585"
+    }
+  },
+  "aboutContent": {
+    "title": "About Michaforge Enterprises",
+    "description": "Michaforge Enterprises is a premier supplier of quality plumbing materials and hardware essentials in Kenya. We provide dependable, contractor-grade piping solutions, precision fittings, reliable taps, and flow control valves to builders, homeowners, and trade professionals.",
+    "features": [
+      {
+        "title": "Genuine Quality",
+        "desc": "High standard pipes and fittings engineered for durability and reliable performance."
+      },
+      {
+        "title": "Comprehensive Stock",
+        "desc": "Full range of PVC, PPR, taps, valves, water tanks, and essential hardware items."
+      },
+      {
+        "title": "Direct WhatsApp Support",
+        "desc": "Instant quotations, technical sizing advice, and responsive customer assistance."
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "enquiries": [
+    {
+      "id": "enq_sample_01",
+      "customerName": "Joseph Mwangi",
+      "phoneNumber": "+254712345678",
+      "email": "joseph@example.com",
+      "enquiryType": "product",
+      "productId": "prd_pvc_4in",
+      "productName": "PVC Pipes (4\")",
+      "productSku": "MF-PVC-004",
+      "message": "Hello, need quotation for 25 pieces of 4\" PVC pipes delivered to Nairobi West.",
+      "status": "New",
+      "source": "website_form",
+      "createdAt": "2026-10-30T02:12:01.726Z",
+      "updatedAt": "2026-10-30T02:12:01.726Z",
+      "notes": [],
+      "followUps": []
+    }
+  ]
+}

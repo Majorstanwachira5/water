@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 120" width="100%" height="100%">
+  <!-- Left Pipe Monogram Icon MF E in Brand Red #D92D36 -->
+  <g transform="translate(10, 10)">
+    <!-- Pipe joint / valve body -->
+    <rect x="15" y="42" width="70" height="20" rx="4" fill="#D92D36"/>
+    <!-- Flanges left & right -->
+    <rect x="5" y="36" width="12" height="32" rx="3" fill="#B71C24"/>
+    <rect x="83" y="36" width="12" height="32" rx="3" fill="#B71C24"/>
+    <!-- Top vertical pipe with valve wheel -->
+    <rect x="42" y="16" width="16" height="30" rx="2" fill="#D92D36"/>
+    <ellipse cx="50" cy="14" rx="18" ry="6" fill="#B71C24"/>
+    <ellipse cx="50" cy="14" rx="10" ry="3" fill="#FFFFFF"/>
+    <!-- Letter M inside pipe frame -->
+    <text x="22" y="36" font-family="'Inter', sans-serif" font-weight="900" font-size="22" fill="#D92D36">M</text>
+    <!-- Letter F -->
+    <text x="60" y="36" font-family="'Inter', sans-serif" font-weight="900" font-size="22" fill="#D92D36">F</text>
+    <!-- Letter E below -->
+    <text x="42" y="86" font-family="'Inter', sans-serif" font-weight="900" font-size="22" fill="#D92D36">E</text>
+  </g>
+
+  <!-- Vertical Divider Bar -->
+  <line x1="125" y1="18" x2="125" y2="102" stroke="#D92D36" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Wordmark MICHAFORGE -->
+  <text x="142" y="52" font-family="'Inter', -apple-system, sans-serif" font-weight="900" font-size="38" letter-spacing="1" fill="#D92D36">MICHAFORGE</text>
+
+  <!-- ENTERPRISES with side rules -->
+  <line x1="145" y1="68" x2="185" y2="68" stroke="#073253" stroke-width="2"/>
+  <text x="195" y="74" font-family="'Inter', sans-serif" font-weight="800" font-size="16" letter-spacing="3" fill="#073253">ENTERPRISES</text>
+  <line x1="335" y1="68" x2="375" y2="68" stroke="#073253" stroke-width="2"/>
+
+  <!-- Navy Pill Badge: DEALERS IN ALL PLUMBING MATERIALS -->
+  <rect x="142" y="86" width="380" height="24" rx="12" fill="#073253"/>
+  <text x="332" y="103" text-anchor="middle" font-family="'Inter', sans-serif" font-weight="800" font-size="11.5" letter-spacing="1.2" fill="#FFFFFF">• DEALERS IN ALL PLUMBING MATERIALS •</text>
+</svg>

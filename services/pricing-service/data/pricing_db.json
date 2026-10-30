@@ -1,0 +1,77 @@
+{
+  "prices": {
+    "prd_pvc_4in": {
+      "id": "prc_1",
+      "productId": "prd_pvc_4in",
+      "price": null,
+      "previousPrice": null,
+      "currency": "KES",
+      "unit": "per 6 m length",
+      "effectiveDate": "2026-10-30T06:11:51.832Z",
+      "updatedBy": "System Bootstrap",
+      "reason": "Initial setup pending business owner price confirmation",
+      "updatedAt": "2026-10-30T06:11:51.832Z"
+    },
+    "prd_pipe_fittings_ast": {
+      "id": "prc_2",
+      "productId": "prd_pipe_fittings_ast",
+      "price": null,
+      "previousPrice": null,
+      "currency": "KES",
+      "unit": "per piece",
+      "effectiveDate": "2026-10-30T06:11:51.832Z",
+      "updatedBy": "System Bootstrap",
+      "reason": "Initial setup pending business owner price confirmation",
+      "updatedAt": "2026-10-30T06:11:51.832Z"
+    },
+    "prd_bib_cock_tap": {
+      "id": "prc_3",
+      "productId": "prd_bib_cock_tap",
+      "price": null,
+      "previousPrice": null,
+      "currency": "KES",
+      "unit": "each",
+      "effectiveDate": "2026-10-30T06:11:51.832Z",
+      "updatedBy": "System Bootstrap",
+      "reason": "Initial setup pending business owner price confirmation",
+      "updatedAt": "2026-10-30T06:11:51.832Z"
+    },
+    "prd_brass_ball_valve": {
+      "id": "prc_4",
+      "productId": "prd_brass_ball_valve",
+      "price": null,
+      "previousPrice": null,
+      "currency": "KES",
+      "unit": "each",
+      "effectiveDate": "2026-10-30T06:11:51.832Z",
+      "updatedBy": "System Bootstrap",
+      "reason": "Initial setup pending business owner price confirmation",
+      "updatedAt": "2026-10-30T06:11:51.832Z"
+    },
+    "prd_water_tank_1000l": {
+      "id": "prc_5",
+      "productId": "prd_water_tank_1000l",
+      "price": null,
+      "previousPrice": null,
+      "currency": "KES",
+      "unit": "each",
+      "effectiveDate": "2026-10-30T06:11:51.832Z",
+      "updatedBy": "System Bootstrap",
+      "reason": "Initial setup pending business owner price confirmation",
+      "updatedAt": "2026-10-30T06:11:51.832Z"
+    },
+    "prd_hardware_accessories": {
+      "id": "prc_6",
+      "productId": "prd_hardware_accessories",
+      "price": null,
+      "previousPrice": null,
+      "currency": "KES",
+      "unit": "per item",
+      "effectiveDate": "2026-10-30T06:11:51.832Z",
+      "updatedBy": "System Bootstrap",
+      "reason": "Initial setup pending business owner price confirmation",
+      "updatedAt": "2026-10-30T06:11:51.832Z"
+    }
+  },
+  "history": []
+}

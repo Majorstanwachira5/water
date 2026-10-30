@@ -1,0 +1,296 @@
+{
+  "categories": [
+    {
+      "id": "cat_pvc_pipes",
+      "name": "PVC Pipes",
+      "slug": "pvc-pipes",
+      "description": "Durable & Reliable",
+      "iconName": "pipe",
+      "imageUrl": "/images/products/product_pvc_pipes.png",
+      "displayOrder": 1,
+      "isPublished": true,
+      "createdAt": "2026-10-30T06:16:07.270Z",
+      "updatedAt": "2026-10-30T06:16:07.270Z"
+    },
+    {
+      "id": "cat_pipe_fittings",
+      "name": "Pipe Fittings",
+      "slug": "pipe-fittings",
+      "description": "Various Sizes & Types",
+      "iconName": "fittings",
+      "imageUrl": "/images/products/product_pipe_fittings.png",
+      "displayOrder": 2,
+      "isPublished": true,
+      "createdAt": "2026-10-30T06:16:07.270Z",
+      "updatedAt": "2026-10-30T06:16:07.270Z"
+    },
+    {
+      "id": "cat_taps_faucets",
+      "name": "Taps & Faucets",
+      "slug": "taps-faucets",
+      "description": "Quality & Stylish",
+      "iconName": "tap",
+      "imageUrl": "/images/products/product_bib_cock.png",
+      "displayOrder": 3,
+      "isPublished": true,
+      "createdAt": "2026-10-30T06:16:07.270Z",
+      "updatedAt": "2026-10-30T06:16:07.270Z"
+    },
+    {
+      "id": "cat_valves",
+      "name": "Valves",
+      "slug": "valves",
+      "description": "Control Your Flow",
+      "iconName": "valve",
+      "imageUrl": "/images/products/product_brass_valve.png",
+      "displayOrder": 4,
+      "isPublished": true,
+      "createdAt": "2026-10-30T06:16:07.270Z",
+      "updatedAt": "2026-10-30T06:16:07.270Z"
+    },
+    {
+      "id": "cat_water_tanks",
+      "name": "Water Tanks",
+      "slug": "water-tanks",
+      "description": "Storage Solutions",
+      "iconName": "tank",
+      "imageUrl": "/images/products/product_water_tank.png",
+      "displayOrder": 5,
+      "isPublished": true,
+      "createdAt": "2026-10-30T06:16:07.270Z",
+      "updatedAt": "2026-10-30T06:16:07.270Z"
+    },
+    {
+      "id": "cat_hardware_items",
+      "name": "Hardware Items",
+      "slug": "hardware-items",
+      "description": "Building Essentials",
+      "iconName": "hardware",
+      "imageUrl": "/images/products/product_hardware_accessories.png",
+      "displayOrder": 6,
+      "isPublished": true,
+      "createdAt": "2026-10-30T06:16:07.270Z",
+      "updatedAt": "2026-10-30T06:16:07.270Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "prd_pvc_4in",
+      "name": "PVC Pipes (4\")",
+      "slug": "pvc-pipes-4-inch",
+      "sku": "MF-PVC-004",
+      "description": "High-grade 4-inch heavy duty PVC drainage and waste water pipe. Weather resistant, durable and reliable.",
+      "shortDescription": "Heavy duty 4\" PVC pipe for residential and commercial plumbing.",
+      "categoryId": "cat_pvc_pipes",
+      "unit": "per 6 m length",
+      "status": "published",
+      "isFeatured": true,
+      "featuredOrder": 1,
+      "images": [
+        {
+          "id": "img_pvc_1",
+          "url": "/images/products/product_pvc_pipes.png",
+          "altText": "Michaforge PVC Pipes (4 Inch)",
+          "displayOrder": 1,
+          "isPrimary": true
+        }
+      ],
+      "specifications": [
+        {
+          "id": "sp1",
+          "key": "Diameter",
+          "value": "4 Inches (110mm)"
+        },
+        {
+          "id": "sp2",
+          "key": "Length",
+          "value": "6 Metres"
+        },
+        {
+          "id": "sp3",
+          "key": "Material",
+          "value": "Unplasticized Polyvinyl Chloride (uPVC)"
+        }
+      ],
+      "seoTitle": "Buy 4 Inch PVC Pipes in Kenya | Michaforge Enterprises",
+      "seoDescription": "High quality 4-inch PVC pipes per 6m length in Kenya. Call 0714843208 for enquiries.",
+      "createdAt": "2026-10-30T06:16:07.270Z",
+      "updatedAt": "2026-10-30T06:16:07.270Z"
+    },
+    {
+      "id": "prd_pipe_fittings_ast",
+      "name": "Pipe Fittings (Assorted)",
+      "slug": "pipe-fittings-assorted",
+      "sku": "MF-FIT-001",
+      "description": "Wide selection of assorted PVC, PPR, and HDPE pipe fittings: elbows, tees, couplers, reducers, and unions.",
+      "shortDescription": "Assorted fittings for water supply and drainage systems.",
+      "categoryId": "cat_pipe_fittings",
+      "unit": "per piece",
+      "status": "published",
+      "isFeatured": true,
+      "featuredOrder": 2,
+      "images": [
+        {
+          "id": "img_fit_1",
+          "url": "/images/products/product_pipe_fittings.png",
+          "altText": "Pipe Fittings Assorted Types",
+          "displayOrder": 1,
+          "isPrimary": true
+        }
+      ],
+      "specifications": [
+        {
+          "id": "sp4",
+          "key": "Types",
+          "value": "Elbows, Tees, Sockets, Adaptors"
+        },
+        {
+          "id": "sp5",
+          "key": "Pressure Rating",
+          "value": "PN16 / PN20"
+        }
+      ],
+      "createdAt": "2026-10-30T06:16:07.270Z",
+      "updatedAt": "2026-10-30T06:16:07.270Z"
+    },
+    {
+      "id": "prd_bib_cock_tap",
+      "name": "Bib Cock Tap",
+      "slug": "bib-cock-tap",
+      "sku": "MF-TAP-001",
+      "description": "Solid chrome-plated brass bib cock tap. Corrosion resistant with smooth quarter-turn water control.",
+      "shortDescription": "Chrome finished wall-mount bib cock tap.",
+      "categoryId": "cat_taps_faucets",
+      "unit": "each",
+      "status": "published",
+      "isFeatured": true,
+      "featuredOrder": 3,
+      "images": [
+        {
+          "id": "img_tap_1",
+          "url": "/images/products/product_bib_cock.png",
+          "altText": "Quality Chrome Bib Cock Tap",
+          "displayOrder": 1,
+          "isPrimary": true
+        }
+      ],
+      "specifications": [
+        {
+          "id": "sp6",
+          "key": "Connection",
+          "value": "1/2\" Standard Thread"
+        },
+        {
+          "id": "sp7",
+          "key": "Material",
+          "value": "Brass Chrome Finish"
+        }
+      ],
+      "createdAt": "2026-10-30T06:16:07.270Z",
+      "updatedAt": "2026-10-30T06:16:07.270Z"
+    },
+    {
+      "id": "prd_brass_ball_valve",
+      "name": "Brass Ball Valve",
+      "slug": "brass-ball-valve",
+      "sku": "MF-VLV-001",
+      "description": "Heavy duty brass ball valve with lever handle. Perfect for main water line shut-off and high pressure flow control.",
+      "shortDescription": "Full port brass shut-off valve with lever handle.",
+      "categoryId": "cat_valves",
+      "unit": "each",
+      "status": "published",
+      "isFeatured": true,
+      "featuredOrder": 4,
+      "images": [
+        {
+          "id": "img_vlv_1",
+          "url": "/images/products/product_brass_valve.png",
+          "altText": "Brass Ball Valve with Lever Handle",
+          "displayOrder": 1,
+          "isPrimary": true
+        }
+      ],
+      "specifications": [
+        {
+          "id": "sp8",
+          "key": "Sizes",
+          "value": "1/2\", 3/4\", 1\", 2\""
+        },
+        {
+          "id": "sp9",
+          "key": "Working Pressure",
+          "value": "Up to 25 Bar"
+        }
+      ],
+      "createdAt": "2026-10-30T06:16:07.270Z",
+      "updatedAt": "2026-10-30T06:16:07.270Z"
+    },
+    {
+      "id": "prd_water_tank_1000l",
+      "name": "Water Tank (1,000L)",
+      "slug": "water-tank-1000l",
+      "sku": "MF-TNK-001",
+      "description": "Heavy duty cylindrical food-grade polyethylene water storage tank with UV protection and antimicrobial layer.",
+      "shortDescription": "1,000 Litre UV-stabilized domestic & commercial water tank.",
+      "categoryId": "cat_water_tanks",
+      "unit": "each",
+      "status": "published",
+      "isFeatured": true,
+      "featuredOrder": 5,
+      "images": [
+        {
+          "id": "img_tnk_1",
+          "url": "/images/products/product_water_tank.png",
+          "altText": "Cylindrical 1,000L Water Storage Tank",
+          "displayOrder": 1,
+          "isPrimary": true
+        }
+      ],
+      "specifications": [
+        {
+          "id": "sp10",
+          "key": "Capacity",
+          "value": "1,000 Litres"
+        },
+        {
+          "id": "sp11",
+          "key": "Layers",
+          "value": "Double / Triple Wall UV Shield"
+        }
+      ],
+      "createdAt": "2026-10-30T06:16:07.270Z",
+      "updatedAt": "2026-10-30T06:16:07.270Z"
+    },
+    {
+      "id": "prd_hardware_accessories",
+      "name": "Hardware Accessories",
+      "slug": "hardware-accessories",
+      "sku": "MF-HDW-001",
+      "description": "Essential plumbing installation hardware: PTFE thread tape, pipe wrenches, hacksaws, brackets, and PVC solvent cement.",
+      "shortDescription": "Professional plumbers toolkit & installation accessories.",
+      "categoryId": "cat_hardware_items",
+      "unit": "per item",
+      "status": "published",
+      "isFeatured": true,
+      "featuredOrder": 6,
+      "images": [
+        {
+          "id": "img_hdw_1",
+          "url": "/images/products/product_hardware_accessories.png",
+          "altText": "Hardware Accessories & Plumbing Tools",
+          "displayOrder": 1,
+          "isPrimary": true
+        }
+      ],
+      "specifications": [
+        {
+          "id": "sp12",
+          "key": "Application",
+          "value": "Plumbing & Construction"
+        }
+      ],
+      "createdAt": "2026-10-30T06:16:07.270Z",
+      "updatedAt": "2026-10-30T06:16:07.270Z"
+    }
+  ]
+}
