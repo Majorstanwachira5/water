@@ -1,16 +1,16 @@
 {
-  "name": "michaforge-enterprises",
+  "name": "water12",
   "version": "1.0.0",
   "private": true,
   "description": "Michaforge Enterprises — Full-Stack Plumbing Materials E-Commerce Catalogue & Management System",
   "workspaces": [
+    "packages/*",
     "apps/*",
-    "services/*",
-    "packages/*"
+    "services/*"
   ],
   "scripts": {
     "dev": "node scripts/start-all.js",
-    "build": "npm run build --workspaces --if-present",
+    "build": "npm run build -w packages/shared-contracts && npm run build -w packages/shared-validation && npm run build --workspaces --if-present",
     "test": "node scripts/run-all-tests.js",
     "seed": "node scripts/seed-all.js",
     "lint": "npm run lint --workspaces --if-present"
