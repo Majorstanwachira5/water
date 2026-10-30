@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3000",
-    "build": "cd ../.. && npm run build -w packages/shared-contracts && npm run build -w packages/shared-validation && cd apps/web && next build",
+    "build": "next build",
     "start": "next start -p 3000",
-    "lint": "next lint"
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@michaforge/shared-contracts": "*",

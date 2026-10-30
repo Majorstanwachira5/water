@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Phone, MessageCircle, MapPin, Mail, ArrowRight, ShieldCheck } from 'lucide-react';
-import { generateWhatsAppLink } from '../../packages/shared-validation/src';
+import { generateWhatsAppLink } from '@michaforge/shared-validation';
 
 interface FooterProps {
   businessPhone?: string;

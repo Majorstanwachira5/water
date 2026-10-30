@@ -1,23 +1,24 @@
 {
-  "name": "@michaforge/notification-service",
-  "version": "1.0.0",
-  "scripts": {
-    "start": "ts-node src/index.ts",
-    "build": "tsc",
-    "test": "node --test dist/**/*.test.js"
-  },
-  "dependencies": {
-    "@michaforge/shared-contracts": "*",
-    "@michaforge/shared-validation": "*",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "uuid": "^9.0.1"
-  },
-  "devDependencies": {
-    "@types/cors": "^2.8.17",
-    "@types/express": "^4.17.21",
-    "@types/uuid": "^9.0.8",
-    "typescript": "^5.3.3"
-  }
+    "name":  "@michaforge/notification-service",
+    "version":  "1.0.0",
+    "scripts":  {
+                    "start":  "ts-node src/index.ts",
+                    "build":  "tsc",
+                    "test":  "node --test dist/**/*.test.js",
+                    "dev":  "ts-node src/index.ts"
+                },
+    "dependencies":  {
+                         "@michaforge/shared-contracts":  "*",
+                         "@michaforge/shared-validation":  "*",
+                         "cors":  "^2.8.5",
+                         "dotenv":  "^16.4.5",
+                         "express":  "^4.19.2",
+                         "uuid":  "^9.0.1"
+                     },
+    "devDependencies":  {
+                            "@types/cors":  "^2.8.17",
+                            "@types/express":  "^4.17.21",
+                            "@types/uuid":  "^9.0.8",
+                            "typescript":  "^5.3.3"
+                        }
 }

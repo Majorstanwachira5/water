@@ -1,0 +1,13 @@
+# Cloudflare Pages configuration (alternative to Vercel deployment)
+# The primary deployment target for the frontend is Vercel.
+# This file is kept for Cloudflare Pages compatibility.
+#
+# To deploy to Cloudflare Pages:
+#   1. Set rootDirectory to apps/web in Cloudflare dashboard
+#   2. Build command: next build
+#   3. Output directory: .next
+#
+# Note: Full Next.js SSR on Cloudflare Pages requires @cloudflare/next-on-pages adapter.
+# See: https://developers.cloudflare.com/pages/framework-guides/nextjs/
+
+pages_build_output_dir = "apps/web/.next"
