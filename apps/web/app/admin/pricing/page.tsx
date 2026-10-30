@@ -14,7 +14,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { Product, ProductPrice, PriceHistoryEntry } from '@michaforge/shared-contracts';
-import { formatCurrency } from '@michaforge/shared-validation';
+import { formatCurrency } from '../../packages/shared-validation/src';
 
 // Reference prices printed on the original flyer (for quick 1-click apply if desired)
 const FLYER_REFERENCE_PRICES: Record<string, number> = {

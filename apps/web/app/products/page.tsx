@@ -7,7 +7,7 @@ import CategoryStrip from '../../components/CategoryStrip';
 import ProductDetailModal from '../../components/ProductDetailModal';
 import { Search, Filter, RefreshCw, MessageCircle, Tag, ArrowRight } from 'lucide-react';
 import { CatalogProductItem, Category } from '@michaforge/shared-contracts';
-import { generateWhatsAppLink } from '@michaforge/shared-validation';
+import { generateWhatsAppLink } from '../../packages/shared-validation/src';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<CatalogProductItem[]>([]);

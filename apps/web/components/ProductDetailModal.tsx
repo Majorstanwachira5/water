@@ -3,7 +3,7 @@
 import React from 'react';
 import { X, MessageCircle, Phone, Tag, Check, ArrowRight } from 'lucide-react';
 import { CatalogProductItem } from '@michaforge/shared-contracts';
-import { generateWhatsAppLink } from '@michaforge/shared-validation';
+import { generateWhatsAppLink } from '../../packages/shared-validation/src';
 
 interface ProductDetailModalProps {
   product: CatalogProductItem | null;

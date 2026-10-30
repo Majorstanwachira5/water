@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Phone, MessageSquare, MessageCircle, Send, CheckCircle2, AlertCircle, Clock, MapPin } from 'lucide-react';
-import { generateWhatsAppLink, isValidKenyanPhoneNumber } from '@michaforge/shared-validation';
+import { generateWhatsAppLink, isValidKenyanPhoneNumber } from '../../packages/shared-validation/src';
 
 interface ContactSectionProps {
   businessPhone?: string;
