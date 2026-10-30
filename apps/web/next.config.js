@@ -1,21 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',       // Static export — all routes are pre-rendered (○)
   reactStrictMode: true,
   images: {
-    unoptimized: true,
+    unoptimized: true,    // Required for static export
   },
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'http://localhost:4000/api/:path*', // Proxy to API Gateway
-      },
-      {
-        source: '/uploads/:path*',
-        destination: 'http://localhost:4000/uploads/:path*', // Proxy to Media Service
-      },
-    ];
-  },
+  // API calls go directly to the deployed API gateway in production.
+  // Use NEXT_PUBLIC_API_URL env variable to configure the endpoint.
+  trailingSlash: true,   // Ensures correct routing on Cloudflare Pages
 };
 
 module.exports = nextConfig;
