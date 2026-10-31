@@ -25,6 +25,7 @@
     "start:web": "npm run start -w apps/web",
     "build:packages": "npm run build -w packages/shared-contracts && npm run build -w packages/shared-validation",
     "build": "npm run build -w packages/shared-contracts && npm run build -w packages/shared-validation && npm run build --workspaces --if-present",
+    "deploy": "cd apps/web && npx wrangler pages deploy .next --project-name=water12",
     "test": "echo \"No test runner configured\" && exit 0",
     "lint": "npm run lint --workspaces --if-present"
   },
@@ -34,7 +35,8 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.3.0",
     "@types/uuid": "^10.0.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "wrangler": "^4.156.0"
   },
   "dependencies": {
     "caniuse-lite": "^1.0.30001820",
