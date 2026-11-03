@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Phone, MessageCircle, MapPin, Mail, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Phone, MessageCircle, MapPin, ChevronRight, ShieldCheck } from 'lucide-react';
 import { generateWhatsAppLink } from '@michaforge/shared-validation';
 
 interface FooterProps {
@@ -13,7 +13,6 @@ export default function Footer({
   businessPhone = '0714843208',
   whatsappNumber = '+254714843208',
 }: FooterProps) {
-  const cleanPhone = whatsappNumber.replace(/[^0-9]/g, '');
   const waUrl = generateWhatsAppLink(
     whatsappNumber,
     undefined,
@@ -22,60 +21,56 @@ export default function Footer({
   );
 
   return (
-    <footer className="bg-[#073253] text-white pt-16 border-t border-[#0B3556]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12">
-          {/* Col 1: Brand & Logo */}
-          <div className="space-y-4">
+    <footer className="bg-[#073253] text-white border-t border-[#0B3556]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 lg:divide-x lg:divide-[#0B3556]/80 items-start">
+          {/* Col 1: Brand & Logo (4 cols) */}
+          <div className="lg:col-span-4 space-y-2 pr-4">
             <img
               src="/images/logo_clean_white.svg"
               alt="Michaforge Enterprises"
-              className="h-12 w-auto object-contain"
+              className="h-14 sm:h-16 w-auto object-contain"
               onError={(e) => {
                 (e.currentTarget as HTMLImageElement).src = '/images/logo_footer.png';
               }}
             />
-            <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">
+            <p className="text-gray-300 text-xs leading-relaxed">
               Dealers in all plumbing materials, pipes, fittings, taps, valves, water tanks and building essentials in Kenya.
             </p>
-            <div className="pt-2 text-xs text-[#FF850D] font-bold">
-              • Quality Products • Reliable Service •
-            </div>
           </div>
 
-          {/* Col 2: Quick Links */}
-          <div>
-            <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-4 flex items-center space-x-2">
-              <span className="w-2 h-2 rounded-full bg-[#FF850D]" />
-              <span>Quick Links</span>
+          {/* Col 2: Quick Links (2 cols) */}
+          <div className="lg:col-span-2 lg:pl-6">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-2.5">
+              Quick Links
             </h4>
-            <ul className="space-y-2 text-xs sm:text-sm text-gray-300">
+            <ul className="space-y-1.5 text-xs text-gray-300">
               <li>
-                <a href="/" className="hover:text-[#FF850D] flex items-center space-x-1.5 transition-colors">
-                  <ArrowRight className="w-3.5 h-3.5 text-[#FF850D]" />
+                <a href="/" className="hover:text-[#FF850D] flex items-center space-x-1 transition-colors">
+                  <ChevronRight className="w-3.5 h-3.5 text-[#FF850D]" />
                   <span>Home</span>
                 </a>
               </li>
               <li>
-                <a href="/products" className="hover:text-[#FF850D] flex items-center space-x-1.5 transition-colors">
-                  <ArrowRight className="w-3.5 h-3.5 text-[#FF850D]" />
-                  <span>Products Catalogue</span>
+                <a href="/products" className="hover:text-[#FF850D] flex items-center space-x-1 transition-colors">
+                  <ChevronRight className="w-3.5 h-3.5 text-[#FF850D]" />
+                  <span>Products</span>
                 </a>
               </li>
               <li>
-                <a href="/#about" className="hover:text-[#FF850D] flex items-center space-x-1.5 transition-colors">
-                  <ArrowRight className="w-3.5 h-3.5 text-[#FF850D]" />
+                <a href="/#about" className="hover:text-[#FF850D] flex items-center space-x-1 transition-colors">
+                  <ChevronRight className="w-3.5 h-3.5 text-[#FF850D]" />
                   <span>About Us</span>
                 </a>
               </li>
               <li>
-                <a href="/#contact" className="hover:text-[#FF850D] flex items-center space-x-1.5 transition-colors">
-                  <ArrowRight className="w-3.5 h-3.5 text-[#FF850D]" />
-                  <span>Contact &amp; Enquiries</span>
+                <a href="/#contact" className="hover:text-[#FF850D] flex items-center space-x-1 transition-colors">
+                  <ChevronRight className="w-3.5 h-3.5 text-[#FF850D]" />
+                  <span>Contact</span>
                 </a>
               </li>
               <li>
-                <a href="/admin" className="hover:text-[#FF850D] flex items-center space-x-1.5 transition-colors">
+                <a href="/admin" className="hover:text-[#FF850D] flex items-center space-x-1 transition-colors">
                   <ShieldCheck className="w-3.5 h-3.5 text-[#FF850D]" />
                   <span>Staff Portal</span>
                 </a>
@@ -83,59 +78,17 @@ export default function Footer({
             </ul>
           </div>
 
-          {/* Col 3: Categories */}
-          <div>
-            <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-4 flex items-center space-x-2">
-              <span className="w-2 h-2 rounded-full bg-[#FF850D]" />
-              <span>Product Categories</span>
+          {/* Col 3: Contact Us (3 cols) */}
+          <div className="lg:col-span-3 lg:pl-6">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-2.5">
+              Contact Us
             </h4>
-            <ul className="space-y-2 text-xs sm:text-sm text-gray-300">
-              <li>
-                <a href="/products?category=cat_pvc_pipes" className="hover:text-[#FF850D] transition-colors">
-                  PVC Pipes (Durable &amp; Reliable)
-                </a>
-              </li>
-              <li>
-                <a href="/products?category=cat_pipe_fittings" className="hover:text-[#FF850D] transition-colors">
-                  Pipe Fittings (All Types &amp; Sizes)
-                </a>
-              </li>
-              <li>
-                <a href="/products?category=cat_taps_faucets" className="hover:text-[#FF850D] transition-colors">
-                  Taps &amp; Faucets (Quality Chrome)
-                </a>
-              </li>
-              <li>
-                <a href="/products?category=cat_valves" className="hover:text-[#FF850D] transition-colors">
-                  Valves (Flow &amp; Pressure Control)
-                </a>
-              </li>
-              <li>
-                <a href="/products?category=cat_water_tanks" className="hover:text-[#FF850D] transition-colors">
-                  Water Storage Tanks
-                </a>
-              </li>
-              <li>
-                <a href="/products?category=cat_hardware_items" className="hover:text-[#FF850D] transition-colors">
-                  Hardware &amp; Installation Items
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Col 4: Contact Us & Payment Badges */}
-          <div className="space-y-4">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-4 flex items-center space-x-2">
-              <span className="w-2 h-2 rounded-full bg-[#FF850D]" />
-              <span>Contact Us</span>
-            </h4>
-
-            <div className="space-y-2.5 text-xs sm:text-sm text-gray-300">
+            <div className="space-y-1.5 text-xs text-gray-300">
               <a
                 href={`tel:+254714843208`}
                 className="flex items-center space-x-2 hover:text-[#FF850D] transition-colors"
               >
-                <Phone className="w-4 h-4 text-[#FF850D]" />
+                <Phone className="w-3.5 h-3.5 text-[#FF850D] flex-shrink-0" />
                 <span>+254 714 843 208</span>
               </a>
 
@@ -145,47 +98,49 @@ export default function Footer({
                 rel="noopener noreferrer"
                 className="flex items-center space-x-2 hover:text-[#0BAA58] transition-colors"
               >
-                <MessageCircle className="w-4 h-4 text-[#0BAA58]" />
+                <MessageCircle className="w-3.5 h-3.5 text-[#0BAA58] flex-shrink-0" />
                 <span>Chat on WhatsApp</span>
               </a>
 
-              <div className="flex items-center space-x-2 text-gray-300">
-                <MapPin className="w-4 h-4 text-[#FF850D]" />
-                <span>Nairobi, Kenya</span>
-              </div>
-            </div>
-
-            {/* We Accept Payment Badges from the Flyer */}
-            <div className="pt-3 border-t border-[#0B3556]">
-              <span className="text-[11px] font-bold text-gray-300 uppercase tracking-wider block mb-2">
-                We Accept
-              </span>
-              <div className="flex items-center space-x-2">
-                <div className="bg-emerald-600 px-2 py-1 rounded text-[10px] font-black tracking-wider text-white">
-                  M-PESA
-                </div>
-                <div className="bg-blue-600 px-2 py-1 rounded text-[10px] font-black tracking-wider text-white">
-                  VISA
-                </div>
-                <div className="bg-red-600 px-2 py-1 rounded text-[10px] font-black tracking-wider text-white">
-                  MASTERCARD
+              <div className="flex items-start space-x-2 text-gray-300">
+                <MapPin className="w-3.5 h-3.5 text-[#FF850D] flex-shrink-0 mt-0.5" />
+                <div>
+                  <span className="block">Visit Our Shop</span>
+                  <span className="text-[11px] text-gray-400">Nairobi, Kenya</span>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Bottom bar */}
-        <div className="py-6 border-t border-[#0B3556] flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400 gap-2">
-          <p>© {new Date().getFullYear()} Michaforge Enterprises. All rights reserved.</p>
-          <p className="text-[#FF850D] font-semibold">
-            Quality Plumbing &amp; Hardware Materials
-          </p>
+          {/* Col 4: We Accept Payment Badges (3 cols) */}
+          <div className="lg:col-span-3 lg:pl-6 space-y-2">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-2">
+              We Accept
+            </h4>
+            <div className="flex items-center space-x-2">
+              <div className="bg-white px-2.5 py-1 rounded text-[11px] font-black tracking-wider text-[#0BAA58] shadow-sm">
+                M-PESA
+              </div>
+              <div className="bg-[#0B3556] border border-white/20 px-2.5 py-1 rounded text-[11px] font-black italic tracking-wider text-white">
+                VISA
+              </div>
+              <div className="flex items-center bg-[#0B3556] border border-white/20 px-2 py-1 rounded space-x-1">
+                <span className="w-3.5 h-3.5 rounded-full bg-[#EB001B] inline-block" />
+                <span className="w-3.5 h-3.5 rounded-full bg-[#F79E1B] -ml-2 inline-block opacity-90" />
+              </div>
+            </div>
+            <div className="pt-1 text-[11px] text-gray-300 italic leading-snug">
+              <div>Quality Products | Reliable Service</div>
+              <div className="text-gray-400">Your Plumbing &amp; Hardware Partner</div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Narrow Orange Bottom Strip matching flyer */}
-      <div className="w-full h-1.5 bg-[#FF850D]" />
+      {/* Compact Orange Bottom Copyright Bar matching flyer */}
+      <div className="w-full bg-[#FF850D] py-2 px-4 text-center text-white text-xs font-semibold">
+        © {new Date().getFullYear()} Michaforge Enterprises. All rights reserved.
+      </div>
     </footer>
   );
 }

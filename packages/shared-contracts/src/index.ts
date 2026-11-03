@@ -286,3 +286,6 @@ export interface DomainEvent<T = unknown> {
   correlationId: string;
   payload: T;
 }
+
+export * from './supabase';
+

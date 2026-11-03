@@ -28,17 +28,27 @@ const nextConfig = {
     return config;
   },
 
-  // API proxy rewrites — active in dev (Next.js server) and SSR deployment.
-  // In Vercel production, set NEXT_PUBLIC_API_URL env var for direct API calls.
+  // API proxy rewrites:
+  // If NEXT_PUBLIC_API_URL is explicitly configured (e.g. external API gateway), proxy /api/* and /uploads/*.
+  // Otherwise, Next.js serves /api/v1/* directly via its built-in Supabase Route Handler (app/api/v1/[...path]/route.ts)
+  // so Vercel and standalone deployments work out-of-the-box against Supabase.
   async rewrites() {
+    if (process.env.NEXT_PUBLIC_API_URL) {
+      return [
+        {
+          source: '/api/:path*',
+          destination: `${process.env.NEXT_PUBLIC_API_URL}/api/:path*`,
+        },
+        {
+          source: '/uploads/:path*',
+          destination: `${process.env.NEXT_PUBLIC_API_URL}/uploads/:path*`,
+        },
+      ];
+    }
     return [
       {
-        source: '/api/:path*',
-        destination: `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/api/:path*`,
-      },
-      {
         source: '/uploads/:path*',
-        destination: `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/uploads/:path*`,
+        destination: '/images/:path*',
       },
     ];
   },

@@ -11,7 +11,7 @@ import Footer from '../components/Footer';
 import ProductDetailModal from '../components/ProductDetailModal';
 import { CatalogProductItem, Category, BrandSettings } from '@michaforge/shared-contracts';
 
-// Fallback products matching the flyer if network cold-starts
+// Fallback products matching the flyer & Supabase seed during hydration
 const FALLBACK_PRODUCTS: CatalogProductItem[] = [
   {
     id: 'prd_pvc_4in',
@@ -23,11 +23,11 @@ const FALLBACK_PRODUCTS: CatalogProductItem[] = [
     unit: 'per 6 m length',
     status: 'published',
     isFeatured: true,
-    price: null, // "Contact for Price" until owner inputs
+    price: 650,
     currency: 'KES',
-    priceDisplayState: 'contact_for_price',
-    formattedPrice: 'Contact for Price',
-    images: [{ id: '1', url: '/images/products/product_pvc_pipes.png', altText: 'PVC Pipes', displayOrder: 1, isPrimary: true }],
+    priceDisplayState: 'configured',
+    formattedPrice: 'KSh 650',
+    images: [{ id: '1', url: '/images/products/product_pvc_pipes.png', altText: 'PVC Pipes (4")', displayOrder: 1, isPrimary: true }],
     specifications: [{ id: 's1', key: 'Diameter', value: '4" (110mm)' }],
     createdAt: '',
     updatedAt: '',
@@ -42,11 +42,11 @@ const FALLBACK_PRODUCTS: CatalogProductItem[] = [
     unit: 'per piece',
     status: 'published',
     isFeatured: true,
-    price: null,
+    price: 120,
     currency: 'KES',
-    priceDisplayState: 'contact_for_price',
-    formattedPrice: 'Contact for Price',
-    images: [{ id: '2', url: '/images/products/product_pipe_fittings.png', altText: 'Pipe Fittings', displayOrder: 1, isPrimary: true }],
+    priceDisplayState: 'configured',
+    formattedPrice: 'KSh 120',
+    images: [{ id: '2', url: '/images/products/product_pipe_fittings.png', altText: 'Pipe Fittings (Assorted)', displayOrder: 1, isPrimary: true }],
     specifications: [{ id: 's2', key: 'Types', value: 'Elbows, Tees, Unions' }],
     createdAt: '',
     updatedAt: '',
@@ -61,10 +61,10 @@ const FALLBACK_PRODUCTS: CatalogProductItem[] = [
     unit: 'each',
     status: 'published',
     isFeatured: true,
-    price: null,
+    price: 1250,
     currency: 'KES',
-    priceDisplayState: 'contact_for_price',
-    formattedPrice: 'Contact for Price',
+    priceDisplayState: 'configured',
+    formattedPrice: 'KSh 1,250',
     images: [{ id: '3', url: '/images/products/product_bib_cock.png', altText: 'Bib Cock Tap', displayOrder: 1, isPrimary: true }],
     specifications: [{ id: 's3', key: 'Material', value: 'Chrome Plated Brass' }],
     createdAt: '',
@@ -80,10 +80,10 @@ const FALLBACK_PRODUCTS: CatalogProductItem[] = [
     unit: 'each',
     status: 'published',
     isFeatured: true,
-    price: null,
+    price: 850,
     currency: 'KES',
-    priceDisplayState: 'contact_for_price',
-    formattedPrice: 'Contact for Price',
+    priceDisplayState: 'configured',
+    formattedPrice: 'KSh 850',
     images: [{ id: '4', url: '/images/products/product_brass_valve.png', altText: 'Brass Ball Valve', displayOrder: 1, isPrimary: true }],
     specifications: [{ id: 's4', key: 'Pressure', value: 'PN25 High Pressure' }],
     createdAt: '',
@@ -99,10 +99,10 @@ const FALLBACK_PRODUCTS: CatalogProductItem[] = [
     unit: 'each',
     status: 'published',
     isFeatured: true,
-    price: null,
+    price: 12500,
     currency: 'KES',
-    priceDisplayState: 'contact_for_price',
-    formattedPrice: 'Contact for Price',
+    priceDisplayState: 'configured',
+    formattedPrice: 'KSh 12,500',
     images: [{ id: '5', url: '/images/products/product_water_tank.png', altText: 'Water Tank 1,000L', displayOrder: 1, isPrimary: true }],
     specifications: [{ id: 's5', key: 'Capacity', value: '1,000 Litres' }],
     createdAt: '',
@@ -118,10 +118,10 @@ const FALLBACK_PRODUCTS: CatalogProductItem[] = [
     unit: 'per item',
     status: 'published',
     isFeatured: true,
-    price: null,
+    price: 250,
     currency: 'KES',
-    priceDisplayState: 'contact_for_price',
-    formattedPrice: 'Contact for Price',
+    priceDisplayState: 'configured',
+    formattedPrice: 'KSh 250',
     images: [{ id: '6', url: '/images/products/product_hardware_accessories.png', altText: 'Hardware Accessories', displayOrder: 1, isPrimary: true }],
     specifications: [{ id: 's6', key: 'Application', value: 'Plumbing & Hardware' }],
     createdAt: '',
@@ -136,7 +136,7 @@ export default function HomePage() {
   const [selectedProduct, setSelectedProduct] = useState<CatalogProductItem | null>(null);
 
   useEffect(() => {
-    // 1. Fetch Aggregated Products
+    // 1. Fetch Aggregated Products from Supabase-backed API
     fetch('/api/v1/catalog/products?featured=true')
       .then((res) => res.json())
       .then((json) => {
@@ -144,9 +144,7 @@ export default function HomePage() {
           setProducts(json.data);
         }
       })
-      .catch(() => {
-        // Fallback already pre-set
-      });
+      .catch(() => {});
 
     // 2. Fetch Categories
     fetch('/api/v1/categories')
@@ -177,14 +175,14 @@ export default function HomePage() {
       {/* 1. Header with Announcement Bar & Nav */}
       <Navbar businessPhone={phone} whatsappNumber={whatsapp} activePage="home" />
 
-      {/* 2. Hero Section replicating flyer */}
+      {/* 2. Hero Section */}
       <main className="flex-grow">
         <Hero
           headline={brand?.heroHeadline}
           subheadline={brand?.heroSubheadline}
           description={brand?.heroDescription}
           whatsappNumber={whatsapp}
-          heroImageUrl={brand?.heroImageUrl || '/images/hero_plumbing_supplies.png'}
+          heroImageUrl={brand?.heroImageUrl || '/images/modern_hardware_hero.png'}
         />
 
         {/* 3. Category Strip with Circular Icons */}
@@ -204,7 +202,7 @@ export default function HomePage() {
         <ContactSection businessPhone={phone} whatsappNumber={whatsapp} />
       </main>
 
-      {/* 7. Deep Navy Footer with M-PESA / VISA / Mastercard Badges */}
+      {/* 7. Compact Deep Navy Footer with M-PESA / VISA / Mastercard Badges */}
       <Footer businessPhone={phone} whatsappNumber={whatsapp} />
 
       {/* Product Detail Modal */}

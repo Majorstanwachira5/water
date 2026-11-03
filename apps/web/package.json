@@ -12,6 +12,7 @@
   "dependencies": {
     "@michaforge/shared-contracts": "*",
     "@michaforge/shared-validation": "*",
+    "@supabase/supabase-js": "^2.45.0",
     "lucide-react": "^0.359.0",
     "next": "^14.2.0",
     "react": "^18.2.0",

@@ -5,7 +5,7 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import CategoryStrip from '../../components/CategoryStrip';
 import ProductDetailModal from '../../components/ProductDetailModal';
-import { Search, Filter, RefreshCw, MessageCircle, Tag, ArrowRight } from 'lucide-react';
+import { Search, Filter, RefreshCw, MessageCircle, Tag } from 'lucide-react';
 import { CatalogProductItem, Category } from '@michaforge/shared-contracts';
 import { generateWhatsAppLink } from '@michaforge/shared-validation';
 
@@ -72,7 +72,7 @@ export default function ProductsPage() {
       <Navbar activePage="products" />
 
       {/* Page Title & Search Header */}
-      <div className="bg-[#073253] text-white py-10 px-4">
+      <div className="bg-[#073253] text-white py-8 px-4">
         <div className="max-w-7xl mx-auto space-y-4">
           <div className="max-w-xl">
             <span className="text-xs font-bold text-[#FF850D] uppercase tracking-wider">
@@ -209,7 +209,7 @@ export default function ProductsPage() {
 
         {/* Products Grid */}
         {!loading && !error && products.length > 0 && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-5">
             {products.map((product) => {
               const primaryImage =
                 product.images && product.images.length > 0
@@ -223,26 +223,26 @@ export default function ProductsPage() {
               return (
                 <div
                   key={product.id}
-                  className="product-card flex flex-col justify-between bg-white border border-[#DFE5EB] rounded-xl p-3 shadow-sm hover:border-[#FF850D]/60 transition-all text-left"
+                  className="product-card flex flex-col justify-between bg-white border border-[#DFE5EB] rounded-xl p-2.5 shadow-sm hover:border-[#FF850D]/60 transition-all text-center"
                 >
                   <div
-                    className="w-full h-32 sm:h-36 bg-[#F5F7FA] rounded-lg overflow-hidden flex items-center justify-center p-2 cursor-pointer group"
+                    className="w-full h-32 sm:h-36 bg-[#F5F7FA] rounded-lg overflow-hidden flex items-center justify-center cursor-pointer group border border-gray-100"
                     onClick={() => setSelectedProduct(product)}
                   >
                     <img
                       src={primaryImage}
                       alt={product.name}
-                      className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                       onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).src = '/images/flyer_upright.jpg';
+                        (e.currentTarget as HTMLImageElement).src = '/images/products/product_pvc_pipes.png';
                       }}
                     />
                   </div>
 
-                  <div className="mt-3 flex-1 flex flex-col justify-between">
+                  <div className="mt-2.5 flex-1 flex flex-col justify-between">
                     <div>
                       <h3
-                        className="font-bold text-sm text-[#172B3A] line-clamp-1 hover:text-[#FF850D] cursor-pointer"
+                        className="font-bold text-xs sm:text-sm text-[#172B3A] line-clamp-1 hover:text-[#FF850D] cursor-pointer"
                         onClick={() => setSelectedProduct(product)}
                         title={product.name}
                       >
@@ -251,9 +251,9 @@ export default function ProductsPage() {
                       <p className="text-[11px] text-[#667585] mt-0.5">{product.unit}</p>
                     </div>
 
-                    <div className="my-2.5">
+                    <div className="my-2">
                       {isPriceSet ? (
-                        <span className="text-sm font-extrabold text-[#073253]">
+                        <span className="text-sm font-black text-[#FF850D]">
                           {product.formattedPrice}
                         </span>
                       ) : (
@@ -268,7 +268,7 @@ export default function ProductsPage() {
                       href={waUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full inline-flex items-center justify-center space-x-1.5 bg-[#0BAA58] hover:bg-[#09934B] text-white text-xs font-semibold py-2 px-2 rounded-lg transition-colors shadow-sm"
+                      className="w-full inline-flex items-center justify-center space-x-1.5 bg-[#0BAA58] hover:bg-[#09934B] text-white text-[11px] font-bold py-2 px-2 rounded-lg transition-colors shadow-sm"
                     >
                       <MessageCircle className="w-3.5 h-3.5 fill-white" />
                       <span className="truncate">Inquire on WhatsApp</span>

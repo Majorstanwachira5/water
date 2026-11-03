@@ -1,8 +1,13 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import crypto from 'crypto';
 import http from 'http';
-import { CatalogProductItem, Product, ProductPrice } from '@michaforge/shared-contracts';
+import {
+  CatalogProductItem,
+  Product,
+  ProductPrice,
+  supabaseCatalogAggregator,
+} from '@michaforge/shared-contracts';
 import { formatCurrency } from '@michaforge/shared-validation';
 
 const PORT = process.env.PORT || 4000;
@@ -19,13 +24,7 @@ const SERVICES = {
   notification: process.env.NOTIFICATION_SERVICE_URL || 'http://localhost:4008',
 };
 
-// Internal Cache for Aggregated Catalogue with Invalidation
-interface CacheEntry<T> {
-  data: T;
-  timestamp: number;
-}
-let catalogCache: CacheEntry<CatalogProductItem[]> | null = null;
-const CACHE_TTL_MS = 60 * 1000; // 1 minute default TTL
+let catalogCache: { data: CatalogProductItem[]; timestamp: number } | null = null;
 
 export function invalidateCatalogCache() {
   catalogCache = null;
@@ -39,8 +38,7 @@ function forwardRequest(
   options?: { customPath?: string }
 ) {
   const urlObj = new URL(options?.customPath ? `${targetUrl}${options.customPath}` : `${targetUrl}${req.originalUrl}`);
-  
-  // Append query string if any
+
   if (req.url.includes('?') && !options?.customPath) {
     urlObj.search = req.url.split('?')[1];
   }
@@ -86,7 +84,7 @@ function forwardRequest(
 
 async function fetchJson<T>(url: string): Promise<T> {
   return new Promise((resolve, reject) => {
-    http.get(url, (res) => {
+    const req = http.get(url, (res) => {
       let data = '';
       res.on('data', (chunk) => (data += chunk));
       res.on('end', () => {
@@ -98,6 +96,7 @@ async function fetchJson<T>(url: string): Promise<T> {
       });
       res.on('error', reject);
     });
+    req.on('error', reject);
   });
 }
 
@@ -118,6 +117,7 @@ app.get('/api/v1/health', (req, res) => {
   res.json({
     status: 'healthy',
     gateway: 'Michaforge API Gateway',
+    storage: 'supabase',
     timestamp: new Date().toISOString(),
     services: Object.keys(SERVICES),
   });
@@ -134,7 +134,7 @@ app.get('/api/v1/openapi.json', (req, res) => {
   res.json({
     openapi: '3.0.0',
     info: {
-      title: 'Michaforge Enterprises API Gateway',
+      title: 'Michaforge Enterprises API Gateway (Supabase Backend)',
       version: '1.0.0',
       description: 'Public & Admin microservices gateway for Michaforge Enterprises Plumbing & Hardware Materials',
     },
@@ -143,7 +143,7 @@ app.get('/api/v1/openapi.json', (req, res) => {
       '/api/v1/catalog/products': {
         get: {
           summary: 'Get aggregated catalogue with dynamic prices',
-          description: 'Combines products from catalogue-service and real-time prices from pricing-service',
+          description: 'Combines products from catalogue-service and real-time prices from pricing-service (backed by Supabase)',
         },
       },
       '/api/v1/enquiries': {
@@ -161,25 +161,43 @@ app.get('/api/v1/catalog/products', async (req, res) => {
   const { categoryId, search, featured, page = 1, limit = 50 } = req.query;
 
   try {
-    // Check internal cache
     let productsList: Product[] = [];
     let pricesMap: Record<string, ProductPrice> = {};
 
-    const [productsResp, pricesResp] = await Promise.all([
-      fetchJson<{ success: boolean; data: Product[] }>(`${SERVICES.catalogue}/api/v1/products?limit=200`),
-      fetchJson<{ success: boolean; data: ProductPrice[] }>(`${SERVICES.pricing}/api/v1/pricing/products`),
-    ]);
+    try {
+      const [productsResp, pricesResp] = await Promise.all([
+        fetchJson<{ success: boolean; data: Product[] }>(`${SERVICES.catalogue}/api/v1/products?limit=200`),
+        fetchJson<{ success: boolean; data: ProductPrice[] }>(`${SERVICES.pricing}/api/v1/pricing/products`),
+      ]);
 
-    if (productsResp.success) {
-      productsList = productsResp.data;
-    }
-    if (pricesResp.success) {
-      for (const p of pricesResp.data) {
-        pricesMap[p.productId] = p;
+      if (productsResp.success) {
+        productsList = productsResp.data;
       }
+      if (pricesResp.success) {
+        for (const p of pricesResp.data) {
+          pricesMap[p.productId] = p;
+        }
+      }
+    } catch {
+      // Direct Supabase fallback if downstream ports are not running separately
+      const directResult = await supabaseCatalogAggregator.getAggregatedProducts({
+        categoryId: categoryId ? String(categoryId) : undefined,
+        search: search ? String(search) : undefined,
+        featured: featured ? String(featured) : undefined,
+        page: Number(page),
+        limit: Number(limit),
+      });
+      return res.json({
+        success: true,
+        data: directResult.data,
+        meta: {
+          ...directResult.meta,
+          requestId: res.getHeader('x-correlation-id'),
+          timestamp: new Date().toISOString(),
+        },
+      });
     }
 
-    // Filter published only for public catalog
     let aggregated: CatalogProductItem[] = productsList
       .filter((p) => p.status === 'published')
       .map((p) => {
@@ -198,7 +216,6 @@ app.get('/api/v1/catalog/products', async (req, res) => {
         };
       });
 
-    // Apply query filters
     if (categoryId) {
       aggregated = aggregated.filter((p) => p.categoryId === categoryId);
     }
@@ -226,7 +243,7 @@ app.get('/api/v1/catalog/products', async (req, res) => {
         total: aggregated.length,
         page: pNum,
         limit: lNum,
-        totalPages: Math.ceil(aggregated.length / lNum),
+        totalPages: Math.max(1, Math.ceil(aggregated.length / lNum)),
         requestId: res.getHeader('x-correlation-id'),
         timestamp: new Date().toISOString(),
       },
@@ -247,37 +264,45 @@ app.get('/api/v1/catalog/products', async (req, res) => {
 // Single Product Aggregation by Slug
 app.get('/api/v1/catalog/products/slug/:slug', async (req, res) => {
   try {
-    const productResp = await fetchJson<{ success: boolean; data: Product }>(
-      `${SERVICES.catalogue}/api/v1/products/slug/${req.params.slug}`
-    );
-    if (!productResp.success || !productResp.data) {
-      return res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: 'Product not found' } });
-    }
-
-    const product = productResp.data;
-    let priceRecord: ProductPrice | null = null;
     try {
-      const priceResp = await fetchJson<{ success: boolean; data: ProductPrice }>(
-        `${SERVICES.pricing}/api/v1/pricing/products/${product.id}`
+      const productResp = await fetchJson<{ success: boolean; data: Product }>(
+        `${SERVICES.catalogue}/api/v1/products/slug/${req.params.slug}`
       );
-      if (priceResp.success) priceRecord = priceResp.data;
-    } catch (e) {
-      // Graceful fallback if pricing service is lagging
+      if (!productResp.success || !productResp.data) {
+        return res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: 'Product not found' } });
+      }
+
+      const product = productResp.data;
+      let priceRecord: ProductPrice | null = null;
+      try {
+        const priceResp = await fetchJson<{ success: boolean; data: ProductPrice }>(
+          `${SERVICES.pricing}/api/v1/pricing/products/${product.id}`
+        );
+        if (priceResp.success) priceRecord = priceResp.data;
+      } catch {
+        // Fallback
+      }
+
+      const hasValidPrice = !!priceRecord && priceRecord.price !== null && priceRecord.price !== undefined && priceRecord.price > 0;
+      const currentPrice = hasValidPrice && priceRecord ? priceRecord.price : null;
+
+      const aggregated: CatalogProductItem = {
+        ...product,
+        price: currentPrice,
+        previousPrice: priceRecord?.previousPrice ?? null,
+        currency: 'KES',
+        priceDisplayState: (hasValidPrice ? 'configured' : 'contact_for_price') as 'configured' | 'contact_for_price',
+        formattedPrice: formatCurrency(currentPrice, 'KES'),
+      };
+
+      return res.json({ success: true, data: aggregated });
+    } catch {
+      const direct = await supabaseCatalogAggregator.getAggregatedProductBySlug(req.params.slug);
+      if (!direct) {
+        return res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: 'Product not found' } });
+      }
+      return res.json({ success: true, data: direct });
     }
-
-    const hasValidPrice = !!priceRecord && priceRecord.price !== null && priceRecord.price !== undefined && priceRecord.price > 0;
-    const currentPrice = hasValidPrice && priceRecord ? priceRecord.price : null;
-
-    const aggregated: CatalogProductItem = {
-      ...product,
-      price: currentPrice,
-      previousPrice: priceRecord?.previousPrice ?? null,
-      currency: 'KES',
-      priceDisplayState: (hasValidPrice ? 'configured' : 'contact_for_price') as 'configured' | 'contact_for_price',
-      formattedPrice: formatCurrency(currentPrice, 'KES'),
-    };
-
-    res.json({ success: true, data: aggregated });
   } catch (err: any) {
     res.status(500).json({ success: false, error: { code: 'LOOKUP_FAILED', message: err.message } });
   }
@@ -326,7 +351,7 @@ app.use('/api/v1/notifications', (req, res) => forwardRequest(SERVICES.notificat
 app.use('/api/v1/admin/notifications', (req, res) => forwardRequest(SERVICES.notification, req, res));
 
 app.listen(PORT, () => {
-  console.log(`[api-gateway] Running on port ${PORT}`);
+  console.log(`[api-gateway] Running on port ${PORT} (Supabase connected)`);
 });
 
 export default app;

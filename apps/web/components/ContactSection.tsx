@@ -25,7 +25,6 @@ export default function ContactSection({
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-  const cleanPhone = whatsappNumber.replace(/[^0-9]/g, '');
   const waUrl = generateWhatsAppLink(whatsappNumber, undefined, undefined, 'Hello Michaforge Enterprises, I would like to make an enquiry regarding your plumbing materials.');
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -80,10 +79,10 @@ export default function ContactSection({
   };
 
   return (
-    <section id="contact" className="py-16 bg-white border-t border-[#DFE5EB]">
+    <section id="contact" className="py-10 bg-white border-t border-[#DFE5EB]">
       <div className="max-w-7xl mx-auto px-4">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
+        <div className="text-center max-w-2xl mx-auto mb-8">
           <span className="text-xs font-bold text-[#FF850D] uppercase tracking-wider">
             Get In Touch
           </span>

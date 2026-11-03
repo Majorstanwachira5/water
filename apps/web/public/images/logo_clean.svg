@@ -1,35 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 120" width="100%" height="100%">
-  <!-- Left Pipe Monogram Icon MF E in Brand Red #D92D36 -->
-  <g transform="translate(10, 10)">
-    <!-- Pipe joint / valve body -->
-    <rect x="15" y="42" width="70" height="20" rx="4" fill="#D92D36"/>
-    <!-- Flanges left & right -->
-    <rect x="5" y="36" width="12" height="32" rx="3" fill="#B71C24"/>
-    <rect x="83" y="36" width="12" height="32" rx="3" fill="#B71C24"/>
-    <!-- Top vertical pipe with valve wheel -->
-    <rect x="42" y="16" width="16" height="30" rx="2" fill="#D92D36"/>
-    <ellipse cx="50" cy="14" rx="18" ry="6" fill="#B71C24"/>
-    <ellipse cx="50" cy="14" rx="10" ry="3" fill="#FFFFFF"/>
-    <!-- Letter M inside pipe frame -->
-    <text x="22" y="36" font-family="'Inter', sans-serif" font-weight="900" font-size="22" fill="#D92D36">M</text>
-    <!-- Letter F -->
-    <text x="60" y="36" font-family="'Inter', sans-serif" font-weight="900" font-size="22" fill="#D92D36">F</text>
-    <!-- Letter E below -->
-    <text x="42" y="86" font-family="'Inter', sans-serif" font-weight="900" font-size="22" fill="#D92D36">E</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 545 120" width="100%" height="100%">
+  <!-- Left Red Faucet Tap Monogram Icon (M F E) matching flyer -->
+  <g transform="translate(6, 4)">
+    <!-- Faucet T-Handle at top -->
+    <rect x="28" y="8" width="48" height="8" rx="4" fill="#D92D36"/>
+    <circle cx="28" cy="12" r="6" fill="#B71C24"/>
+    <circle cx="76" cy="12" r="6" fill="#B71C24"/>
+    <circle cx="52" cy="11" r="7" fill="#D92D36"/>
+    <!-- Valve stem & bonnet -->
+    <rect x="47" y="16" width="10" height="14" rx="2" fill="#B71C24"/>
+    <rect x="40" y="28" width="24" height="8" rx="3" fill="#D92D36"/>
+    <rect x="37" y="35" width="30" height="6" rx="2" fill="#B71C24"/>
+    <!-- Faucet body curving into downward spout on left and inlet flange on right -->
+    <path d="M 38 41 L 68 41 L 68 50 L 92 50 L 92 74 L 66 74 C 58 74, 46 74, 38 69 C 28 69, 24 75, 24 85 L 7 85 C 7 63, 18 50, 38 48 Z" fill="#D92D36"/>
+    <!-- Right pipe flange -->
+    <rect x="88" y="44" width="12" height="36" rx="3" fill="#B71C24"/>
+    <!-- Left spout nozzle rim -->
+    <rect x="4" y="82" width="23" height="8" rx="3" fill="#B71C24"/>
+    <!-- Monogram Letters M, F, E -->
+    <text x="6" y="42" font-family="'Inter', system-ui, sans-serif" font-weight="900" font-size="23" fill="#D92D36">M</text>
+    <text x="73" y="42" font-family="'Inter', system-ui, sans-serif" font-weight="900" font-size="23" fill="#D92D36">F</text>
+    <text x="41" y="106" font-family="'Inter', system-ui, sans-serif" font-weight="900" font-size="25" fill="#D92D36">E</text>
   </g>
 
-  <!-- Vertical Divider Bar -->
-  <line x1="125" y1="18" x2="125" y2="102" stroke="#D92D36" stroke-width="4" stroke-linecap="round"/>
+  <!-- Vertical Divider Bar + D accent -->
+  <line x1="118" y1="10" x2="118" y2="62" stroke="#B46928" stroke-width="3" stroke-linecap="round"/>
+  <text x="111" y="84" font-family="'Inter', system-ui, sans-serif" font-weight="800" font-size="18" fill="#FF850D">D</text>
 
-  <!-- Wordmark MICHAFORGE -->
-  <text x="142" y="52" font-family="'Inter', -apple-system, sans-serif" font-weight="900" font-size="38" letter-spacing="1" fill="#D92D36">MICHAFORGE</text>
+  <!-- Bold Wordmark MICHAFORGE filling the white section -->
+  <text x="132" y="54" font-family="'Inter', 'Arial Black', system-ui, sans-serif" font-weight="900" font-size="50" letter-spacing="1.5" fill="#D92D36">MICHAFORGE</text>
 
-  <!-- ENTERPRISES with side rules -->
-  <line x1="145" y1="68" x2="185" y2="68" stroke="#073253" stroke-width="2"/>
-  <text x="195" y="74" font-family="'Inter', sans-serif" font-weight="800" font-size="16" letter-spacing="3" fill="#073253">ENTERPRISES</text>
-  <line x1="335" y1="68" x2="375" y2="68" stroke="#073253" stroke-width="2"/>
+  <!-- — ENTERPRISES — centered below MICHAFORGE -->
+  <line x1="142" y1="73" x2="192" y2="73" stroke="#FF850D" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="334" y="80" text-anchor="middle" font-family="'Inter', system-ui, sans-serif" font-weight="900" font-size="20" letter-spacing="4.5" fill="#073253">ENTERPRISES</text>
+  <line x1="476" y1="73" x2="526" y2="73" stroke="#FF850D" stroke-width="2.5" stroke-linecap="round"/>
 
-  <!-- Navy Pill Badge: DEALERS IN ALL PLUMBING MATERIALS -->
-  <rect x="142" y="86" width="380" height="24" rx="12" fill="#073253"/>
-  <text x="332" y="103" text-anchor="middle" font-family="'Inter', sans-serif" font-weight="800" font-size="11.5" letter-spacing="1.2" fill="#FFFFFF">• DEALERS IN ALL PLUMBING MATERIALS •</text>
+  <!-- Full-width Navy Pill Badge: • DEALERS IN ALL PLUMBING MATERIALS • -->
+  <rect x="112" y="88" width="426" height="25" rx="12.5" fill="#073253"/>
+  <circle cx="126" cy="100.5" r="3.5" fill="#FF850D"/>
+  <text x="325" y="105" text-anchor="middle" font-family="'Inter', system-ui, sans-serif" font-weight="800" font-size="12.5" letter-spacing="1.4" fill="#FFFFFF">DEALERS IN ALL PLUMBING MATERIALS</text>
+  <circle cx="524" cy="100.5" r="3.5" fill="#FF850D"/>
 </svg>
