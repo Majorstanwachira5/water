@@ -19,6 +19,9 @@ function Crop-Image($bitmap, $rect, $savePath) {
 
 # 1. Navbar Logo (Full faucet monogram + MICHAFORGE ENTERPRISES + DEALERS IN ALL PLUMBING MATERIALS)
 Crop-Image $img (New-Object System.Drawing.Rectangle 46, 26, 334, 73) (Join-Path $outDir "logo_navbar.png")
+Crop-Image $img (New-Object System.Drawing.Rectangle 44, 24, 82, 76) (Join-Path $outDir "logo_emblem.png")
+Crop-Image $img (New-Object System.Drawing.Rectangle 44, 24, 82, 76) "C:\Users\Windows\water section\apps\web\public\images\logo_emblem.png"
+Crop-Image $img (New-Object System.Drawing.Rectangle 44, 24, 82, 76) "C:\Users\Windows\water section\services\media-service\uploads\logo_emblem.png"
 
 # 2. Footer Logo (Full dark-navy background logo)
 Crop-Image $img (New-Object System.Drawing.Rectangle 45, 591, 214, 59) (Join-Path $outDir "logo_footer.png")
