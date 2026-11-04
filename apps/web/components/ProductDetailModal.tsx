@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { X, MessageCircle, Phone, Tag, Check, ArrowRight } from 'lucide-react';
+import { X, MessageCircle, Phone, Tag } from 'lucide-react';
 import { CatalogProductItem } from '@michaforge/shared-contracts';
 import { generateWhatsAppLink } from '@michaforge/shared-validation';
 
@@ -42,14 +42,14 @@ export default function ProductDetailModal({
         </button>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 sm:p-8">
-          {/* Image */}
-          <div className="bg-[#F5F7FA] rounded-xl p-4 flex items-center justify-center border border-[#DFE5EB]">
+          {/* Edge-to-edge Image without padding */}
+          <div className="bg-[#F8FAFB] rounded-xl overflow-hidden flex items-center justify-center border border-[#DFE5EB]">
             <img
               src={primaryImage}
               alt={product.name}
-              className="max-h-64 max-w-full object-contain"
+              className="w-full h-64 sm:h-72 object-cover"
               onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src = '/images/flyer_upright.jpg';
+                (e.currentTarget as HTMLImageElement).src = '/images/modern_hardware_hero.png';
               }}
             />
           </div>

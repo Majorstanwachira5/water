@@ -254,6 +254,84 @@ async function runTests() {
     assert.ok(res.json.data.length >= 6);
   });
 
+  await step('POST /api/v1/media/uploads -> PATCH Product -> Client Catalog Visibility', async () => {
+    // 1x1 valid PNG binary
+    const pngBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+    const pngBuffer = Buffer.from(pngBase64, 'base64');
+    const boundary = '----MichaforgeTestBoundary987654';
+    const headerPart = Buffer.from(
+      `--${boundary}\r\n` +
+      `Content-Disposition: form-data; name="file"; filename="test_upload.png"\r\n` +
+      `Content-Type: image/png\r\n\r\n`
+    );
+    const footerPart = Buffer.from(
+      `\r\n--${boundary}\r\n` +
+      `Content-Disposition: form-data; name="altText"\r\n\r\n` +
+      `E2E Test Uploaded PNG\r\n` +
+      `--${boundary}--\r\n`
+    );
+    const multipartBody = Buffer.concat([headerPart, pngBuffer, footerPart]);
+
+    const uploadRes = await new Promise((resolve, reject) => {
+      const req = http.request(
+        `${GATEWAY}/api/v1/media/uploads`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': `multipart/form-data; boundary=${boundary}`,
+            'Content-Length': multipartBody.length,
+          },
+        },
+        (res) => {
+          let raw = '';
+          res.on('data', (chunk) => (raw += chunk));
+          res.on('end', () => resolve({ status: res.statusCode, json: JSON.parse(raw) }));
+        }
+      );
+      req.on('error', reject);
+      req.write(multipartBody);
+      req.end();
+    });
+
+    assert.strictEqual(uploadRes.status, 201);
+    assert.strictEqual(uploadRes.json.success, true);
+    const uploadedAsset = uploadRes.json.data;
+    assert.ok(uploadedAsset.url.startsWith('data:image/png;base64,'));
+
+    // Assign uploaded PNG to product prd_pvc_4in
+    const patchRes = await request('PATCH', '/api/v1/products/prd_pvc_4in', {
+      images: [
+        {
+          id: uploadedAsset.id,
+          url: uploadedAsset.url,
+          altText: 'E2E Test Uploaded PNG',
+          isPrimary: true,
+        },
+      ],
+    });
+    assert.strictEqual(patchRes.status, 200);
+
+    // Verify client frontend catalog endpoint immediately returns the uploaded PNG
+    const clientCatalogRes = await request('GET', '/api/v1/catalog/products');
+    assert.strictEqual(clientCatalogRes.status, 200);
+    const clientPvc = clientCatalogRes.json.data.find((p) => p.id === 'prd_pvc_4in');
+    assert.ok(clientPvc && clientPvc.images.length > 0);
+    assert.strictEqual(clientPvc.images[0].url, uploadedAsset.url);
+
+    // Restore original studio image on prd_pvc_4in and clean up test asset
+    await request('PATCH', '/api/v1/products/prd_pvc_4in', {
+      images: [
+        {
+          id: 'img_pvc_1',
+          url: '/images/products/product_pvc_pipes.png',
+          altText: 'PVC Pipes (4")',
+          isPrimary: true,
+        },
+      ],
+    });
+    await request('DELETE', `/api/v1/media/${uploadedAsset.id}`);
+  });
+
   await step('GET /api/v1/admin/reports/overview & /api/v1/admin/audit-logs', async () => {
     const repRes = await request('GET', '/api/v1/admin/reports/overview');
     assert.strictEqual(repRes.status, 200);

@@ -292,10 +292,6 @@ export const supabaseAuthRepo = {
     const sb = getSupabaseClient();
     await sb.from('refresh_tokens').delete().eq('token', token);
   },
-
-  async deleteRefreshToken(token: string): Promise<void> {
-    return this.removeRefreshToken(token);
-  },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -652,25 +648,6 @@ export const supabaseMediaRepo = {
     await sb.from('media_assets').delete().eq('id', id);
     return mapMediaRow(data);
   },
-
-  async listAssets(filters?: { category?: string; search?: string }): Promise<MediaAsset[]> {
-    return this.listMediaAssets(filters);
-  },
-
-  async createAsset(asset: MediaAsset): Promise<MediaAsset> {
-    return this.createMediaAsset(asset);
-  },
-
-  async updateAsset(
-    id: string,
-    updates: { altText?: string; category?: MediaAsset['category'] }
-  ): Promise<MediaAsset | null> {
-    return this.updateMediaAsset(id, updates);
-  },
-
-  async deleteAsset(id: string): Promise<MediaAsset | null> {
-    return this.deleteMediaAsset(id);
-  },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -878,25 +855,6 @@ export const supabaseContentRepo = {
       updated_at: new Date().toISOString(),
     });
     return { brand, about: aboutContent };
-  },
-
-  async getBrandSettings(): Promise<BrandSettings> {
-    const content = await this.getSiteContent();
-    return content.brand;
-  },
-
-  async getAboutContent(): Promise<typeof DEFAULT_ABOUT> {
-    const content = await this.getSiteContent();
-    return content.aboutContent;
-  },
-
-  async updateBrandSettings(updates: Partial<BrandSettings>): Promise<BrandSettings> {
-    return this.updateBranding(updates);
-  },
-
-  async updateAboutContent(updates: Partial<typeof DEFAULT_ABOUT>): Promise<typeof DEFAULT_ABOUT> {
-    const res = await this.updateHomepageContent({ about: updates });
-    return res.about;
   },
 };
 

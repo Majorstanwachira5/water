@@ -209,7 +209,7 @@ export default function ProductsPage() {
 
         {/* Products Grid */}
         {!loading && !error && products.length > 0 && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5 sm:gap-3">
             {products.map((product) => {
               const primaryImage =
                 product.images && product.images.length > 0
@@ -223,26 +223,28 @@ export default function ProductsPage() {
               return (
                 <div
                   key={product.id}
-                  className="product-card flex flex-col justify-between bg-white border border-[#DFE5EB] rounded-xl p-2.5 shadow-sm hover:border-[#FF850D]/60 transition-all text-center"
+                  className="product-card flex flex-col justify-between bg-white border border-[#DFE5EB] rounded-xl overflow-hidden shadow-sm hover:border-[#FF850D]/60 transition-all text-left"
                 >
                   <div
-                    className="w-full h-32 sm:h-36 bg-[#F5F7FA] rounded-lg overflow-hidden flex items-center justify-center cursor-pointer group border border-gray-100"
+                    className="w-full h-36 sm:h-40 bg-[#F8FAFB] overflow-hidden flex items-center justify-center cursor-pointer group border-b border-gray-100"
                     onClick={() => setSelectedProduct(product)}
                   >
                     <img
                       src={primaryImage}
                       alt={product.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                      loading="eager"
+                      decoding="sync"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       onError={(e) => {
                         (e.currentTarget as HTMLImageElement).src = '/images/products/product_pvc_pipes.png';
                       }}
                     />
                   </div>
 
-                  <div className="mt-2.5 flex-1 flex flex-col justify-between">
+                  <div className="p-2.5 pt-2 flex-1 flex flex-col justify-between">
                     <div>
                       <h3
-                        className="font-bold text-xs sm:text-sm text-[#172B3A] line-clamp-1 hover:text-[#FF850D] cursor-pointer"
+                        className="font-extrabold text-xs sm:text-[13px] text-[#073253] line-clamp-1 hover:text-[#FF850D] cursor-pointer"
                         onClick={() => setSelectedProduct(product)}
                         title={product.name}
                       >
@@ -251,9 +253,9 @@ export default function ProductsPage() {
                       <p className="text-[11px] text-[#667585] mt-0.5">{product.unit}</p>
                     </div>
 
-                    <div className="my-2">
+                    <div className="my-1.5">
                       {isPriceSet ? (
-                        <span className="text-sm font-black text-[#FF850D]">
+                        <span className="text-sm sm:text-[15px] font-black text-[#FF850D]">
                           {product.formattedPrice}
                         </span>
                       ) : (
@@ -268,7 +270,7 @@ export default function ProductsPage() {
                       href={waUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full inline-flex items-center justify-center space-x-1.5 bg-[#0BAA58] hover:bg-[#09934B] text-white text-[11px] font-bold py-2 px-2 rounded-lg transition-colors shadow-sm"
+                      className="w-full inline-flex items-center justify-center space-x-1.5 bg-[#0BAA58] hover:bg-[#09934B] text-white text-[11px] font-bold py-1.5 px-2 rounded-md transition-colors shadow-sm"
                     >
                       <MessageCircle className="w-3.5 h-3.5 fill-white" />
                       <span className="truncate">Inquire on WhatsApp</span>

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   LayoutDashboard,
   Package,
@@ -14,29 +15,90 @@ import {
   ExternalLink,
   Menu,
   X,
-  Shield,
   User as UserIcon,
+  Lock,
 } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
+  const [authChecked, setAuthChecked] = useState(false);
+
+  const isLoginPage = pathname === '/admin/login';
 
   useEffect(() => {
-    const token = localStorage.getItem('michaforge_admin_token');
-    const userStr = localStorage.getItem('michaforge_admin_user');
-    if (userStr) {
-      try {
-        setCurrentUser(JSON.parse(userStr));
-      } catch (e) {}
+    if (isLoginPage) {
+      setAuthChecked(true);
+      return;
     }
-  }, []);
 
-  const handleLogout = () => {
+    const token = localStorage.getItem('michaforge_admin_token');
+    if (!token) {
+      router.replace('/admin/login');
+      return;
+    }
+
+    // Verify token against backend /api/v1/auth/me
+    fetch('/api/v1/auth/me', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json().then((data) => ({ ok: res.ok, data })))
+      .then(({ ok, data }) => {
+        if (ok && data?.success && data?.data) {
+          setCurrentUser(data.data);
+          localStorage.setItem('michaforge_admin_user', JSON.stringify(data.data));
+          setAuthChecked(true);
+        } else {
+          localStorage.removeItem('michaforge_admin_token');
+          localStorage.removeItem('michaforge_admin_user');
+          router.replace('/admin/login');
+        }
+      })
+      .catch(() => {
+        localStorage.removeItem('michaforge_admin_token');
+        localStorage.removeItem('michaforge_admin_user');
+        router.replace('/admin/login');
+      });
+  }, [pathname, isLoginPage, router]);
+
+  const handleLogout = async () => {
+    const refreshToken = localStorage.getItem('michaforge_admin_refresh_token');
+    if (refreshToken) {
+      try {
+        await fetch('/api/v1/auth/logout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ refreshToken }),
+        });
+      } catch {}
+    }
     localStorage.removeItem('michaforge_admin_token');
+    localStorage.removeItem('michaforge_admin_refresh_token');
     localStorage.removeItem('michaforge_admin_user');
     window.location.href = '/admin/login';
   };
+
+  // Render login page without sidebar chrome
+  if (isLoginPage) {
+    return <>{children}</>;
+  }
+
+  // Block unauthenticated access while verifying JWT
+  if (!authChecked) {
+    return (
+      <div className="min-h-screen bg-[#073253] flex flex-col items-center justify-center text-white p-4">
+        <div className="w-12 h-12 rounded-2xl bg-[#FF850D] flex items-center justify-center mb-4 shadow-lg">
+          <Lock className="w-6 h-6 text-white animate-pulse" />
+        </div>
+        <p className="text-sm font-bold tracking-wide">Verifying Staff Credentials...</p>
+        <p className="text-xs text-gray-300 mt-1">Password authentication required</p>
+      </div>
+    );
+  }
 
   const navItems = [
     { label: 'Overview', href: '/admin', icon: LayoutDashboard },
@@ -72,13 +134,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <nav className="p-3 space-y-1 flex-1 overflow-y-auto">
           {navItems.map((item) => {
             const Icon = item.icon;
+            const active = pathname === item.href;
             return (
               <a
                 key={item.href}
                 href={item.href}
-                className="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-gray-300 hover:text-white hover:bg-white/10 transition-colors"
+                className={`flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-colors ${
+                  active
+                    ? 'bg-[#FF850D] text-white shadow-sm'
+                    : 'text-gray-300 hover:text-white hover:bg-white/10'
+                }`}
               >
-                <Icon className="w-4 h-4 text-[#FF850D]" />
+                <Icon className={`w-4 h-4 ${active ? 'text-white' : 'text-[#FF850D]'}`} />
                 <span>{item.label}</span>
               </a>
             );

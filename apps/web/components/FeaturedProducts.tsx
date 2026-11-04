@@ -17,16 +17,16 @@ export default function FeaturedProducts({
   onOpenProductModal,
 }: FeaturedProductsProps) {
   return (
-    <section className="py-8 sm:py-10 bg-white">
+    <section className="py-5 sm:py-6 bg-white">
       <div className="max-w-7xl mx-auto px-4">
         {/* Section Header matching flyer */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-xl sm:text-2xl font-black text-[#073253]">
               Featured Products
             </h2>
             {/* Orange underline accent matching flyer */}
-            <div className="w-24 h-1 bg-[#FF850D] mt-1.5 rounded-full" />
+            <div className="w-24 h-1 bg-[#FF850D] mt-1 rounded-full" />
           </div>
 
           <a
@@ -38,8 +38,8 @@ export default function FeaturedProducts({
           </a>
         </div>
 
-        {/* Product Cards Grid: 6 cards matching flyer row */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3.5 sm:gap-4">
+        {/* Product Cards Grid: 6 cards matching flyer row with tight spacing & zero image padding */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5 sm:gap-3">
           {products.map((product) => {
             const primaryImage =
               product.images && product.images.length > 0
@@ -60,16 +60,18 @@ export default function FeaturedProducts({
             return (
               <div
                 key={product.id}
-                className="product-card flex flex-col justify-between bg-white border border-[#DFE5EB] rounded-xl p-2.5 shadow-sm hover:border-[#FF850D]/60 transition-all text-left"
+                className="product-card flex flex-col justify-between bg-white border border-[#DFE5EB] rounded-xl overflow-hidden shadow-sm hover:border-[#FF850D]/60 transition-all text-left"
               >
-                {/* Product Image Area */}
+                {/* Edge-to-edge Product Image Area (no padding) */}
                 <div
-                  className="w-full h-28 sm:h-32 bg-[#F5F7FA] rounded-lg overflow-hidden flex items-center justify-center cursor-pointer group"
+                  className="w-full h-36 sm:h-40 bg-[#F8FAFB] overflow-hidden flex items-center justify-center cursor-pointer group border-b border-[#DFE5EB]/60"
                   onClick={() => onOpenProductModal && onOpenProductModal(product)}
                 >
                   <img
                     src={primaryImage}
                     alt={product.name}
+                    loading="eager"
+                    decoding="sync"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).src = '/images/modern_hardware_hero.png';
@@ -78,7 +80,7 @@ export default function FeaturedProducts({
                 </div>
 
                 {/* Product Info matching flyer layout */}
-                <div className="mt-2.5 flex-1 flex flex-col justify-between">
+                <div className="p-2.5 pt-2 flex-1 flex flex-col justify-between">
                   <div>
                     <h3
                       className="font-extrabold text-xs sm:text-[13px] text-[#073253] line-clamp-1 hover:text-[#FF850D] cursor-pointer"
@@ -89,7 +91,7 @@ export default function FeaturedProducts({
                     </h3>
 
                     {/* Price display in bold Orange matching flyer */}
-                    <div className="mt-1">
+                    <div className="mt-0.5">
                       {isPriceSet ? (
                         <div className="flex items-baseline space-x-1">
                           <span className="text-sm sm:text-[15px] font-black text-[#FF850D]">
@@ -110,7 +112,7 @@ export default function FeaturedProducts({
                     </div>
 
                     {/* Unit of sale */}
-                    <p className="text-[11px] text-[#667585] mt-0.5 mb-2.5">
+                    <p className="text-[11px] text-[#667585] mt-0.5 mb-2">
                       {product.unit}
                     </p>
                   </div>

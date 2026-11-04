@@ -9,10 +9,12 @@ export default function AdminCategoriesPage() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     iconName: 'pipe',
+    imageUrl: '',
   });
 
   const loadCategories = async () => {
@@ -32,14 +34,43 @@ export default function AdminCategoriesPage() {
 
   const handleOpenCreate = () => {
     setEditingCategory(null);
-    setFormData({ name: '', description: '', iconName: 'pipe' });
+    setFormData({ name: '', description: '', iconName: 'pipe', imageUrl: '' });
     setShowModal(true);
   };
 
   const handleOpenEdit = (cat: Category) => {
     setEditingCategory(cat);
-    setFormData({ name: cat.name, description: cat.description, iconName: cat.iconName });
+    setFormData({
+      name: cat.name,
+      description: cat.description,
+      iconName: cat.iconName,
+      imageUrl: cat.imageUrl || '',
+    });
     setShowModal(true);
+  };
+
+  const handleCategoryImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingImage(true);
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('altText', formData.name || file.name);
+      const res = await fetch('/api/v1/media/uploads', {
+        method: 'POST',
+        body: fd,
+      });
+      const json = await res.json();
+      if (json.success && json.data?.url) {
+        setFormData((prev) => ({ ...prev, imageUrl: json.data.url }));
+      }
+    } catch {
+      alert('Failed to upload category image');
+    } finally {
+      setUploadingImage(false);
+      e.target.value = '';
+    }
   };
 
   const handleSave = async (e: React.FormEvent) => {
@@ -178,6 +209,30 @@ export default function AdminCategoriesPage() {
                   <option value="tank">Water Tank</option>
                   <option value="hardware">Hardware / Tool</option>
                 </select>
+              </div>
+
+              <div>
+                <label className="block font-bold text-gray-700 mb-1">
+                  Category Image (Optional PNG / JPG Upload)
+                </label>
+                <div className="flex items-center gap-3 bg-gray-50 p-2.5 rounded-xl border border-gray-200">
+                  {formData.imageUrl && (
+                    <img
+                      src={formData.imageUrl}
+                      alt="Category preview"
+                      className="w-12 h-12 rounded-lg object-cover border border-gray-200"
+                    />
+                  )}
+                  <label className="cursor-pointer inline-flex items-center space-x-1.5 bg-[#073253] hover:bg-[#FF850D] text-white px-3 py-2 rounded-lg text-xs font-bold transition-colors">
+                    <span>{uploadingImage ? 'Uploading...' : 'Upload PNG / JPG'}</span>
+                    <input
+                      type="file"
+                      accept="image/png,image/jpeg,image/jpg,image/webp"
+                      className="hidden"
+                      onChange={handleCategoryImageUpload}
+                    />
+                  </label>
+                </div>
               </div>
 
               <div className="flex items-center justify-end space-x-3 pt-3 border-t">

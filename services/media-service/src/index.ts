@@ -39,7 +39,7 @@ const upload = multer({
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 
 // Serve static uploaded files
 app.use('/uploads', express.static(UPLOAD_DIR));
@@ -48,7 +48,7 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', service: 'media-service', storage: 'supabase', timestamp: new Date().toISOString() });
 });
 
-// Upload Single File
+// Upload Single File (stores self-contained high-clarity Data URI in Supabase + local file copy)
 app.post('/api/v1/media/uploads', upload.single('file'), async (req: Request, res: Response) => {
   try {
     const file = req.file;
@@ -61,13 +61,17 @@ app.post('/api/v1/media/uploads', upload.single('file'), async (req: Request, re
 
     const { altText = '', category = 'general', uploadedBy = 'Administrator' } = req.body;
 
+    // Convert uploaded PNG/JPG to self-contained Data URI so it renders immediately across all environments (including Vercel)
+    const fileBuffer = fs.readFileSync(file.path);
+    const dataUrl = `data:${file.mimetype};base64,${fileBuffer.toString('base64')}`;
+
     const newAsset: MediaAsset = {
       id: `med_${crypto.randomUUID().slice(0, 8)}`,
       fileName: file.filename,
       originalName: file.originalname,
       mimeType: file.mimetype,
       sizeBytes: file.size,
-      url: `/uploads/${file.filename}`,
+      url: dataUrl,
       altText: altText || file.originalname,
       category: category as any,
       uploadedBy,

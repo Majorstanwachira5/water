@@ -4,13 +4,18 @@ import React, { useState } from 'react';
 import { Lock, Mail, ArrowRight, AlertCircle, ShieldCheck } from 'lucide-react';
 
 export default function AdminLoginPage() {
-  const [email, setEmail] = useState('admin@michaforge.co.ke');
-  const [password, setPassword] = useState('Admin@Michaforge2026!');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!email.trim() || !password) {
+      setError('Please enter both your administrator email and password.');
+      return;
+    }
+
     setLoading(true);
     setError(null);
 
@@ -18,18 +23,21 @@ export default function AdminLoginPage() {
       const res = await fetch('/api/v1/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email: email.trim(), password }),
       });
       const data = await res.json();
       if (res.ok && data.success) {
         localStorage.setItem('michaforge_admin_token', data.data.accessToken);
+        if (data.data.refreshToken) {
+          localStorage.setItem('michaforge_admin_refresh_token', data.data.refreshToken);
+        }
         localStorage.setItem('michaforge_admin_user', JSON.stringify(data.data.user));
         window.location.href = '/admin';
       } else {
         setError(data.error?.message || 'Invalid email or password.');
       }
     } catch (err: any) {
-      setError('Connection error. Verify the Auth microservice is active.');
+      setError('Connection error. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -40,8 +48,12 @@ export default function AdminLoginPage() {
       <div className="max-w-md w-full bg-white rounded-3xl p-8 sm:p-10 shadow-2xl border border-gray-100">
         {/* Brand header */}
         <div className="text-center mb-8">
-          <div className="w-14 h-14 bg-[#073253] text-[#FF850D] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md font-black text-xl">
-            MF
+          <div className="w-16 h-16 bg-white border-2 border-[#D92D36]/20 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md p-1.5">
+            <img
+              src="/images/logo_emblem.png"
+              alt="Michaforge Logo"
+              className="w-full h-full object-contain"
+            />
           </div>
           <h2 className="text-2xl font-black text-[#073253]">
             MICHAFORGE ENTERPRISES
@@ -58,7 +70,7 @@ export default function AdminLoginPage() {
           </div>
         )}
 
-        <form onSubmit={handleLogin} className="space-y-4">
+        <form onSubmit={handleLogin} className="space-y-4" autoComplete="off">
           <div>
             <label className="block text-xs font-bold text-[#172B3A] mb-1">
               Administrator Email
@@ -70,7 +82,8 @@ export default function AdminLoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@michaforge.co.ke"
+                placeholder="Enter staff email address"
+                autoComplete="username"
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#DFE5EB] text-sm text-[#172B3A] focus:outline-none focus:ring-2 focus:ring-[#FF850D]"
               />
             </div>
@@ -87,20 +100,16 @@ export default function AdminLoginPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••••••"
+                placeholder="Enter password"
+                autoComplete="current-password"
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#DFE5EB] text-sm text-[#172B3A] focus:outline-none focus:ring-2 focus:ring-[#FF850D]"
               />
             </div>
           </div>
 
-          {/* Seed hint box */}
-          <div className="p-3 bg-[#F5F7FA] rounded-xl text-[11px] text-[#667585] space-y-1 border border-gray-100">
-            <div className="flex items-center space-x-1 font-bold text-[#073253]">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#0BAA58]" />
-              <span>Initial Admin Credentials</span>
-            </div>
-            <p>Email: <code className="text-[#172B3A] font-semibold">admin@michaforge.co.ke</code></p>
-            <p>Password: <code className="text-[#172B3A] font-semibold">Admin@Michaforge2026!</code></p>
+          <div className="p-3 bg-[#F5F7FA] rounded-xl text-[11px] text-[#667585] flex items-center space-x-2 border border-gray-100">
+            <ShieldCheck className="w-4 h-4 text-[#0BAA58] flex-shrink-0" />
+            <span>Authorized Michaforge Enterprises staff only. Password authentication is required.</span>
           </div>
 
           <button
@@ -108,7 +117,7 @@ export default function AdminLoginPage() {
             disabled={loading}
             className="w-full mt-2 inline-flex items-center justify-center space-x-2 bg-[#FF850D] hover:bg-[#E67300] text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all text-sm disabled:opacity-70"
           >
-            <span>{loading ? 'Authenticating...' : 'Sign In to Portal'}</span>
+            <span>{loading ? 'Authenticating...' : 'Sign In with Password'}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>

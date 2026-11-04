@@ -29,82 +29,19 @@ export default function Navbar({
 
   return (
     <header className="w-full sticky top-0 z-50 bg-white shadow-md border-b border-[#DFE5EB]">
-      {/* 1. Slim Navy Top Bar with Quick Navigation Links (No Icons) & Contact */}
-      <div className="bg-[#073253] text-white text-xs py-1.5 px-4 border-b border-[#0B3556]">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
-          {/* Left: Tagline */}
-          <div className="hidden sm:flex items-center space-x-1.5 font-medium text-gray-200">
-            <MapPin className="w-3.5 h-3.5 text-[#FF850D] flex-shrink-0" />
-            <span>Quality Plumbing &amp; Hardware Solutions</span>
-          </div>
-
-          {/* Center/Right: Clean text navigation links (no icons) + direct phone */}
-          <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto space-x-4 md:space-x-6">
-            <div className="flex items-center space-x-3 sm:space-x-5 font-bold text-xs">
-              <a
-                href="/"
-                className={`transition-colors ${
-                  activePage === 'home' ? 'text-[#FF850D]' : 'text-white hover:text-[#FF850D]'
-                }`}
-              >
-                Home
-              </a>
-              <a
-                href="/products"
-                className={`transition-colors ${
-                  activePage === 'products' ? 'text-[#FF850D]' : 'text-white hover:text-[#FF850D]'
-                }`}
-              >
-                Products
-              </a>
-              <a
-                href="/#about"
-                className="text-white hover:text-[#FF850D] transition-colors"
-              >
-                About Us
-              </a>
-              <a
-                href="/#contact"
-                className="text-white hover:text-[#FF850D] transition-colors"
-              >
-                Contact
-              </a>
-            </div>
-
-            <div className="hidden md:flex items-center space-x-4 pl-4 border-l border-white/20">
-              <a
-                href="tel:+254714843208"
-                className="flex items-center space-x-1 hover:text-[#FF850D] transition-colors font-semibold"
-              >
-                <Phone className="w-3.5 h-3.5 text-[#FF850D]" />
-                <span>+254 714 843 208</span>
-              </a>
-              <a
-                href="/admin"
-                className="text-gray-300 hover:text-white flex items-center space-x-1 text-[11px]"
-                title="Admin Portal"
-              >
-                <ShieldCheck className="w-3.5 h-3.5 text-[#FF850D]" />
-                <span>Staff Login</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. White Header Section: High-Visibility Logo on Left + Full Centered Company Name */}
-      <nav className="max-w-7xl mx-auto px-3 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between gap-3 sm:gap-6">
+      {/* 1. TOP SECTION: White Brand Header with High-Visibility Logo on Left & Centered Company Name */}
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between gap-3 sm:gap-6 bg-white">
         {/* Left: High-Visibility Faucet Logo Emblem */}
         <a
           href="/"
           className="flex items-center flex-shrink-0 group"
           aria-label="Michaforge Enterprises Logo"
         >
-          <div className="relative flex items-center justify-center bg-white rounded-xl p-1 border-2 border-[#D92D36]/25 shadow-sm group-hover:border-[#D92D36] transition-all">
+          <div className="relative flex items-center justify-center bg-white rounded-xl p-1 border-2 border-[#D92D36]/30 shadow-sm group-hover:border-[#D92D36] transition-all">
             <img
               src="/images/logo_emblem.png"
               alt="Michaforge MFE Faucet Logo"
-              className="h-12 sm:h-16 md:h-[70px] w-auto object-contain contrast-125 saturate-125"
+              className="h-12 sm:h-16 md:h-[72px] w-auto object-contain contrast-125 saturate-125"
               onError={(e) => {
                 (e.currentTarget as HTMLImageElement).src = '/images/logo_navbar.png';
               }}
@@ -165,6 +102,68 @@ export default function Navbar({
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
+      </div>
+
+      {/* 2. BELOW THE COMPANY NAME: Navy Navigation & Contact Bar */}
+      <nav className="bg-[#073253] text-white text-xs py-2 px-4 border-t border-[#0B3556]">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+          {/* Left: Tagline */}
+          <div className="hidden sm:flex items-center space-x-1.5 font-medium text-gray-200">
+            <MapPin className="w-3.5 h-3.5 text-[#FF850D] flex-shrink-0" />
+            <span>Quality Plumbing &amp; Hardware Solutions</span>
+          </div>
+
+          {/* Center: Clean text navigation links (no icons) */}
+          <div className="flex items-center space-x-4 sm:space-x-6 font-bold text-xs">
+            <a
+              href="/"
+              className={`transition-colors ${
+                activePage === 'home' ? 'text-[#FF850D]' : 'text-white hover:text-[#FF850D]'
+              }`}
+            >
+              Home
+            </a>
+            <a
+              href="/products"
+              className={`transition-colors ${
+                activePage === 'products' ? 'text-[#FF850D]' : 'text-white hover:text-[#FF850D]'
+              }`}
+            >
+              Products
+            </a>
+            <a
+              href="/#about"
+              className="text-white hover:text-[#FF850D] transition-colors"
+            >
+              About Us
+            </a>
+            <a
+              href="/#contact"
+              className="text-white hover:text-[#FF850D] transition-colors"
+            >
+              Contact
+            </a>
+          </div>
+
+          {/* Right: Direct Phone & Password-Protected Staff Login */}
+          <div className="flex items-center space-x-4">
+            <a
+              href="tel:+254714843208"
+              className="flex items-center space-x-1 hover:text-[#FF850D] transition-colors font-semibold"
+            >
+              <Phone className="w-3.5 h-3.5 text-[#FF850D]" />
+              <span>+254 714 843 208</span>
+            </a>
+            <a
+              href="/admin/login"
+              className="text-gray-300 hover:text-white flex items-center space-x-1 text-[11px] pl-3 border-l border-white/20"
+              title="Staff Login (Password Required)"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-[#FF850D]" />
+              <span>Staff Login</span>
+            </a>
+          </div>
+        </div>
       </nav>
 
       {/* Mobile Drawer Menu (No icons on nav items) */}
@@ -199,7 +198,7 @@ export default function Navbar({
             Contact
           </a>
           <a
-            href="/admin"
+            href="/admin/login"
             onClick={() => setMobileMenuOpen(false)}
             className="block px-3 py-2 rounded-lg text-xs font-semibold text-gray-500 hover:bg-gray-50 pt-2 border-t"
           >

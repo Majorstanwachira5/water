@@ -76,10 +76,18 @@ function forwardRequest(
     });
   });
 
-  if (['POST', 'PUT', 'PATCH'].includes(req.method)) {
-    clientReq.write(JSON.stringify(req.body));
+  const isMultipart = (req.headers['content-type'] || '').includes('multipart/form-data');
+
+  if (isMultipart) {
+    req.pipe(clientReq);
+  } else {
+    if (['POST', 'PUT', 'PATCH'].includes(req.method) && req.body !== undefined) {
+      const payload = JSON.stringify(req.body);
+      clientReq.setHeader('content-length', Buffer.byteLength(payload));
+      clientReq.write(payload);
+    }
+    clientReq.end();
   }
-  clientReq.end();
 }
 
 async function fetchJson<T>(url: string): Promise<T> {

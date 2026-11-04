@@ -88,6 +88,7 @@ export default function AdminContentBrandingPage() {
   const [brand, setBrand] = useState<BrandSettings | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploadingField, setUploadingField] = useState<string | null>(null);
   const [savedMsg, setSavedMsg] = useState<'success' | 'error' | null>(null);
 
   // Form state mirroring brand
@@ -139,6 +140,33 @@ export default function AdminContentBrandingPage() {
 
   const handleChange = (key: keyof typeof form, value: string) => {
     setForm((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const handleImageUpload = async (
+    key: 'heroImageUrl' | 'logoUrl' | 'logoWhiteUrl' | 'faviconUrl',
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingField(key);
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('altText', file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' '));
+      const res = await fetch('/api/v1/media/uploads', {
+        method: 'POST',
+        body: fd,
+      });
+      const json = await res.json();
+      if (json.success && json.data?.url) {
+        setForm((prev) => ({ ...prev, [key]: json.data.url }));
+      }
+    } catch {
+      alert('Failed to upload image file');
+    } finally {
+      setUploadingField(null);
+      e.target.value = '';
+    }
   };
 
   const handleReset = () => {
@@ -396,64 +424,103 @@ export default function AdminContentBrandingPage() {
           />
         </Field>
         <Field
-          label="Hero Background Image URL"
-          hint="Absolute URL or public path (e.g. /images/hero_plumbing_supplies.png). Upload via Media Library first."
+          label="Hero Showcase Image (Upload PNG or JPG)"
+          hint="Upload a high-resolution PNG or JPG image directly from your device."
         >
-          <input
-            id="field-hero-image"
-            className={INPUT_CLS}
-            value={form.heroImageUrl}
-            onChange={(e) => handleChange('heroImageUrl', e.target.value)}
-          />
-        </Field>
-        {form.heroImageUrl && (
-          <div className="mt-2 rounded-xl overflow-hidden border border-[#DFE5EB] max-h-40 bg-gray-100 flex items-center justify-center">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={form.heroImageUrl}
-              alt="Hero preview"
-              className="object-cover w-full max-h-40"
-            />
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-[#F8FAFB] p-3 rounded-xl border border-[#DFE5EB]">
+            {form.heroImageUrl && (
+              <div className="w-32 h-20 rounded-lg overflow-hidden border border-[#DFE5EB] bg-white flex-shrink-0">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={form.heroImageUrl}
+                  alt="Hero preview"
+                  className="object-cover w-full h-full"
+                />
+              </div>
+            )}
+            <label className="cursor-pointer inline-flex items-center space-x-2 bg-[#073253] hover:bg-[#FF850D] text-white px-4 py-2 rounded-xl text-xs font-bold transition-colors shadow-sm">
+              <ImageIcon className="w-4 h-4" />
+              <span>{uploadingField === 'heroImageUrl' ? 'Uploading Image...' : 'Upload PNG / JPG Image'}</span>
+              <input
+                id="field-hero-image"
+                type="file"
+                accept="image/png,image/jpeg,image/jpg,image/webp"
+                className="hidden"
+                onChange={(e) => handleImageUpload('heroImageUrl', e)}
+              />
+            </label>
           </div>
-        )}
+        </Field>
       </Section>
 
       {/* 4. Logos & Assets */}
-      <Section title="Logos & Asset Paths" icon={ImageIcon}>
+      <Section title="Brand Logos & Favicon (PNG / JPG Upload)" icon={ImageIcon}>
         <p className="text-xs text-[#667585] bg-blue-50 border border-blue-100 rounded-lg px-3 py-2">
-          These are file paths, not file uploads. Upload images first in the{' '}
-          <a href="/admin/media" className="text-[#073253] font-bold underline">
-            Media Library
-          </a>{' '}
-          then paste the returned URL here.
+          Upload crisp PNG or JPG brand logos directly from your computer. Click <strong>Save Changes</strong> at the top when done.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Field label="Logo URL (Dark Backgrounds)">
-            <input
-              id="field-logo-url"
-              className={INPUT_CLS}
-              value={form.logoUrl}
-              onChange={(e) => handleChange('logoUrl', e.target.value)}
-              placeholder="/images/logo_navbar.png"
-            />
+          <Field label="Primary Logo (PNG / JPG)">
+            <div className="space-y-2 bg-[#F8FAFB] p-3 rounded-xl border border-[#DFE5EB]">
+              {form.logoUrl && (
+                <div className="h-16 bg-white rounded-lg border border-gray-200 flex items-center justify-center overflow-hidden p-1">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={form.logoUrl} alt="Primary Logo" className="max-h-full max-w-full object-contain" />
+                </div>
+              )}
+              <label className="w-full cursor-pointer inline-flex items-center justify-center space-x-1.5 bg-[#073253] hover:bg-[#FF850D] text-white px-3 py-2 rounded-lg text-xs font-bold transition-colors">
+                <ImageIcon className="w-3.5 h-3.5" />
+                <span>{uploadingField === 'logoUrl' ? 'Uploading...' : 'Upload Logo (PNG/JPG)'}</span>
+                <input
+                  id="field-logo-url"
+                  type="file"
+                  accept="image/png,image/jpeg,image/jpg,image/webp"
+                  className="hidden"
+                  onChange={(e) => handleImageUpload('logoUrl', e)}
+                />
+              </label>
+            </div>
           </Field>
-          <Field label="Logo URL (White / Light)">
-            <input
-              id="field-logo-white-url"
-              className={INPUT_CLS}
-              value={form.logoWhiteUrl}
-              onChange={(e) => handleChange('logoWhiteUrl', e.target.value)}
-              placeholder="/images/logo_footer.png"
-            />
+          <Field label="Footer / Secondary Logo (PNG / JPG)">
+            <div className="space-y-2 bg-[#F8FAFB] p-3 rounded-xl border border-[#DFE5EB]">
+              {form.logoWhiteUrl && (
+                <div className="h-16 bg-white rounded-lg border border-gray-200 flex items-center justify-center overflow-hidden p-1">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={form.logoWhiteUrl} alt="Secondary Logo" className="max-h-full max-w-full object-contain" />
+                </div>
+              )}
+              <label className="w-full cursor-pointer inline-flex items-center justify-center space-x-1.5 bg-[#073253] hover:bg-[#FF850D] text-white px-3 py-2 rounded-lg text-xs font-bold transition-colors">
+                <ImageIcon className="w-3.5 h-3.5" />
+                <span>{uploadingField === 'logoWhiteUrl' ? 'Uploading...' : 'Upload Logo (PNG/JPG)'}</span>
+                <input
+                  id="field-logo-white-url"
+                  type="file"
+                  accept="image/png,image/jpeg,image/jpg,image/webp"
+                  className="hidden"
+                  onChange={(e) => handleImageUpload('logoWhiteUrl', e)}
+                />
+              </label>
+            </div>
           </Field>
-          <Field label="Favicon URL">
-            <input
-              id="field-favicon-url"
-              className={INPUT_CLS}
-              value={form.faviconUrl}
-              onChange={(e) => handleChange('faviconUrl', e.target.value)}
-              placeholder="/favicon.ico"
-            />
+          <Field label="Favicon Icon (PNG / JPG)">
+            <div className="space-y-2 bg-[#F8FAFB] p-3 rounded-xl border border-[#DFE5EB]">
+              {form.faviconUrl && (
+                <div className="h-16 bg-white rounded-lg border border-gray-200 flex items-center justify-center overflow-hidden p-1">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={form.faviconUrl} alt="Favicon" className="max-h-12 max-w-12 object-contain" />
+                </div>
+              )}
+              <label className="w-full cursor-pointer inline-flex items-center justify-center space-x-1.5 bg-[#073253] hover:bg-[#FF850D] text-white px-3 py-2 rounded-lg text-xs font-bold transition-colors">
+                <ImageIcon className="w-3.5 h-3.5" />
+                <span>{uploadingField === 'faviconUrl' ? 'Uploading...' : 'Upload Favicon (PNG/JPG)'}</span>
+                <input
+                  id="field-favicon-url"
+                  type="file"
+                  accept="image/png,image/jpeg,image/jpg,image/webp"
+                  className="hidden"
+                  onChange={(e) => handleImageUpload('faviconUrl', e)}
+                />
+              </label>
+            </div>
           </Field>
         </div>
       </Section>
