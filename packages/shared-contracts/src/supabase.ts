@@ -299,18 +299,354 @@ export const supabaseAuthRepo = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 2. Catalogue Repository (Supabase)
+// 2. Catalogue Repository & Seed Defaults (Supabase)
 // ─────────────────────────────────────────────────────────────────────────────
+
+export function formatPriceValue(price: number | null | undefined, currency = 'KES'): string {
+  if (price === null || price === undefined || isNaN(price) || price <= 0) {
+    return 'Contact for Price';
+  }
+  const prefix = currency === 'KES' ? 'KSh' : currency;
+  return `${prefix} ${price.toLocaleString('en-KE')}`;
+}
+
+export const DEFAULT_CATEGORIES: Category[] = [
+  {
+    id: 'cat_sanitary_ware',
+    name: 'Sanitary Ware',
+    slug: 'sanitary-ware',
+    description: 'Urinals, Basins & Toilets',
+    iconName: 'sanitary',
+    imageUrl: '/images/products/product_synnova_urinal.png',
+    displayOrder: 1,
+    isPublished: true,
+    createdAt: '2026-11-05T00:00:00Z',
+    updatedAt: '2026-11-05T00:00:00Z',
+  },
+  {
+    id: 'cat_taps_faucets',
+    name: 'Taps & Faucets',
+    slug: 'taps-faucets',
+    description: 'Basin Taps & Sprays',
+    iconName: 'tap',
+    imageUrl: '/images/products/product_lirlee_basin_tap.png',
+    displayOrder: 2,
+    isPublished: true,
+    createdAt: '2026-11-05T00:00:00Z',
+    updatedAt: '2026-11-05T00:00:00Z',
+  },
+  {
+    id: 'cat_pvc_pipes',
+    name: 'PVC Pipes',
+    slug: 'pvc-pipes',
+    description: 'Durable & Reliable',
+    iconName: 'pipe',
+    imageUrl: '',
+    displayOrder: 3,
+    isPublished: true,
+    createdAt: '2026-11-05T00:00:00Z',
+    updatedAt: '2026-11-05T00:00:00Z',
+  },
+  {
+    id: 'cat_pipe_fittings',
+    name: 'Pipe Fittings',
+    slug: 'pipe-fittings',
+    description: 'Various Sizes & Types',
+    iconName: 'fittings',
+    imageUrl: '',
+    displayOrder: 4,
+    isPublished: true,
+    createdAt: '2026-11-05T00:00:00Z',
+    updatedAt: '2026-11-05T00:00:00Z',
+  },
+  {
+    id: 'cat_valves',
+    name: 'Valves',
+    slug: 'valves',
+    description: 'Control Your Flow',
+    iconName: 'valve',
+    imageUrl: '',
+    displayOrder: 5,
+    isPublished: true,
+    createdAt: '2026-11-05T00:00:00Z',
+    updatedAt: '2026-11-05T00:00:00Z',
+  },
+  {
+    id: 'cat_water_tanks',
+    name: 'Water Tanks',
+    slug: 'water-tanks',
+    description: 'Storage Solutions',
+    iconName: 'tank',
+    imageUrl: '',
+    displayOrder: 6,
+    isPublished: true,
+    createdAt: '2026-11-05T00:00:00Z',
+    updatedAt: '2026-11-05T00:00:00Z',
+  },
+  {
+    id: 'cat_hardware_items',
+    name: 'Hardware Items',
+    slug: 'hardware-items',
+    description: 'Building Essentials',
+    iconName: 'hardware',
+    imageUrl: '',
+    displayOrder: 7,
+    isPublished: true,
+    createdAt: '2026-11-05T00:00:00Z',
+    updatedAt: '2026-11-05T00:00:00Z',
+  },
+];
+
+export const DEFAULT_REAL_PRODUCTS: Product[] = [
+  {
+    id: 'prd_synnova_urinal',
+    name: 'Synnova Wall-Hung Ceramic Urinal',
+    slug: 'synnova-wall-hung-ceramic-urinal',
+    sku: 'MF-SAN-001',
+    description:
+      'Premium vitreous china white wall-hung urinal manufactured by Synnova. Engineered with a smooth hygienic glaze that resists stains and bacteria buildup. Features a targeted top flush inlet and efficient bottom drain outlet for water conservation in commercial buildings, hotels, institutions, and modern homes.',
+    shortDescription: 'Premium vitreous china white wall-hung urinal by Synnova with stain-resistant glaze.',
+    categoryId: 'cat_sanitary_ware',
+    unit: 'each',
+    status: 'published',
+    isFeatured: true,
+    featuredOrder: 1,
+    images: [
+      {
+        id: 'img_synnova_1',
+        url: '/images/products/product_synnova_urinal.png',
+        altText: 'Synnova Wall-Hung Ceramic Urinal',
+        displayOrder: 1,
+        isPrimary: true,
+      },
+    ],
+    specifications: [
+      { id: 'sp1', key: 'Brand', value: 'Synnova' },
+      { id: 'sp2', key: 'Mount Type', value: 'Wall-Hung / Wall Mounted' },
+      { id: 'sp3', key: 'Material', value: 'Vitreous China Glazed Ceramic' },
+      { id: 'sp4', key: 'Color', value: 'Gloss Alpine White' },
+    ],
+    createdAt: '2026-11-05T00:00:00Z',
+    updatedAt: '2026-11-05T00:00:00Z',
+  },
+  {
+    id: 'prd_orient_urinal',
+    name: 'Orient Ceramics Wall-Hung Urinal Bowl',
+    slug: 'orient-ceramics-wall-hung-urinal',
+    sku: 'MF-SAN-002',
+    description:
+      'High-durability vitreous china ceramic urinal bowl by Orient Ceramics (Made in India). Heavy-duty build with protective edge rim, deep contoured basin to minimize splashing, and ultra-smooth surface for effortless sanitization and lasting gloss in high-traffic restrooms.',
+    shortDescription: 'Heavy-duty Orient Ceramics vitreous china wall-hung urinal bowl (Made in India).',
+    categoryId: 'cat_sanitary_ware',
+    unit: 'each',
+    status: 'published',
+    isFeatured: true,
+    featuredOrder: 2,
+    images: [
+      {
+        id: 'img_orient_1',
+        url: '/images/products/product_orient_urinal.png',
+        altText: 'Orient Ceramics Wall-Hung Urinal Bowl',
+        displayOrder: 1,
+        isPrimary: true,
+      },
+    ],
+    specifications: [
+      { id: 'sp5', key: 'Brand', value: 'Orient Ceramics' },
+      { id: 'sp6', key: 'Origin', value: 'Made in India' },
+      { id: 'sp7', key: 'Mount Type', value: 'Wall Mounted' },
+      { id: 'sp8', key: 'Material', value: 'Heavy Duty Vitreous China' },
+    ],
+    createdAt: '2026-11-05T00:00:00Z',
+    updatedAt: '2026-11-05T00:00:00Z',
+  },
+  {
+    id: 'prd_lirlee_basin_tap',
+    name: 'Lirlee Chrome Basin Pillar Tap',
+    slug: 'lirlee-chrome-basin-pillar-tap',
+    sku: 'MF-TAP-002',
+    description:
+      'Solid chrome-plated basin pillar tap from Lirlee Fashionable Sanitary Wares & Mixer Taps. Built with a solid brass body, gleaming mirror-chrome corrosion-resistant finish, smooth ergonomic quarter-turn lever, aerated water-saving nozzle, and threaded brass backnut for secure washbasin mounting.',
+    shortDescription: 'Mirror-finish solid brass pillar tap with quarter-turn precision control.',
+    categoryId: 'cat_taps_faucets',
+    unit: 'each',
+    status: 'published',
+    isFeatured: true,
+    featuredOrder: 3,
+    images: [
+      {
+        id: 'img_lirlee_tap_1',
+        url: '/images/products/product_lirlee_basin_tap.png',
+        altText: 'Lirlee Chrome Basin Pillar Tap',
+        displayOrder: 1,
+        isPrimary: true,
+      },
+    ],
+    specifications: [
+      { id: 'sp9', key: 'Brand', value: 'Lirlee' },
+      { id: 'sp10', key: 'Type', value: 'Basin Pillar Tap / Faucet' },
+      { id: 'sp11', key: 'Material', value: 'Chrome-Plated Solid Brass' },
+      { id: 'sp12', key: 'Connection', value: '1/2" Standard Threaded Base' },
+    ],
+    createdAt: '2026-11-05T00:00:00Z',
+    updatedAt: '2026-11-05T00:00:00Z',
+  },
+  {
+    id: 'prd_lirlee_chrome_shattaf',
+    name: 'Lirlee Tempesta-F Chrome Bidet Spray Set',
+    slug: 'lirlee-tempesta-f-chrome-bidet-spray-set',
+    sku: 'MF-TAP-003',
+    description:
+      'Complete Tempesta-F hygienic toilet bidet / shattaf spray kit by Lirlee. Includes ergonomic chrome trigger spray head with targeted comfort jet, heavy-duty 1.2m flexible stainless steel hose with leak-proof washers, and matching wall bracket holder for convenient bathroom installation.',
+    shortDescription: 'Tempesta-F chrome hygienic trigger spray handset with flexible stainless hose and bracket.',
+    categoryId: 'cat_taps_faucets',
+    unit: 'complete set',
+    status: 'published',
+    isFeatured: true,
+    featuredOrder: 4,
+    images: [
+      {
+        id: 'img_lirlee_chrome_shattaf_1',
+        url: '/images/products/product_lirlee_chrome_shattaf.png',
+        altText: 'Lirlee Tempesta-F Chrome Bidet Spray Set',
+        displayOrder: 1,
+        isPrimary: true,
+      },
+    ],
+    specifications: [
+      { id: 'sp13', key: 'Brand', value: 'Lirlee' },
+      { id: 'sp14', key: 'Series', value: 'Tempesta-F Trigger Spray 30' },
+      { id: 'sp15', key: 'Components', value: 'Spray Gun, Flexible Stainless Hose, Wall Holder' },
+    ],
+    createdAt: '2026-11-05T00:00:00Z',
+    updatedAt: '2026-11-05T00:00:00Z',
+  },
+  {
+    id: 'prd_lirlee_black_shattaf',
+    name: 'Lirlee Tempesta-F Matte Black Trigger Spray Set',
+    slug: 'lirlee-tempesta-f-matte-black-trigger-spray-set',
+    sku: 'MF-TAP-004',
+    description:
+      'Modern matte black toilet shattaf / bidet spray kit (Model LR9218) by Lirlee. Features a contemporary matte black ergonomic trigger spray handset, smooth anti-twist matte black hose, and wall bracket. Adds a stylish modern touch to any modern washroom or luxury bathroom.',
+    shortDescription: 'Luxury matte black trigger spray kit (Model LR9218) with matte hose and wall mount.',
+    categoryId: 'cat_taps_faucets',
+    unit: 'complete set',
+    status: 'published',
+    isFeatured: true,
+    featuredOrder: 5,
+    images: [
+      {
+        id: 'img_lirlee_black_shattaf_1',
+        url: '/images/products/product_lirlee_black_shattaf.png',
+        altText: 'Lirlee Tempesta-F Matte Black Trigger Spray Set',
+        displayOrder: 1,
+        isPrimary: true,
+      },
+    ],
+    specifications: [
+      { id: 'sp16', key: 'Brand', value: 'Lirlee' },
+      { id: 'sp17', key: 'Model', value: 'LR9218 Tempesta-F Trigger Spray 30' },
+      { id: 'sp18', key: 'Finish', value: 'Matte Black Electrostatic Coat' },
+      { id: 'sp19', key: 'Components', value: 'Black Handset, Anti-Kink Black Hose, Wall Mount' },
+    ],
+    createdAt: '2026-11-05T00:00:00Z',
+    updatedAt: '2026-11-05T00:00:00Z',
+  },
+];
+
+export const DEFAULT_REAL_PRICES: ProductPrice[] = [
+  {
+    id: 'prc_synnova_urinal',
+    productId: 'prd_synnova_urinal',
+    price: null,
+    previousPrice: null,
+    currency: 'KES',
+    unit: 'each',
+    effectiveDate: '2026-11-05T00:00:00Z',
+    updatedBy: 'Store Manager',
+    reason: 'Price on Inquiry',
+    updatedAt: '2026-11-05T00:00:00Z',
+  },
+  {
+    id: 'prc_orient_urinal',
+    productId: 'prd_orient_urinal',
+    price: null,
+    previousPrice: null,
+    currency: 'KES',
+    unit: 'each',
+    effectiveDate: '2026-11-05T00:00:00Z',
+    updatedBy: 'Store Manager',
+    reason: 'Price on Inquiry',
+    updatedAt: '2026-11-05T00:00:00Z',
+  },
+  {
+    id: 'prc_lirlee_basin_tap',
+    productId: 'prd_lirlee_basin_tap',
+    price: 1100,
+    previousPrice: null,
+    currency: 'KES',
+    unit: 'each',
+    effectiveDate: '2026-11-05T00:00:00Z',
+    updatedBy: 'Store Manager',
+    reason: 'Store catalogue price',
+    updatedAt: '2026-11-05T00:00:00Z',
+  },
+  {
+    id: 'prc_lirlee_chrome_shattaf',
+    productId: 'prd_lirlee_chrome_shattaf',
+    price: 950,
+    previousPrice: null,
+    currency: 'KES',
+    unit: 'complete set',
+    effectiveDate: '2026-11-05T00:00:00Z',
+    updatedBy: 'Store Manager',
+    reason: 'Store catalogue price',
+    updatedAt: '2026-11-05T00:00:00Z',
+  },
+  {
+    id: 'prc_lirlee_black_shattaf',
+    productId: 'prd_lirlee_black_shattaf',
+    price: 850,
+    previousPrice: null,
+    currency: 'KES',
+    unit: 'complete set',
+    effectiveDate: '2026-11-05T00:00:00Z',
+    updatedBy: 'Store Manager',
+    reason: 'Store catalogue price',
+    updatedAt: '2026-11-05T00:00:00Z',
+  },
+];
+
+export const DEFAULT_CATALOG_ITEMS: CatalogProductItem[] = DEFAULT_REAL_PRODUCTS.map((prod) => {
+  const pr = DEFAULT_REAL_PRICES.find((p) => p.productId === prod.id);
+  const priceVal = pr ? pr.price : null;
+  const currency = pr?.currency || 'KES';
+  const hasPrice = priceVal !== null && priceVal !== undefined && priceVal > 0;
+  const cat = DEFAULT_CATEGORIES.find((c) => c.id === prod.categoryId);
+  return {
+    ...prod,
+    category: cat,
+    price: priceVal,
+    previousPrice: pr ? pr.previousPrice : null,
+    currency,
+    priceDisplayState: hasPrice ? 'configured' : 'contact_for_price',
+    formattedPrice: formatPriceValue(priceVal, currency),
+  };
+});
 
 export const supabaseCatalogueRepo = {
   async listCategories(): Promise<Category[]> {
-    const sb = getSupabaseClient();
-    const { data, error } = await sb
-      .from('categories')
-      .select('*')
-      .order('display_order', { ascending: true });
-    if (error || !data) return [];
-    return data.map(mapCategoryRow);
+    try {
+      const sb = getSupabaseClient();
+      const { data, error } = await sb
+        .from('categories')
+        .select('*')
+        .order('display_order', { ascending: true });
+      if (!error && data && data.length > 0) {
+        return data.map(mapCategoryRow);
+      }
+    } catch (_) {}
+    return DEFAULT_CATEGORIES;
   },
 
   async createCategory(cat: Category): Promise<Category> {
@@ -367,20 +703,36 @@ export const supabaseCatalogueRepo = {
     search?: string;
     featured?: boolean;
   }): Promise<Product[]> {
-    const sb = getSupabaseClient();
-    const [catRes, prodRes] = await Promise.all([
-      sb.from('categories').select('*'),
-      sb.from('products').select('*').order('featured_order', { ascending: true, nullsFirst: false }),
-    ]);
+    let items: Product[] = [];
+    try {
+      const sb = getSupabaseClient();
+      const [catRes, prodRes] = await Promise.all([
+        sb.from('categories').select('*'),
+        sb.from('products').select('*').order('featured_order', { ascending: true, nullsFirst: false }),
+      ]);
 
-    const catMap: Record<string, Category> = {};
-    if (catRes.data) {
-      for (const c of catRes.data) {
-        catMap[c.id] = mapCategoryRow(c);
+      const catMap: Record<string, Category> = {};
+      if (catRes.data && catRes.data.length > 0) {
+        for (const c of catRes.data) {
+          catMap[c.id] = mapCategoryRow(c);
+        }
+      } else {
+        DEFAULT_CATEGORIES.forEach((c) => (catMap[c.id] = c));
       }
-    }
 
-    let items = (prodRes.data || []).map((r) => mapProductRow(r, catMap));
+      if (prodRes.data && prodRes.data.length > 0) {
+        items = prodRes.data.map((r) => mapProductRow(r, catMap));
+      }
+    } catch (_) {}
+
+    if (items.length === 0) {
+      const catMap: Record<string, Category> = {};
+      DEFAULT_CATEGORIES.forEach((c) => (catMap[c.id] = c));
+      items = DEFAULT_REAL_PRODUCTS.map((p) => ({
+        ...p,
+        category: catMap[p.categoryId],
+      }));
+    }
 
     if (filters?.status) {
       items = items.filter((p) => p.status === filters.status);
@@ -405,23 +757,41 @@ export const supabaseCatalogueRepo = {
   },
 
   async getProductById(id: string): Promise<Product | null> {
-    const sb = getSupabaseClient();
-    const { data, error } = await sb.from('products').select('*').eq('id', id).maybeSingle();
-    if (error || !data) return null;
-    const categories = await this.listCategories();
-    const catMap: Record<string, Category> = {};
-    categories.forEach((c) => (catMap[c.id] = c));
-    return mapProductRow(data, catMap);
+    try {
+      const sb = getSupabaseClient();
+      const { data, error } = await sb.from('products').select('*').eq('id', id).maybeSingle();
+      if (!error && data) {
+        const categories = await this.listCategories();
+        const catMap: Record<string, Category> = {};
+        categories.forEach((c) => (catMap[c.id] = c));
+        return mapProductRow(data, catMap);
+      }
+    } catch (_) {}
+    const found = DEFAULT_REAL_PRODUCTS.find((p) => p.id === id);
+    if (found) {
+      const cat = DEFAULT_CATEGORIES.find((c) => c.id === found.categoryId);
+      return { ...found, category: cat };
+    }
+    return null;
   },
 
   async getProductBySlug(slug: string): Promise<Product | null> {
-    const sb = getSupabaseClient();
-    const { data, error } = await sb.from('products').select('*').eq('slug', slug).maybeSingle();
-    if (error || !data) return null;
-    const categories = await this.listCategories();
-    const catMap: Record<string, Category> = {};
-    categories.forEach((c) => (catMap[c.id] = c));
-    return mapProductRow(data, catMap);
+    try {
+      const sb = getSupabaseClient();
+      const { data, error } = await sb.from('products').select('*').eq('slug', slug).maybeSingle();
+      if (!error && data) {
+        const categories = await this.listCategories();
+        const catMap: Record<string, Category> = {};
+        categories.forEach((c) => (catMap[c.id] = c));
+        return mapProductRow(data, catMap);
+      }
+    } catch (_) {}
+    const found = DEFAULT_REAL_PRODUCTS.find((p) => p.slug === slug);
+    if (found) {
+      const cat = DEFAULT_CATEGORIES.find((c) => c.id === found.categoryId);
+      return { ...found, category: cat };
+    }
+    return null;
   },
 
   async createProduct(prod: Product): Promise<Product> {
@@ -496,21 +866,29 @@ export const supabaseCatalogueRepo = {
 
 export const supabasePricingRepo = {
   async listPrices(): Promise<ProductPrice[]> {
-    const sb = getSupabaseClient();
-    const { data, error } = await sb.from('product_prices').select('*');
-    if (error || !data) return [];
-    return data.map(mapPriceRow);
+    try {
+      const sb = getSupabaseClient();
+      const { data, error } = await sb.from('product_prices').select('*');
+      if (!error && data && data.length > 0) {
+        return data.map(mapPriceRow);
+      }
+    } catch (_) {}
+    return DEFAULT_REAL_PRICES;
   },
 
   async getPriceByProductId(productId: string): Promise<ProductPrice | null> {
-    const sb = getSupabaseClient();
-    const { data, error } = await sb
-      .from('product_prices')
-      .select('*')
-      .eq('product_id', productId)
-      .maybeSingle();
-    if (error || !data) return null;
-    return mapPriceRow(data);
+    try {
+      const sb = getSupabaseClient();
+      const { data, error } = await sb
+        .from('product_prices')
+        .select('*')
+        .eq('product_id', productId)
+        .maybeSingle();
+      if (!error && data) {
+        return mapPriceRow(data);
+      }
+    } catch (_) {}
+    return DEFAULT_REAL_PRICES.find((p) => p.productId === productId) || null;
   },
 
   async upsertPrice(
@@ -1045,14 +1423,6 @@ export const supabaseNotificationRepo = {
 // ─────────────────────────────────────────────────────────────────────────────
 // 9. Catalog Aggregator (Combines Products + Categories + Pricing from Supabase)
 // ─────────────────────────────────────────────────────────────────────────────
-
-function formatPriceValue(price: number | null | undefined, currency = 'KES'): string {
-  if (price === null || price === undefined || isNaN(price) || price <= 0) {
-    return 'Contact for Price';
-  }
-  const prefix = currency === 'KES' ? 'KSh' : currency;
-  return `${prefix} ${price.toLocaleString('en-KE')}`;
-}
 
 export const supabaseCatalogAggregator = {
   async getAggregatedProducts(opts?: {

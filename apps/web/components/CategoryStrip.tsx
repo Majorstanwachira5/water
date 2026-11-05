@@ -11,12 +11,34 @@ interface CategoryStripProps {
 
 const DEFAULT_CATEGORIES: Category[] = [
   {
+    id: 'cat_sanitary_ware',
+    name: 'Sanitary Ware',
+    slug: 'sanitary-ware',
+    description: 'Urinals, Basins & Toilets',
+    iconName: 'sanitary',
+    displayOrder: 1,
+    isPublished: true,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
+    id: 'cat_taps_faucets',
+    name: 'Taps & Faucets',
+    slug: 'taps-faucets',
+    description: 'Basin Taps & Sprays',
+    iconName: 'tap',
+    displayOrder: 2,
+    isPublished: true,
+    createdAt: '',
+    updatedAt: '',
+  },
+  {
     id: 'cat_pvc_pipes',
     name: 'PVC Pipes',
     slug: 'pvc-pipes',
     description: 'Durable & Reliable',
     iconName: 'pipe',
-    displayOrder: 1,
+    displayOrder: 3,
     isPublished: true,
     createdAt: '',
     updatedAt: '',
@@ -27,18 +49,7 @@ const DEFAULT_CATEGORIES: Category[] = [
     slug: 'pipe-fittings',
     description: 'Various Sizes & Types',
     iconName: 'fittings',
-    displayOrder: 2,
-    isPublished: true,
-    createdAt: '',
-    updatedAt: '',
-  },
-  {
-    id: 'cat_taps_faucets',
-    name: 'Taps & Faucets',
-    slug: 'taps-faucets',
-    description: 'Quality & Stylish',
-    iconName: 'tap',
-    displayOrder: 3,
+    displayOrder: 4,
     isPublished: true,
     createdAt: '',
     updatedAt: '',
@@ -49,7 +60,7 @@ const DEFAULT_CATEGORIES: Category[] = [
     slug: 'valves',
     description: 'Control Your Flow',
     iconName: 'valve',
-    displayOrder: 4,
+    displayOrder: 5,
     isPublished: true,
     createdAt: '',
     updatedAt: '',
@@ -60,7 +71,7 @@ const DEFAULT_CATEGORIES: Category[] = [
     slug: 'water-tanks',
     description: 'Storage Solutions',
     iconName: 'tank',
-    displayOrder: 5,
+    displayOrder: 6,
     isPublished: true,
     createdAt: '',
     updatedAt: '',
@@ -71,7 +82,7 @@ const DEFAULT_CATEGORIES: Category[] = [
     slug: 'hardware-items',
     description: 'Building Essentials',
     iconName: 'hardware',
-    displayOrder: 6,
+    displayOrder: 7,
     isPublished: true,
     createdAt: '',
     updatedAt: '',
@@ -80,6 +91,18 @@ const DEFAULT_CATEGORIES: Category[] = [
 
 function PlumbingCategoryIcon({ name, iconName }: { name: string; iconName?: string }) {
   const key = `${name} ${iconName || ''}`.toLowerCase();
+
+  // Sanitary Ware & Ceramics (urinal / toilet / basin ceramic fixture)
+  if (key.includes('sanitary') || key.includes('ceramic') || key.includes('urinal')) {
+    return (
+      <svg className="w-6 h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M7 6H21V13C21 17 18 20 14 20C10 20 7 17 7 13V6Z" />
+        <path d="M11 20V24H17V20" />
+        <circle cx="14" cy="14" r="1.5" />
+        <path d="M14 6V9" />
+      </svg>
+    );
+  }
 
   // 1. PVC Pipes (diagonal cylinder pipe with socket collar)
   if (key.includes('pipe') && !key.includes('fitting')) {

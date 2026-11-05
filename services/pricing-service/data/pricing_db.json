@@ -1,76 +1,64 @@
 {
   "prices": {
-    "prd_pvc_4in": {
-      "id": "prc_1",
-      "productId": "prd_pvc_4in",
-      "price": null,
-      "previousPrice": null,
-      "currency": "KES",
-      "unit": "per 6 m length",
-      "effectiveDate": "2026-10-30T06:11:51.832Z",
-      "updatedBy": "System Bootstrap",
-      "reason": "Initial setup pending business owner price confirmation",
-      "updatedAt": "2026-10-30T06:11:51.832Z"
-    },
-    "prd_pipe_fittings_ast": {
-      "id": "prc_2",
-      "productId": "prd_pipe_fittings_ast",
-      "price": null,
-      "previousPrice": null,
-      "currency": "KES",
-      "unit": "per piece",
-      "effectiveDate": "2026-10-30T06:11:51.832Z",
-      "updatedBy": "System Bootstrap",
-      "reason": "Initial setup pending business owner price confirmation",
-      "updatedAt": "2026-10-30T06:11:51.832Z"
-    },
-    "prd_bib_cock_tap": {
-      "id": "prc_3",
-      "productId": "prd_bib_cock_tap",
+    "prd_synnova_urinal": {
+      "id": "prc_synnova_urinal",
+      "productId": "prd_synnova_urinal",
       "price": null,
       "previousPrice": null,
       "currency": "KES",
       "unit": "each",
-      "effectiveDate": "2026-10-30T06:11:51.832Z",
-      "updatedBy": "System Bootstrap",
-      "reason": "Initial setup pending business owner price confirmation",
-      "updatedAt": "2026-10-30T06:11:51.832Z"
+      "effectiveDate": "2026-11-05T00:00:00.000Z",
+      "updatedBy": "Store Manager",
+      "reason": "Price on Inquiry",
+      "updatedAt": "2026-11-05T00:00:00.000Z"
     },
-    "prd_brass_ball_valve": {
-      "id": "prc_4",
-      "productId": "prd_brass_ball_valve",
+    "prd_orient_urinal": {
+      "id": "prc_orient_urinal",
+      "productId": "prd_orient_urinal",
       "price": null,
       "previousPrice": null,
       "currency": "KES",
       "unit": "each",
-      "effectiveDate": "2026-10-30T06:11:51.832Z",
-      "updatedBy": "System Bootstrap",
-      "reason": "Initial setup pending business owner price confirmation",
-      "updatedAt": "2026-10-30T06:11:51.832Z"
+      "effectiveDate": "2026-11-05T00:00:00.000Z",
+      "updatedBy": "Store Manager",
+      "reason": "Price on Inquiry",
+      "updatedAt": "2026-11-05T00:00:00.000Z"
     },
-    "prd_water_tank_1000l": {
-      "id": "prc_5",
-      "productId": "prd_water_tank_1000l",
-      "price": null,
+    "prd_lirlee_basin_tap": {
+      "id": "prc_lirlee_basin_tap",
+      "productId": "prd_lirlee_basin_tap",
+      "price": 1100,
       "previousPrice": null,
       "currency": "KES",
       "unit": "each",
-      "effectiveDate": "2026-10-30T06:11:51.832Z",
-      "updatedBy": "System Bootstrap",
-      "reason": "Initial setup pending business owner price confirmation",
-      "updatedAt": "2026-10-30T06:11:51.832Z"
+      "effectiveDate": "2026-11-05T00:00:00.000Z",
+      "updatedBy": "Store Manager",
+      "reason": "Store catalogue price",
+      "updatedAt": "2026-11-05T00:00:00.000Z"
     },
-    "prd_hardware_accessories": {
-      "id": "prc_6",
-      "productId": "prd_hardware_accessories",
-      "price": null,
+    "prd_lirlee_chrome_shattaf": {
+      "id": "prc_lirlee_chrome_shattaf",
+      "productId": "prd_lirlee_chrome_shattaf",
+      "price": 950,
       "previousPrice": null,
       "currency": "KES",
-      "unit": "per item",
-      "effectiveDate": "2026-10-30T06:11:51.832Z",
-      "updatedBy": "System Bootstrap",
-      "reason": "Initial setup pending business owner price confirmation",
-      "updatedAt": "2026-10-30T06:11:51.832Z"
+      "unit": "complete set",
+      "effectiveDate": "2026-11-05T00:00:00.000Z",
+      "updatedBy": "Store Manager",
+      "reason": "Store catalogue price",
+      "updatedAt": "2026-11-05T00:00:00.000Z"
+    },
+    "prd_lirlee_black_shattaf": {
+      "id": "prc_lirlee_black_shattaf",
+      "productId": "prd_lirlee_black_shattaf",
+      "price": 850,
+      "previousPrice": null,
+      "currency": "KES",
+      "unit": "complete set",
+      "effectiveDate": "2026-11-05T00:00:00.000Z",
+      "updatedBy": "Store Manager",
+      "reason": "Store catalogue price",
+      "updatedAt": "2026-11-05T00:00:00.000Z"
     }
   },
   "history": []

@@ -6,7 +6,7 @@ import Footer from '../../components/Footer';
 import CategoryStrip from '../../components/CategoryStrip';
 import ProductDetailModal from '../../components/ProductDetailModal';
 import { Search, Filter, RefreshCw, MessageCircle, Tag } from 'lucide-react';
-import { CatalogProductItem, Category } from '@michaforge/shared-contracts';
+import { CatalogProductItem, Category, DEFAULT_CATALOG_ITEMS, DEFAULT_CATEGORIES } from '@michaforge/shared-contracts';
 import { generateWhatsAppLink } from '@michaforge/shared-validation';
 
 export default function ProductsPage() {
@@ -44,21 +44,50 @@ export default function ProductsPage() {
 
       const res = await fetch(url);
       const json = await res.json();
-      if (res.ok && json.success) {
-        let items: CatalogProductItem[] = json.data;
-        if (sortBy === 'name') {
-          items.sort((a, b) => a.name.localeCompare(b.name));
-        } else if (sortBy === 'price-asc') {
-          items.sort((a, b) => (a.price || 999999) - (b.price || 999999));
-        } else if (sortBy === 'price-desc') {
-          items.sort((a, b) => (b.price || 0) - (a.price || 0));
-        }
-        setProducts(items);
+      let items: CatalogProductItem[] = [];
+
+      if (res.ok && json.success && Array.isArray(json.data) && json.data.length > 0) {
+        items = json.data;
       } else {
-        setError(json.error?.message || 'Failed to load products');
+        // Fall back to genuine store inventory if remote database is unseeded
+        items = DEFAULT_CATALOG_ITEMS.slice();
+        if (selectedCategory) {
+          items = items.filter((p) => p.categoryId === selectedCategory);
+        }
+        if (searchQuery.trim()) {
+          const q = searchQuery.toLowerCase();
+          items = items.filter(
+            (p) =>
+              p.name.toLowerCase().includes(q) ||
+              p.sku.toLowerCase().includes(q) ||
+              p.description.toLowerCase().includes(q)
+          );
+        }
       }
+
+      if (sortBy === 'name') {
+        items.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (sortBy === 'price-asc') {
+        items.sort((a, b) => (a.price || 999999) - (b.price || 999999));
+      } else if (sortBy === 'price-desc') {
+        items.sort((a, b) => (b.price || 0) - (a.price || 0));
+      }
+      setProducts(items);
     } catch (err: any) {
-      setError('Could not connect to catalogue service.');
+      let items = DEFAULT_CATALOG_ITEMS.slice();
+      if (selectedCategory) {
+        items = items.filter((p) => p.categoryId === selectedCategory);
+      }
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase();
+        items = items.filter(
+          (p) =>
+            p.name.toLowerCase().includes(q) ||
+            p.sku.toLowerCase().includes(q) ||
+            p.description.toLowerCase().includes(q)
+        );
+      }
+      setProducts(items);
     } finally {
       setLoading(false);
     }
@@ -68,9 +97,15 @@ export default function ProductsPage() {
     fetch('/api/v1/categories')
       .then((r) => r.json())
       .then((json) => {
-        if (json.success && json.data) setCategories(json.data);
+        if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+          setCategories(json.data);
+        } else {
+          setCategories(DEFAULT_CATEGORIES);
+        }
       })
-      .catch(() => {});
+      .catch(() => {
+        setCategories(DEFAULT_CATEGORIES);
+      });
   }, []);
 
   useEffect(() => {
