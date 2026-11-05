@@ -451,7 +451,7 @@ async function handleApiRequest(
 
     // 6. Media
     if (routePath === '/media/library' && method === 'GET') {
-      const list = await supabaseMediaRepo.listAssets({
+      const list = await supabaseMediaRepo.listMediaAssets({
         category: searchParams.get('category') || undefined,
         search: searchParams.get('search') || undefined,
       });
@@ -508,14 +508,14 @@ async function handleApiRequest(
         uploadedBy,
         createdAt: new Date().toISOString(),
       };
-      const created = await supabaseMediaRepo.createAsset(newAsset);
+      const created = await supabaseMediaRepo.createMediaAsset(newAsset);
       return NextResponse.json({ success: true, data: created }, { status: 201 });
     }
 
     if (segments[0] === 'media' && segments[1] && segments.length === 2) {
       if (method === 'PATCH') {
         const body = await safeJsonBody(req);
-        const updated = await supabaseMediaRepo.updateAsset(segments[1], {
+        const updated = await supabaseMediaRepo.updateMediaAsset(segments[1], {
           altText: body.altText,
           category: body.category,
         });
@@ -528,7 +528,7 @@ async function handleApiRequest(
         return NextResponse.json({ success: true, data: updated });
       }
       if (method === 'DELETE') {
-        const removed = await supabaseMediaRepo.deleteAsset(segments[1]);
+        const removed = await supabaseMediaRepo.deleteMediaAsset(segments[1]);
         if (!removed) {
           return NextResponse.json(
             { success: false, error: { code: 'NOT_FOUND', message: 'Asset not found' } },
@@ -647,15 +647,12 @@ async function handleApiRequest(
 
     // 8. Content & Branding Settings
     if (routePath === '/settings/public' && method === 'GET') {
-      const brand = await supabaseContentRepo.getBrandSettings();
+      const { brand } = await supabaseContentRepo.getSiteContent();
       return NextResponse.json({ success: true, data: brand });
     }
 
     if (routePath === '/content/homepage' && method === 'GET') {
-      const [brand, about] = await Promise.all([
-        supabaseContentRepo.getBrandSettings(),
-        supabaseContentRepo.getAboutContent(),
-      ]);
+      const { brand, aboutContent: about } = await supabaseContentRepo.getSiteContent();
       return NextResponse.json({ success: true, data: { brand, about } });
     }
 
@@ -667,7 +664,7 @@ async function handleApiRequest(
       if (updates.whatsappNumber) {
         updates.whatsappNumber = normalizeKenyanPhoneNumber(updates.whatsappNumber);
       }
-      const updatedBrand = await supabaseContentRepo.updateBrandSettings(updates);
+      const updatedBrand = await supabaseContentRepo.updateBranding(updates);
       return NextResponse.json({ success: true, data: updatedBrand });
     }
 
@@ -680,12 +677,10 @@ async function handleApiRequest(
       if (heroDescription !== undefined) brandUpdates.heroDescription = heroDescription;
       if (announcementText !== undefined) brandUpdates.announcementText = announcementText;
 
-      const [updatedBrand, updatedAbout] = await Promise.all([
-        Object.keys(brandUpdates).length > 0
-          ? supabaseContentRepo.updateBrandSettings(brandUpdates)
-          : supabaseContentRepo.getBrandSettings(),
-        about ? supabaseContentRepo.updateAboutContent(about) : supabaseContentRepo.getAboutContent(),
-      ]);
+      const { brand: updatedBrand, about: updatedAbout } = await supabaseContentRepo.updateHomepageContent({
+        ...brandUpdates,
+        about,
+      });
       return NextResponse.json({ success: true, data: { brand: updatedBrand, about: updatedAbout } });
     }
 
@@ -792,7 +787,7 @@ async function handleApiRequest(
     if (routePath === '/auth/logout' && method === 'POST') {
       const body = await safeJsonBody(req);
       if (body.refreshToken) {
-        await supabaseAuthRepo.deleteRefreshToken(body.refreshToken);
+        await supabaseAuthRepo.removeRefreshToken(body.refreshToken);
       }
       return NextResponse.json({ success: true, data: { message: 'Logged out successfully' } });
     }
