@@ -664,6 +664,12 @@ async function handleApiRequest(
       if (updates.whatsappNumber) {
         updates.whatsappNumber = normalizeKenyanPhoneNumber(updates.whatsappNumber);
       }
+      if (updates.secondaryPhone) {
+        updates.secondaryPhoneFormatted = normalizeKenyanPhoneNumber(updates.secondaryPhone);
+      }
+      if (updates.secondaryWhatsappNumber) {
+        updates.secondaryWhatsappNumber = normalizeKenyanPhoneNumber(updates.secondaryWhatsappNumber);
+      }
       const updatedBrand = await supabaseContentRepo.updateBranding(updates);
       return NextResponse.json({ success: true, data: updatedBrand });
     }

@@ -18,6 +18,21 @@ export default function ProductsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<CatalogProductItem | null>(null);
+  const [brand, setBrand] = useState<any>(null);
+
+  useEffect(() => {
+    fetch('/api/v1/settings/public')
+      .then((r) => r.json())
+      .then((json) => {
+        if (json.success && json.data) setBrand(json.data);
+      })
+      .catch(() => {});
+  }, []);
+
+  const phone = brand?.primaryPhone || '0714843208';
+  const whatsapp = brand?.whatsappNumber || '+254714843208';
+  const secondaryPhone = brand?.secondaryPhone || '0721435772';
+  const secondaryWhatsapp = brand?.secondaryWhatsappNumber || '+254721435772';
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -69,7 +84,13 @@ export default function ProductsPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      <Navbar activePage="products" />
+      <Navbar
+        businessPhone={phone}
+        whatsappNumber={whatsapp}
+        secondaryPhone={secondaryPhone}
+        secondaryWhatsappNumber={secondaryWhatsapp}
+        activePage="products"
+      />
 
       {/* Page Title & Search Header */}
       <div className="bg-[#073253] text-white py-8 px-4">
@@ -283,12 +304,21 @@ export default function ProductsPage() {
         )}
       </main>
 
-      <Footer />
+      <Footer
+        businessPhone={phone}
+        whatsappNumber={whatsapp}
+        secondaryPhone={secondaryPhone}
+        secondaryWhatsappNumber={secondaryWhatsapp}
+      />
 
       <ProductDetailModal
         product={selectedProduct}
         isOpen={!!selectedProduct}
         onClose={() => setSelectedProduct(null)}
+        businessPhone={phone}
+        whatsappNumber={whatsapp}
+        secondaryPhone={secondaryPhone}
+        secondaryWhatsappNumber={secondaryWhatsapp}
       />
     </div>
   );

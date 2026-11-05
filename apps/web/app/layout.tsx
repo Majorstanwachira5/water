@@ -4,7 +4,7 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'Michaforge Enterprises | Quality Plumbing & Hardware Materials Kenya',
   description:
-    'Dealers in all plumbing materials: pipes, fittings, taps, valves, water tanks and hardware essentials in Kenya. Call or WhatsApp 0714843208.',
+    'Dealers in all plumbing materials: pipes, fittings, taps, valves, water tanks and hardware essentials in Kenya. Call or WhatsApp 0714843208 / 0721435772.',
   keywords: [
     'plumbing materials Kenya',
     'PVC pipes',

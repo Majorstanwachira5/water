@@ -10,6 +10,9 @@ interface ProductDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
   whatsappNumber?: string;
+  businessPhone?: string;
+  secondaryPhone?: string;
+  secondaryWhatsappNumber?: string;
 }
 
 export default function ProductDetailModal({
@@ -17,6 +20,9 @@ export default function ProductDetailModal({
   isOpen,
   onClose,
   whatsappNumber = '+254714843208',
+  businessPhone = '0714843208',
+  secondaryPhone = '0721435772',
+  secondaryWhatsappNumber = '+254721435772',
 }: ProductDetailModalProps) {
   if (!isOpen || !product) return null;
 
@@ -25,7 +31,8 @@ export default function ProductDetailModal({
       ? product.images.find((img) => img.isPrimary)?.url || product.images[0].url
       : '/images/products/product_pvc_pipes.png';
 
-  const waUrl = generateWhatsAppLink(whatsappNumber, product.name, product.sku);
+  const primaryWaUrl = generateWhatsAppLink(whatsappNumber, product.name, product.sku);
+  const secondaryWaUrl = generateWhatsAppLink(secondaryWhatsappNumber, product.name, product.sku);
   const isPriceConfigured =
     product.price !== null && product.price !== undefined && product.price > 0;
 
@@ -107,25 +114,50 @@ export default function ProductDetailModal({
               )}
             </div>
 
-            {/* Action Buttons */}
+            {/* Action Buttons: WhatsApp & Direct Call (Both Lines Supported) */}
             <div className="space-y-2 pt-2">
-              <a
-                href={waUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center space-x-2 bg-[#0BAA58] hover:bg-[#09934B] text-white font-bold py-3 px-4 rounded-xl shadow-md transition-all text-sm"
-              >
-                <MessageCircle className="w-5 h-5 fill-white" />
-                <span>Inquire on WhatsApp</span>
-              </a>
+              <span className="block text-[11px] font-bold text-gray-500 uppercase tracking-wider text-center">
+                Contact Our Desk
+              </span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <a
+                  href={primaryWaUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center space-x-2 bg-[#0BAA58] hover:bg-[#09934B] text-white font-bold py-2.5 px-3 rounded-xl shadow-xs transition-all text-xs"
+                >
+                  <MessageCircle className="w-4 h-4 fill-white" />
+                  <span>WhatsApp: {businessPhone}</span>
+                </a>
 
-              <a
-                href={`tel:+254714843208`}
-                className="w-full inline-flex items-center justify-center space-x-2 bg-[#073253] hover:bg-[#0B3556] text-white font-semibold py-2.5 px-4 rounded-xl transition-all text-xs"
-              >
-                <Phone className="w-4 h-4 text-[#FF850D]" />
-                <span>Call Directly: 0714843208</span>
-              </a>
+                <a
+                  href={secondaryWaUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center space-x-2 bg-[#0BAA58] hover:bg-[#09934B] text-white font-bold py-2.5 px-3 rounded-xl shadow-xs transition-all text-xs"
+                >
+                  <MessageCircle className="w-4 h-4 fill-white" />
+                  <span>WhatsApp: {secondaryPhone}</span>
+                </a>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                <a
+                  href={`tel:${whatsappNumber}`}
+                  className="inline-flex items-center justify-center space-x-1.5 bg-[#073253] hover:bg-[#0B3556] text-white font-semibold py-2 px-3 rounded-xl transition-all text-xs"
+                >
+                  <Phone className="w-3.5 h-3.5 text-[#FF850D]" />
+                  <span>Call: {businessPhone}</span>
+                </a>
+
+                <a
+                  href={`tel:${secondaryWhatsappNumber}`}
+                  className="inline-flex items-center justify-center space-x-1.5 bg-[#073253] hover:bg-[#0B3556] text-white font-semibold py-2 px-3 rounded-xl transition-all text-xs"
+                >
+                  <Phone className="w-3.5 h-3.5 text-[#FF850D]" />
+                  <span>Call: {secondaryPhone}</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>

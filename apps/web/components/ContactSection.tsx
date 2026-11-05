@@ -7,11 +7,15 @@ import { generateWhatsAppLink, isValidKenyanPhoneNumber } from '@michaforge/shar
 interface ContactSectionProps {
   businessPhone?: string;
   whatsappNumber?: string;
+  secondaryPhone?: string;
+  secondaryWhatsappNumber?: string;
 }
 
 export default function ContactSection({
   businessPhone = '0714843208',
   whatsappNumber = '+254714843208',
+  secondaryPhone = '0721435772',
+  secondaryWhatsappNumber = '+254721435772',
 }: ContactSectionProps) {
   const [formData, setFormData] = useState({
     customerName: '',
@@ -25,7 +29,19 @@ export default function ContactSection({
   const [loading, setLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
-  const waUrl = generateWhatsAppLink(whatsappNumber, undefined, undefined, 'Hello Michaforge Enterprises, I would like to make an enquiry regarding your plumbing materials.');
+  const primaryWaUrl = generateWhatsAppLink(
+    whatsappNumber,
+    undefined,
+    undefined,
+    'Hello Michaforge Enterprises, I would like to make an enquiry regarding your plumbing materials.'
+  );
+
+  const secondaryWaUrl = generateWhatsAppLink(
+    secondaryWhatsappNumber,
+    undefined,
+    undefined,
+    'Hello Michaforge Enterprises, I would like to make an enquiry regarding your plumbing materials.'
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,13 +81,13 @@ export default function ContactSection({
       } else {
         setStatusMessage({
           type: 'error',
-          text: data.error?.message || 'Failed to submit enquiry. Please call us directly on 0714843208.',
+          text: data.error?.message || `Failed to submit enquiry. Please call us directly on ${businessPhone} or ${secondaryPhone}.`,
         });
       }
     } catch (err: any) {
       setStatusMessage({
         type: 'error',
-        text: 'Network connection issue. Please contact us directly on WhatsApp or Call 0714843208.',
+        text: `Network connection issue. Please contact us directly on WhatsApp or Call ${businessPhone} / ${secondaryPhone}.`,
       });
     } finally {
       setLoading(false);
@@ -91,65 +107,132 @@ export default function ContactSection({
           </h2>
           <div className="w-16 h-1 bg-[#FF850D] mx-auto mt-2 rounded-full" />
           <p className="text-[#667585] text-sm mt-3">
-            Reach our plumbing materials supply desk via Call, SMS, WhatsApp or submit an online enquiry for instant pricing.
+            Reach our plumbing materials supply desk via Call, SMS, WhatsApp (Primary or Alternative line) or submit an online enquiry for instant pricing.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column: Direct Action Contact Cards */}
           <div className="lg:col-span-5 space-y-4">
-            {/* Phone Card */}
-            <a
-              href={`tel:+254714843208`}
-              className="flex items-center space-x-4 p-5 rounded-2xl bg-[#F5F7FA] border border-[#DFE5EB] hover:border-[#FF850D] hover:shadow-md transition-all group"
-            >
-              <div className="w-12 h-12 rounded-xl bg-[#073253] text-white flex items-center justify-center flex-shrink-0 group-hover:bg-[#FF850D] transition-colors">
-                <Phone className="w-6 h-6" />
+            {/* Direct Phone Numbers Header */}
+            <div className="bg-[#F5F7FA] border border-[#DFE5EB] rounded-2xl p-4 sm:p-5 space-y-3">
+              <div className="flex items-center space-x-2 text-[#073253]">
+                <Phone className="w-5 h-5 text-[#FF850D]" />
+                <span className="text-xs font-bold uppercase tracking-wider text-[#667585]">
+                  Direct Voice Call Lines
+                </span>
               </div>
-              <div>
-                <span className="text-xs font-semibold text-[#667585] uppercase tracking-wider">Direct Voice Call</span>
-                <h4 className="text-lg font-extrabold text-[#073253] group-hover:text-[#FF850D] transition-colors">
-                  0714843208
-                </h4>
-                <p className="text-xs text-gray-500 mt-0.5">Tap to dial immediately (+254 714 843 208)</p>
-              </div>
-            </a>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {/* Primary Phone */}
+                <a
+                  href={`tel:${whatsappNumber}`}
+                  className="flex flex-col p-3 rounded-xl bg-white border border-[#DFE5EB] hover:border-[#FF850D] hover:shadow-xs transition-all group"
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-blue-50 text-[#073253]">
+                      Primary Line
+                    </span>
+                    <Phone className="w-3.5 h-3.5 text-[#073253] group-hover:text-[#FF850D]" />
+                  </div>
+                  <span className="text-base font-extrabold text-[#073253] group-hover:text-[#FF850D]">
+                    {businessPhone}
+                  </span>
+                  <span className="text-[10px] text-gray-500 mt-0.5">Tap to call</span>
+                </a>
 
-            {/* WhatsApp Card */}
-            <a
-              href={waUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center space-x-4 p-5 rounded-2xl bg-[#F5F7FA] border border-[#DFE5EB] hover:border-[#0BAA58] hover:shadow-md transition-all group"
-            >
-              <div className="w-12 h-12 rounded-xl bg-[#0BAA58] text-white flex items-center justify-center flex-shrink-0">
-                <MessageCircle className="w-6 h-6 fill-white" />
+                {/* Alternative Phone */}
+                <a
+                  href={`tel:${secondaryWhatsappNumber}`}
+                  className="flex flex-col p-3 rounded-xl bg-white border border-[#DFE5EB] hover:border-[#FF850D] hover:shadow-xs transition-all group"
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-orange-50 text-[#FF850D]">
+                      Alternative Line
+                    </span>
+                    <Phone className="w-3.5 h-3.5 text-[#FF850D]" />
+                  </div>
+                  <span className="text-base font-extrabold text-[#073253] group-hover:text-[#FF850D]">
+                    {secondaryPhone}
+                  </span>
+                  <span className="text-[10px] text-gray-500 mt-0.5">Tap to call</span>
+                </a>
               </div>
-              <div>
-                <span className="text-xs font-semibold text-[#0BAA58] uppercase tracking-wider">WhatsApp Chat</span>
-                <h4 className="text-lg font-extrabold text-[#073253] group-hover:text-[#0BAA58] transition-colors">
-                  Chat on WhatsApp
-                </h4>
-                <p className="text-xs text-gray-500 mt-0.5">Instant quotes, specifications &amp; photos</p>
-              </div>
-            </a>
+            </div>
 
-            {/* SMS Card */}
-            <a
-              href={`sms:+254714843208?body=Hello%20Michaforge%20Enterprises%2C%20please%20send%20price%20quote`}
-              className="flex items-center space-x-4 p-5 rounded-2xl bg-[#F5F7FA] border border-[#DFE5EB] hover:border-[#073253] hover:shadow-md transition-all group"
-            >
-              <div className="w-12 h-12 rounded-xl bg-[#0B3556] text-white flex items-center justify-center flex-shrink-0">
-                <MessageSquare className="w-6 h-6" />
+            {/* WhatsApp Chat Channels */}
+            <div className="bg-[#F5F7FA] border border-[#DFE5EB] rounded-2xl p-4 sm:p-5 space-y-3">
+              <div className="flex items-center space-x-2 text-[#0BAA58]">
+                <MessageCircle className="w-5 h-5 fill-[#0BAA58] text-[#0BAA58]" />
+                <span className="text-xs font-bold uppercase tracking-wider text-[#0BAA58]">
+                  WhatsApp Support &amp; Enquiries
+                </span>
               </div>
-              <div>
-                <span className="text-xs font-semibold text-[#667585] uppercase tracking-wider">Send SMS</span>
-                <h4 className="text-lg font-extrabold text-[#073253]">
-                  0714843208
-                </h4>
-                <p className="text-xs text-gray-500 mt-0.5">Send text message quote request</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {/* Primary WhatsApp */}
+                <a
+                  href={primaryWaUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col p-3 rounded-xl bg-white border border-[#DFE5EB] hover:border-[#0BAA58] hover:shadow-xs transition-all group"
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-green-50 text-[#0BAA58]">
+                      WhatsApp 1 (Primary)
+                    </span>
+                    <MessageCircle className="w-3.5 h-3.5 text-[#0BAA58] fill-[#0BAA58]" />
+                  </div>
+                  <span className="text-sm font-extrabold text-[#073253] group-hover:text-[#0BAA58]">
+                    Chat {businessPhone}
+                  </span>
+                  <span className="text-[10px] text-gray-500 mt-0.5">Instant quotes &amp; orders</span>
+                </a>
+
+                {/* Alternative WhatsApp */}
+                <a
+                  href={secondaryWaUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col p-3 rounded-xl bg-white border border-[#DFE5EB] hover:border-[#0BAA58] hover:shadow-xs transition-all group"
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-green-50 text-[#0BAA58]">
+                      WhatsApp 2 (Alternative)
+                    </span>
+                    <MessageCircle className="w-3.5 h-3.5 text-[#0BAA58] fill-[#0BAA58]" />
+                  </div>
+                  <span className="text-sm font-extrabold text-[#073253] group-hover:text-[#0BAA58]">
+                    Chat {secondaryPhone}
+                  </span>
+                  <span className="text-[10px] text-gray-500 mt-0.5">Fast customer service</span>
+                </a>
               </div>
-            </a>
+            </div>
+
+            {/* SMS Cards */}
+            <div className="bg-[#F5F7FA] border border-[#DFE5EB] rounded-2xl p-4 sm:p-5 space-y-3">
+              <div className="flex items-center space-x-2 text-[#0B3556]">
+                <MessageSquare className="w-5 h-5 text-[#0B3556]" />
+                <span className="text-xs font-bold uppercase tracking-wider text-[#667585]">
+                  Send SMS Inquiry
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <a
+                  href={`sms:${whatsappNumber}?body=Hello%20Michaforge%20Enterprises%2C%20please%20send%20price%20quote`}
+                  className="p-3 rounded-xl bg-white border border-[#DFE5EB] hover:border-[#073253] transition-colors"
+                >
+                  <span className="text-[10px] font-bold text-gray-500 block">SMS Primary</span>
+                  <span className="text-sm font-bold text-[#073253]">{businessPhone}</span>
+                </a>
+                <a
+                  href={`sms:${secondaryWhatsappNumber}?body=Hello%20Michaforge%20Enterprises%2C%20please%20send%20price%20quote`}
+                  className="p-3 rounded-xl bg-white border border-[#DFE5EB] hover:border-[#073253] transition-colors"
+                >
+                  <span className="text-[10px] font-bold text-gray-500 block">SMS Alternative</span>
+                  <span className="text-sm font-bold text-[#073253]">{secondaryPhone}</span>
+                </a>
+              </div>
+            </div>
 
             {/* Business Details Box */}
             <div className="p-5 rounded-2xl bg-[#073253] text-white space-y-3">

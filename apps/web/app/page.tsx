@@ -169,11 +169,19 @@ export default function HomePage() {
 
   const phone = brand?.primaryPhone || '0714843208';
   const whatsapp = brand?.whatsappNumber || '+254714843208';
+  const secondaryPhone = brand?.secondaryPhone || '0721435772';
+  const secondaryWhatsapp = brand?.secondaryWhatsappNumber || '+254721435772';
 
   return (
     <div className="flex flex-col min-h-screen">
       {/* 1. Header with Announcement Bar & Nav */}
-      <Navbar businessPhone={phone} whatsappNumber={whatsapp} activePage="home" />
+      <Navbar
+        businessPhone={phone}
+        whatsappNumber={whatsapp}
+        secondaryPhone={secondaryPhone}
+        secondaryWhatsappNumber={secondaryWhatsapp}
+        activePage="home"
+      />
 
       {/* 2. Hero Section */}
       <main className="flex-grow">
@@ -199,11 +207,21 @@ export default function HomePage() {
         <AboutSection />
 
         {/* 6. Contact Section with Call, SMS, WhatsApp & Enquiry Form */}
-        <ContactSection businessPhone={phone} whatsappNumber={whatsapp} />
+        <ContactSection
+          businessPhone={phone}
+          whatsappNumber={whatsapp}
+          secondaryPhone={secondaryPhone}
+          secondaryWhatsappNumber={secondaryWhatsapp}
+        />
       </main>
 
       {/* 7. Compact Deep Navy Footer with M-PESA / VISA / Mastercard Badges */}
-      <Footer businessPhone={phone} whatsappNumber={whatsapp} />
+      <Footer
+        businessPhone={phone}
+        whatsappNumber={whatsapp}
+        secondaryPhone={secondaryPhone}
+        secondaryWhatsappNumber={secondaryWhatsapp}
+      />
 
       {/* Product Detail Modal */}
       <ProductDetailModal
@@ -211,6 +229,9 @@ export default function HomePage() {
         isOpen={!!selectedProduct}
         onClose={() => setSelectedProduct(null)}
         whatsappNumber={whatsapp}
+        businessPhone={phone}
+        secondaryPhone={secondaryPhone}
+        secondaryWhatsappNumber={secondaryWhatsapp}
       />
     </div>
   );

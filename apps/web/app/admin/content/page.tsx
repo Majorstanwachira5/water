@@ -97,6 +97,8 @@ export default function AdminContentBrandingPage() {
     tagline: '',
     primaryPhone: '',
     whatsappNumber: '',
+    secondaryPhone: '',
+    secondaryWhatsappNumber: '',
     email: '',
     address: '',
     announcementText: '',
@@ -121,6 +123,8 @@ export default function AdminContentBrandingPage() {
             tagline: b.tagline || '',
             primaryPhone: b.primaryPhone || '',
             whatsappNumber: b.whatsappNumber || '',
+            secondaryPhone: b.secondaryPhone || '0721435772',
+            secondaryWhatsappNumber: b.secondaryWhatsappNumber || '+254721435772',
             email: b.email || '',
             address: b.address || '',
             announcementText: b.announcementText || '',
@@ -176,6 +180,8 @@ export default function AdminContentBrandingPage() {
       tagline: brand.tagline || '',
       primaryPhone: brand.primaryPhone || '',
       whatsappNumber: brand.whatsappNumber || '',
+      secondaryPhone: brand.secondaryPhone || '0721435772',
+      secondaryWhatsappNumber: brand.secondaryWhatsappNumber || '+254721435772',
       email: brand.email || '',
       address: brand.address || '',
       announcementText: brand.announcementText || '',
@@ -207,6 +213,8 @@ export default function AdminContentBrandingPage() {
           tagline: form.tagline,
           primaryPhone: form.primaryPhone,
           whatsappNumber: form.whatsappNumber,
+          secondaryPhone: form.secondaryPhone,
+          secondaryWhatsappNumber: form.secondaryWhatsappNumber,
           email: form.email,
           address: form.address,
           announcementText: form.announcementText,
@@ -369,7 +377,7 @@ export default function AdminContentBrandingPage() {
             />
           </Field>
           <Field
-            label="WhatsApp Number"
+            label="WhatsApp Number (Primary)"
             hint="E.164 format (+254…). This is used for all WhatsApp click-to-chat links."
           >
             <input
@@ -378,6 +386,30 @@ export default function AdminContentBrandingPage() {
               value={form.whatsappNumber}
               onChange={(e) => handleChange('whatsappNumber', e.target.value)}
               placeholder="+254714843208"
+            />
+          </Field>
+          <Field
+            label="Alternative Phone Line"
+            hint="Secondary contact number — used as alternative for calls and quotations."
+          >
+            <input
+              id="field-secondary-phone"
+              className={INPUT_CLS}
+              value={form.secondaryPhone}
+              onChange={(e) => handleChange('secondaryPhone', e.target.value)}
+              placeholder="0721435772"
+            />
+          </Field>
+          <Field
+            label="Alternative WhatsApp Number"
+            hint="E.164 format (+254…). Used for alternative WhatsApp communications."
+          >
+            <input
+              id="field-secondary-whatsapp"
+              className={INPUT_CLS}
+              value={form.secondaryWhatsappNumber}
+              onChange={(e) => handleChange('secondaryWhatsappNumber', e.target.value)}
+              placeholder="+254721435772"
             />
           </Field>
           <Field label="Business Email" hint="Optional — shown in the contact section.">

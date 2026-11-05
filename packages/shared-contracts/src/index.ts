@@ -226,6 +226,9 @@ export interface BrandSettings {
   primaryPhone: string; // e.g. "0714843208"
   primaryPhoneFormatted: string; // e.g. "+254714843208"
   whatsappNumber: string; // "+254714843208"
+  secondaryPhone?: string; // e.g. "0721435772"
+  secondaryPhoneFormatted?: string; // e.g. "+254721435772"
+  secondaryWhatsappNumber?: string; // e.g. "+254721435772"
   smsNumber: string; // "+254714843208"
   email?: string;
   address?: string;

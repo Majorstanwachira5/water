@@ -12,17 +12,28 @@ import {
 interface NavbarProps {
   businessPhone?: string;
   whatsappNumber?: string;
+  secondaryPhone?: string;
+  secondaryWhatsappNumber?: string;
   activePage?: 'home' | 'products' | 'about' | 'contact';
 }
 
 export default function Navbar({
   businessPhone = '0714843208',
   whatsappNumber = '+254714843208',
+  secondaryPhone = '0721435772',
+  secondaryWhatsappNumber = '+254721435772',
   activePage = 'home',
 }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const cleanPhone = whatsappNumber.replace(/[^0-9]/g, '');
-  const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(
+  const [waDropdownOpen, setWaDropdownOpen] = useState(false);
+
+  const cleanPrimaryWa = whatsappNumber.replace(/[^0-9]/g, '');
+  const cleanSecondaryWa = secondaryWhatsappNumber.replace(/[^0-9]/g, '');
+
+  const primaryWaUrl = `https://wa.me/${cleanPrimaryWa}?text=${encodeURIComponent(
+    'Hello Michaforge Enterprises, I would like to enquire about your plumbing and hardware materials.'
+  )}`;
+  const secondaryWaUrl = `https://wa.me/${cleanSecondaryWa}?text=${encodeURIComponent(
     'Hello Michaforge Enterprises, I would like to enquire about your plumbing and hardware materials.'
   )}`;
 
@@ -35,11 +46,15 @@ export default function Navbar({
             “Your Trusted Partner for Quality Plumbing &amp; Hardware Solutions”
           </p>
 
-          {/* Quick Phone Call Link on Desktop */}
-          <div className="hidden lg:flex items-center space-x-1.5 text-xs absolute right-0 text-gray-200 hover:text-white transition-colors">
+          {/* Quick Phone Call Links on Desktop (Primary + Alternative) */}
+          <div className="hidden lg:flex items-center space-x-1.5 text-xs absolute right-0 text-gray-200">
             <Phone className="w-3 h-3 text-[#FF850D]" />
-            <a href="tel:+254714843208" className="font-semibold">
-              +254 714 843 208
+            <a href={`tel:${whatsappNumber}`} className="font-semibold hover:text-white transition-colors">
+              {businessPhone}
+            </a>
+            <span className="text-gray-400">/</span>
+            <a href={`tel:${secondaryWhatsappNumber}`} className="font-semibold hover:text-[#FF850D] transition-colors">
+              {secondaryPhone}
             </a>
           </div>
         </div>
@@ -89,20 +104,55 @@ export default function Navbar({
         </a>
 
         {/* Right: WhatsApp CTA & Mobile Menu Toggle */}
-        <div className="flex items-center space-x-1.5 sm:space-x-2 flex-shrink-0">
-          <a
-            href={waUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center space-x-1.5 bg-[#0BAA58] hover:bg-[#09934B] text-white px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-bold shadow-xs hover:shadow transition-all"
+        <div className="flex items-center space-x-1.5 sm:space-x-2 flex-shrink-0 relative">
+          <div
+            className="relative"
+            onMouseEnter={() => setWaDropdownOpen(true)}
+            onMouseLeave={() => setWaDropdownOpen(false)}
           >
-            <MessageCircle className="w-3.5 h-3.5 fill-white flex-shrink-0" />
-            <span className="hidden md:inline">Chat on WhatsApp</span>
-            <span className="md:hidden">WhatsApp</span>
-          </a>
+            <a
+              href={primaryWaUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex items-center space-x-1.5 bg-[#0BAA58] hover:bg-[#09934B] text-white px-3 sm:px-3.5 py-1.5 rounded-full text-xs font-bold shadow-xs hover:shadow transition-all"
+            >
+              <MessageCircle className="w-3.5 h-3.5 fill-white flex-shrink-0" />
+              <span className="hidden md:inline">Chat on WhatsApp</span>
+              <span className="md:hidden">WhatsApp</span>
+            </a>
+
+            {/* Hover / click dropdown to pick Primary or Alternative WhatsApp */}
+            {waDropdownOpen && (
+              <div className="hidden sm:block absolute right-0 top-full pt-1 z-50 w-56">
+                <div className="bg-white rounded-xl shadow-xl border border-gray-100 p-2 text-xs space-y-1">
+                  <span className="block text-[10px] font-extrabold uppercase tracking-wider text-gray-400 px-2 py-0.5">
+                    Select WhatsApp Line:
+                  </span>
+                  <a
+                    href={primaryWaUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-2 rounded-lg hover:bg-green-50 text-[#073253] font-bold transition-colors"
+                  >
+                    <span>Primary Line</span>
+                    <span className="text-[#0BAA58]">{businessPhone}</span>
+                  </a>
+                  <a
+                    href={secondaryWaUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-2 rounded-lg hover:bg-green-50 text-[#073253] font-bold transition-colors"
+                  >
+                    <span>Alternative Line</span>
+                    <span className="text-[#0BAA58]">{secondaryPhone}</span>
+                  </a>
+                </div>
+              </div>
+            )}
+          </div>
 
           <a
-            href={waUrl}
+            href={primaryWaUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="sm:hidden p-1.5 rounded-full bg-[#0BAA58] text-white shadow-xs"
@@ -253,6 +303,49 @@ export default function Navbar({
           >
             Staff Portal Login
           </a>
+
+          {/* Quick Dual Contact Options in Mobile Menu */}
+          <div className="pt-3 border-t border-gray-100 space-y-2">
+            <span className="block text-[10px] font-extrabold uppercase tracking-wider text-gray-400 px-3.5">
+              Direct Contact Lines
+            </span>
+            <div className="grid grid-cols-2 gap-2 px-3.5">
+              <a
+                href={primaryWaUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center space-x-1.5 bg-[#0BAA58] text-white py-2 px-2 rounded-lg text-xs font-bold shadow-xs"
+              >
+                <MessageCircle className="w-3.5 h-3.5 fill-white" />
+                <span>WA {businessPhone}</span>
+              </a>
+              <a
+                href={secondaryWaUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center space-x-1.5 bg-[#0BAA58] text-white py-2 px-2 rounded-lg text-xs font-bold shadow-xs"
+              >
+                <MessageCircle className="w-3.5 h-3.5 fill-white" />
+                <span>WA {secondaryPhone}</span>
+              </a>
+            </div>
+            <div className="grid grid-cols-2 gap-2 px-3.5">
+              <a
+                href={`tel:${whatsappNumber}`}
+                className="flex items-center justify-center space-x-1.5 bg-[#073253] text-white py-2 px-2 rounded-lg text-xs font-bold"
+              >
+                <Phone className="w-3.5 h-3.5 text-[#FF850D]" />
+                <span>Call {businessPhone}</span>
+              </a>
+              <a
+                href={`tel:${secondaryWhatsappNumber}`}
+                className="flex items-center justify-center space-x-1.5 bg-[#073253] text-white py-2 px-2 rounded-lg text-xs font-bold"
+              >
+                <Phone className="w-3.5 h-3.5 text-[#FF850D]" />
+                <span>Call {secondaryPhone}</span>
+              </a>
+            </div>
+          </div>
         </div>
       )}
     </header>

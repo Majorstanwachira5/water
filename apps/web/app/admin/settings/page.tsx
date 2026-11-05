@@ -108,9 +108,9 @@ export default function AdminSettingsPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
             <div>
-              <label className="block font-bold text-gray-700 mb-1">Display Phone Number</label>
+              <label className="block font-bold text-gray-700 mb-1">Primary Phone Number</label>
               <input
                 type="text"
                 value={brand.primaryPhone}
@@ -120,7 +120,7 @@ export default function AdminSettingsPage() {
               />
             </div>
             <div>
-              <label className="block font-bold text-gray-700 mb-1">WhatsApp Number (E.164)</label>
+              <label className="block font-bold text-gray-700 mb-1">Primary WhatsApp (E.164)</label>
               <input
                 type="text"
                 value={brand.whatsappNumber}
@@ -130,12 +130,23 @@ export default function AdminSettingsPage() {
               />
             </div>
             <div>
-              <label className="block font-bold text-gray-700 mb-1">Currency</label>
+              <label className="block font-bold text-gray-700 mb-1">Alternative Phone Number</label>
               <input
                 type="text"
-                value={brand.currency}
-                disabled
-                className="w-full px-3 py-2 rounded-xl border border-gray-200 bg-gray-50 text-gray-500 font-bold"
+                value={brand.secondaryPhone || '0721435772'}
+                onChange={(e) => setBrand({ ...brand, secondaryPhone: e.target.value })}
+                placeholder="0721435772"
+                className="w-full px-3 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FF850D]"
+              />
+            </div>
+            <div>
+              <label className="block font-bold text-gray-700 mb-1">Alternative WhatsApp (E.164)</label>
+              <input
+                type="text"
+                value={brand.secondaryWhatsappNumber || '+254721435772'}
+                onChange={(e) => setBrand({ ...brand, secondaryWhatsappNumber: e.target.value })}
+                placeholder="+254721435772"
+                className="w-full px-3 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FF850D]"
               />
             </div>
           </div>

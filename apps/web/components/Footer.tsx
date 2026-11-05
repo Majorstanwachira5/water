@@ -7,14 +7,25 @@ import { generateWhatsAppLink } from '@michaforge/shared-validation';
 interface FooterProps {
   businessPhone?: string;
   whatsappNumber?: string;
+  secondaryPhone?: string;
+  secondaryWhatsappNumber?: string;
 }
 
 export default function Footer({
   businessPhone = '0714843208',
   whatsappNumber = '+254714843208',
+  secondaryPhone = '0721435772',
+  secondaryWhatsappNumber = '+254721435772',
 }: FooterProps) {
-  const waUrl = generateWhatsAppLink(
+  const primaryWaUrl = generateWhatsAppLink(
     whatsappNumber,
+    undefined,
+    undefined,
+    'Hello Michaforge Enterprises, I would like to enquire about your plumbing materials.'
+  );
+
+  const secondaryWaUrl = generateWhatsAppLink(
+    secondaryWhatsappNumber,
     undefined,
     undefined,
     'Hello Michaforge Enterprises, I would like to enquire about your plumbing materials.'
@@ -83,26 +94,48 @@ export default function Footer({
             <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-2.5">
               Contact Us
             </h4>
-            <div className="space-y-1.5 text-xs text-gray-300">
+            <div className="space-y-2 text-xs text-gray-300">
+              {/* Primary Phone */}
               <a
-                href={`tel:+254714843208`}
+                href={`tel:${whatsappNumber}`}
                 className="flex items-center space-x-2 hover:text-[#FF850D] transition-colors"
               >
                 <Phone className="w-3.5 h-3.5 text-[#FF850D] flex-shrink-0" />
-                <span>+254 714 843 208</span>
+                <span>Call: {businessPhone} (Primary)</span>
               </a>
 
+              {/* Alternative Phone */}
               <a
-                href={waUrl}
+                href={`tel:${secondaryWhatsappNumber}`}
+                className="flex items-center space-x-2 hover:text-[#FF850D] transition-colors"
+              >
+                <Phone className="w-3.5 h-3.5 text-[#FF850D] flex-shrink-0" />
+                <span>Call: {secondaryPhone} (Alternative)</span>
+              </a>
+
+              {/* Primary WhatsApp */}
+              <a
+                href={primaryWaUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center space-x-2 hover:text-[#0BAA58] transition-colors"
               >
                 <MessageCircle className="w-3.5 h-3.5 text-[#0BAA58] flex-shrink-0" />
-                <span>Chat on WhatsApp</span>
+                <span>WhatsApp: {businessPhone}</span>
               </a>
 
-              <div className="flex items-start space-x-2 text-gray-300">
+              {/* Alternative WhatsApp */}
+              <a
+                href={secondaryWaUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 hover:text-[#0BAA58] transition-colors"
+              >
+                <MessageCircle className="w-3.5 h-3.5 text-[#0BAA58] flex-shrink-0" />
+                <span>WhatsApp: {secondaryPhone}</span>
+              </a>
+
+              <div className="flex items-start space-x-2 text-gray-300 pt-1">
                 <MapPin className="w-3.5 h-3.5 text-[#FF850D] flex-shrink-0 mt-0.5" />
                 <div>
                   <span className="block">Visit Our Shop</span>
