@@ -41,7 +41,13 @@ export function getSupabaseClient(): SupabaseClient {
     (globalThis as any).WebSocket = class DummyWebSocket {};
   }
 
-  cachedClient = createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.publishableKey, {
+  // On the server side, allow SUPABASE_SERVICE_ROLE_KEY if present for privileged server operations
+  const isServer = typeof window === 'undefined';
+  const apiKey =
+    (isServer && typeof process !== 'undefined' && process.env.SUPABASE_SERVICE_ROLE_KEY) ||
+    SUPABASE_CONFIG.publishableKey;
+
+  cachedClient = createClient(SUPABASE_CONFIG.url, apiKey, {
     auth: {
       persistSession: false,
       autoRefreshToken: false,
@@ -49,6 +55,47 @@ export function getSupabaseClient(): SupabaseClient {
   });
 
   return cachedClient;
+}
+
+/**
+ * Validates Supabase environment variables and returns a diagnostic report.
+ */
+export function validateSupabaseEnv(): {
+  isValid: boolean;
+  url: string;
+  hasPublishableKey: boolean;
+  hasServiceRoleKey: boolean;
+  warnings: string[];
+} {
+  const warnings: string[] = [];
+  const url =
+    typeof process !== 'undefined'
+      ? process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL
+      : undefined;
+  const pubKey =
+    typeof process !== 'undefined'
+      ? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+        process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+        process.env.SUPABASE_PUBLISHABLE_KEY ||
+        process.env.SUPABASE_ANON_KEY
+      : undefined;
+  const servKey =
+    typeof process !== 'undefined' ? process.env.SUPABASE_SERVICE_ROLE_KEY : undefined;
+
+  if (!url) {
+    warnings.push('NEXT_PUBLIC_SUPABASE_URL is not set; using project fallback.');
+  }
+  if (!pubKey) {
+    warnings.push('NEXT_PUBLIC_SUPABASE_ANON_KEY is not set; using project fallback.');
+  }
+
+  return {
+    isValid: !!(url || SUPABASE_CONFIG.url) && !!(pubKey || SUPABASE_CONFIG.publishableKey),
+    url: url || SUPABASE_CONFIG.url,
+    hasPublishableKey: !!(pubKey || SUPABASE_CONFIG.publishableKey),
+    hasServiceRoleKey: !!servKey,
+    warnings,
+  };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -29,10 +29,17 @@ export default function AdminEnquiriesPage() {
   const [activeEnquiry, setActiveEnquiry] = useState<Enquiry | null>(null);
   const [noteContent, setNoteContent] = useState('');
 
+  const getAuthHeaders = (): Record<string, string> => {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('michaforge_admin_token') : null;
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  };
+
   const loadEnquiries = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/v1/admin/enquiries');
+      const res = await fetch('/api/v1/admin/enquiries', {
+        headers: getAuthHeaders(),
+      });
       const json = await res.json();
       if (json.success) setEnquiries(json.data);
     } finally {
@@ -48,7 +55,10 @@ export default function AdminEnquiriesPage() {
     try {
       await fetch(`/api/v1/admin/enquiries/${enquiryId}/status`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeaders(),
+        },
         body: JSON.stringify({ status }),
       });
       loadEnquiries();
@@ -65,13 +75,18 @@ export default function AdminEnquiriesPage() {
     try {
       await fetch(`/api/v1/admin/enquiries/${enquiryId}/notes`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeaders(),
+        },
         body: JSON.stringify({ authorName: 'Sales Desk', content: noteContent.trim() }),
       });
       setNoteContent('');
       loadEnquiries();
       // Reload active
-      const refreshed = await fetch(`/api/v1/admin/enquiries/${enquiryId}`).then((r) => r.json());
+      const refreshed = await fetch(`/api/v1/admin/enquiries/${enquiryId}`, {
+        headers: getAuthHeaders(),
+      }).then((r) => r.json());
       if (refreshed.success) setActiveEnquiry(refreshed.data);
     } catch (e) {
       alert('Failed to add note');

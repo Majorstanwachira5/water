@@ -72,6 +72,22 @@ function getAuthenticatedUser(req: NextRequest): Record<string, any> | null {
   return verifyJwt(token);
 }
 
+const STAFF_ROLES = ['Super Admin', 'Catalogue Manager', 'Content Manager', 'Enquiry Manager'];
+
+function getAuthenticatedStaffUser(req: NextRequest): Record<string, any> | null {
+  const user = getAuthenticatedUser(req);
+  if (!user) return null;
+  if (!STAFF_ROLES.includes(user.role)) return null;
+  return user;
+}
+
+function unauthorizedStaffResponse(): NextResponse {
+  return NextResponse.json(
+    { success: false, error: { code: 'UNAUTHORIZED', message: 'Staff authentication required' } },
+    { status: 401 }
+  );
+}
+
 function verifyPassword(password: string, hash: string, salt: string): boolean {
   const checkHash = crypto
     .pbkdf2Sync(password, salt, 1000, 64, 'sha512')
@@ -104,6 +120,17 @@ async function handleApiRequest(
         status: 'healthy',
         gateway: 'Michaforge Next.js + Supabase Gateway',
         storage: 'supabase',
+        env: {
+          supabaseUrlConfigured: !!(process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL),
+          supabaseKeyConfigured: !!(
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+            process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+            process.env.SUPABASE_PUBLISHABLE_KEY ||
+            process.env.SUPABASE_ANON_KEY
+          ),
+          supabaseServiceRoleConfigured: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+          jwtSecretConfigured: !!process.env.JWT_SECRET,
+        },
         timestamp: new Date().toISOString(),
       });
     }
@@ -162,6 +189,7 @@ async function handleApiRequest(
     }
 
     if (routePath === '/categories' && method === 'POST') {
+      if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
       const body = await safeJsonBody(req);
       if (!body.name) {
         return NextResponse.json(
@@ -188,6 +216,7 @@ async function handleApiRequest(
     }
 
     if (segments[0] === 'categories' && segments[1] && method === 'PATCH') {
+      if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
       const body = await safeJsonBody(req);
       const updated = await supabaseCatalogueRepo.updateCategory(segments[1], body);
       if (!updated) {
@@ -200,6 +229,7 @@ async function handleApiRequest(
     }
 
     if (segments[0] === 'categories' && segments[1] && method === 'DELETE') {
+      if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
       await supabaseCatalogueRepo.deleteCategory(segments[1]);
       return NextResponse.json({ success: true, data: { message: 'Category deleted' } });
     }
@@ -229,6 +259,7 @@ async function handleApiRequest(
     }
 
     if (routePath === '/products' && method === 'POST') {
+      if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
       const body = await safeJsonBody(req);
       const { name, sku, categoryId, unit, description, shortDescription, specifications, images, isFeatured } = body;
       if (!name || !sku || !categoryId || !unit) {
@@ -289,6 +320,7 @@ async function handleApiRequest(
         return NextResponse.json({ success: true, data: product });
       }
       if (method === 'PATCH') {
+        if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
         const body = await safeJsonBody(req);
         const updated = await supabaseCatalogueRepo.updateProduct(segments[1], body);
         if (!updated) {
@@ -300,6 +332,7 @@ async function handleApiRequest(
         return NextResponse.json({ success: true, data: updated });
       }
       if (method === 'DELETE') {
+        if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
         const ok = await supabaseCatalogueRepo.archiveProduct(segments[1]);
         if (!ok) {
           return NextResponse.json(
@@ -323,6 +356,7 @@ async function handleApiRequest(
     }
 
     if (routePath === '/pricing/export' && method === 'GET') {
+      if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
       const prices = await supabasePricingRepo.listPrices();
       let csv = 'Product_ID,Price_KES,Previous_Price_KES,Currency,Unit,Effective_Date,Updated_By\n';
       for (const p of prices) {
@@ -338,6 +372,7 @@ async function handleApiRequest(
     }
 
     if (routePath === '/pricing/bulk-update' && method === 'POST') {
+      if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
       const body = await safeJsonBody(req);
       const { updates, updatedBy = 'Administrator' } = body;
       if (!Array.isArray(updates) || updates.length === 0) {
@@ -409,6 +444,7 @@ async function handleApiRequest(
         return NextResponse.json({ success: true, data: priceRecord });
       }
       if (!segments[3] && method === 'POST') {
+        if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
         const body = await safeJsonBody(req);
         const { price, unit = 'each', updatedBy = 'Administrator', reason } = body;
         const validation = validatePriceValue(price);
@@ -459,6 +495,7 @@ async function handleApiRequest(
     }
 
     if (routePath === '/media/uploads' && method === 'POST') {
+      if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
       // Support both multipart form-data and JSON metadata
       let fileName = `asset-${Date.now()}.png`;
       let originalName = fileName;
@@ -514,6 +551,7 @@ async function handleApiRequest(
 
     if (segments[0] === 'media' && segments[1] && segments.length === 2) {
       if (method === 'PATCH') {
+        if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
         const body = await safeJsonBody(req);
         const updated = await supabaseMediaRepo.updateMediaAsset(segments[1], {
           altText: body.altText,
@@ -528,6 +566,7 @@ async function handleApiRequest(
         return NextResponse.json({ success: true, data: updated });
       }
       if (method === 'DELETE') {
+        if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
         const removed = await supabaseMediaRepo.deleteMediaAsset(segments[1]);
         if (!removed) {
           return NextResponse.json(
@@ -582,6 +621,7 @@ async function handleApiRequest(
     }
 
     if (routePath === '/admin/enquiries' && method === 'GET') {
+      if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
       const list = await supabaseEnquiryRepo.listEnquiries({
         status: searchParams.get('status') || undefined,
         search: searchParams.get('search') || undefined,
@@ -590,6 +630,7 @@ async function handleApiRequest(
     }
 
     if (segments[0] === 'admin' && segments[1] === 'enquiries' && segments[2]) {
+      if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
       const enquiryId = segments[2];
       if (!segments[3] && method === 'GET') {
         const enquiry = await supabaseEnquiryRepo.getEnquiryById(enquiryId);
@@ -657,6 +698,7 @@ async function handleApiRequest(
     }
 
     if (routePath === '/admin/branding' && method === 'PATCH') {
+      if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
       const updates = await safeJsonBody(req);
       if (updates.primaryPhone) {
         updates.primaryPhoneFormatted = normalizeKenyanPhoneNumber(updates.primaryPhone);
@@ -675,6 +717,7 @@ async function handleApiRequest(
     }
 
     if (routePath === '/admin/content/homepage' && method === 'PATCH') {
+      if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
       const body = await safeJsonBody(req);
       const { heroHeadline, heroSubheadline, heroDescription, announcementText, about } = body;
       const brandUpdates: Record<string, any> = {};
@@ -705,6 +748,12 @@ async function handleApiRequest(
         return NextResponse.json(
           { success: false, error: { code: 'INVALID_CREDENTIALS', message: 'Invalid email or password' } },
           { status: 401 }
+        );
+      }
+      if (!STAFF_ROLES.includes(user.role)) {
+        return NextResponse.json(
+          { success: false, error: { code: 'FORBIDDEN', message: 'User does not have staff privileges' } },
+          { status: 403 }
         );
       }
       await supabaseAuthRepo.updateLastLogin(user.id);
@@ -799,25 +848,13 @@ async function handleApiRequest(
     }
 
     if (routePath === '/admin/users' && method === 'GET') {
-      const authUser = getAuthenticatedUser(req);
-      if (!authUser) {
-        return NextResponse.json(
-          { success: false, error: { code: 'UNAUTHORIZED', message: 'Missing or invalid authorization token' } },
-          { status: 401 }
-        );
-      }
+      if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
       const users = await supabaseAuthRepo.listUsers();
       return NextResponse.json({ success: true, data: users });
     }
 
     if (routePath === '/admin/users' && method === 'POST') {
-      const authUser = getAuthenticatedUser(req);
-      if (!authUser) {
-        return NextResponse.json(
-          { success: false, error: { code: 'UNAUTHORIZED', message: 'Missing or invalid authorization token' } },
-          { status: 401 }
-        );
-      }
+      if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
       const body = await safeJsonBody(req);
       const { email, password, name, role } = body;
       if (!email || !password || !name || !role) {
@@ -852,16 +889,19 @@ async function handleApiRequest(
 
     // 10. Reporting & Audit Logs
     if (routePath === '/admin/reports/overview' && method === 'GET') {
+      if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
       const metrics = await supabaseReportingRepo.getOverviewMetrics();
       return NextResponse.json({ success: true, data: metrics });
     }
 
     if (routePath === '/admin/audit-logs' && method === 'GET') {
+      if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
       const logs = await supabaseReportingRepo.listAuditLogs(100);
       return NextResponse.json({ success: true, data: logs });
     }
 
     if (routePath === '/admin/audit-logs' && method === 'POST') {
+      if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
       const body = await safeJsonBody(req);
       const { actorId, actorName, action, entityType, entityId, details } = body;
       if (!actorName || !action || !entityType) {
@@ -909,11 +949,13 @@ async function handleApiRequest(
     }
 
     if (routePath === '/admin/notifications' && method === 'GET') {
+      if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
       const list = await supabaseNotificationRepo.listNotifications(50);
       return NextResponse.json({ success: true, data: list });
     }
 
     if (routePath === '/admin/notifications/test' && method === 'POST') {
+      if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
       const body = await safeJsonBody(req);
       const { channel = 'sms', recipient = '+254714843208' } = body;
       const testRecord: NotificationDbRecord = {

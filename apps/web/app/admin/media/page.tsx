@@ -39,6 +39,11 @@ export default function AdminMediaPage() {
     loadMedia();
   }, []);
 
+  const getAuthHeaders = (): Record<string, string> => {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('michaforge_admin_token') : null;
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  };
+
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -53,6 +58,7 @@ export default function AdminMediaPage() {
     try {
       const res = await fetch('/api/v1/media/uploads', {
         method: 'POST',
+        headers: getAuthHeaders(),
         body: formData,
       });
       const json = await res.json();
@@ -77,7 +83,10 @@ export default function AdminMediaPage() {
     try {
       const res = await fetch(`/api/v1/products/${selectedProductId}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...getAuthHeaders(),
+        },
         body: JSON.stringify({
           images: [
             {
@@ -91,7 +100,7 @@ export default function AdminMediaPage() {
         }),
       });
       if (res.ok) {
-        await fetch('/api/v1/gateway/invalidate-cache', { method: 'POST' }).catch(() => {});
+        await fetch('/api/v1/gateway/invalidate-cache', { method: 'POST', headers: getAuthHeaders() }).catch(() => {});
         setStatusMessage(`Assigned "${assigningAsset.altText}" to product "${prod.name}" — now live on the client frontend!`);
         setAssigningAsset(null);
       }
@@ -102,7 +111,10 @@ export default function AdminMediaPage() {
 
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this media asset?')) return;
-    await fetch(`/api/v1/media/${id}`, { method: 'DELETE' });
+    await fetch(`/api/v1/media/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
+    });
     loadMedia();
   };
 

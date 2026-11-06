@@ -116,6 +116,7 @@ export default function AdminProductsPage() {
     setUploadNotice(null);
 
     try {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('michaforge_admin_token') : null;
       const fd = new FormData();
       fd.append('file', file);
       fd.append('category', 'product');
@@ -123,6 +124,7 @@ export default function AdminProductsPage() {
 
       const res = await fetch('/api/v1/media/uploads', {
         method: 'POST',
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
         body: fd,
       });
       const json = await res.json();
@@ -143,6 +145,12 @@ export default function AdminProductsPage() {
   const handleSaveProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     setSavingProduct(true);
+
+    const token = typeof window !== 'undefined' ? localStorage.getItem('michaforge_admin_token') : null;
+    const authHeaders: Record<string, string> = {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    };
 
     const payload = {
       name: formData.name,
@@ -170,7 +178,7 @@ export default function AdminProductsPage() {
       if (editingProduct) {
         const res = await fetch(`/api/v1/products/${editingProduct.id}`, {
           method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
+          headers: authHeaders,
           body: JSON.stringify(payload),
         });
         const json = await res.json();
@@ -178,7 +186,7 @@ export default function AdminProductsPage() {
       } else {
         const res = await fetch('/api/v1/products', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: authHeaders,
           body: JSON.stringify(payload),
         });
         const json = await res.json();
@@ -191,7 +199,7 @@ export default function AdminProductsPage() {
         if (!isNaN(numericPrice) && numericPrice >= 0) {
           await fetch(`/api/v1/pricing/products/${savedProductId}`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: authHeaders,
             body: JSON.stringify({
               price: numericPrice > 0 ? numericPrice : null,
               unit: formData.unit,
@@ -202,7 +210,7 @@ export default function AdminProductsPage() {
         }
       }
 
-      await fetch('/api/v1/gateway/invalidate-cache', { method: 'POST' }).catch(() => {});
+      await fetch('/api/v1/gateway/invalidate-cache', { method: 'POST', headers: authHeaders }).catch(() => {});
       setShowModal(false);
       await loadData();
     } catch {
@@ -214,7 +222,11 @@ export default function AdminProductsPage() {
 
   const handleArchive = async (id: string) => {
     if (!confirm('Are you sure you want to archive this product?')) return;
-    await fetch(`/api/v1/products/${id}`, { method: 'DELETE' });
+    const token = typeof window !== 'undefined' ? localStorage.getItem('michaforge_admin_token') : null;
+    await fetch(`/api/v1/products/${id}`, {
+      method: 'DELETE',
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
     loadData();
   };
 

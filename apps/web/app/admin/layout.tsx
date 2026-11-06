@@ -28,6 +28,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const isLoginPage = pathname === '/admin/login';
 
+  const STAFF_ROLES = ['Super Admin', 'Catalogue Manager', 'Content Manager', 'Enquiry Manager'];
+
   useEffect(() => {
     if (isLoginPage) {
       setAuthChecked(true);
@@ -40,29 +42,79 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       return;
     }
 
-    // Verify token against backend /api/v1/auth/me
-    fetch('/api/v1/auth/me', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.json().then((data) => ({ ok: res.ok, data })))
-      .then(({ ok, data }) => {
-        if (ok && data?.success && data?.data) {
-          setCurrentUser(data.data);
-          localStorage.setItem('michaforge_admin_user', JSON.stringify(data.data));
+    const verifySession = async () => {
+      try {
+        const res = await fetch('/api/v1/auth/me', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = await res.json();
+
+        if (res.ok && data?.success && data?.data) {
+          const user = data.data;
+          const isStaff = user.isActive && STAFF_ROLES.includes(user.role);
+
+          if (!isStaff) {
+            localStorage.removeItem('michaforge_admin_token');
+            localStorage.removeItem('michaforge_admin_refresh_token');
+            localStorage.removeItem('michaforge_admin_user');
+            router.replace('/admin/login');
+            return;
+          }
+
+          setCurrentUser(user);
+          localStorage.setItem('michaforge_admin_user', JSON.stringify(user));
           setAuthChecked(true);
-        } else {
-          localStorage.removeItem('michaforge_admin_token');
-          localStorage.removeItem('michaforge_admin_user');
-          router.replace('/admin/login');
+          return;
         }
-      })
-      .catch(() => {
+
+        // If access token expired, attempt automatic session refresh
+        const refreshToken = localStorage.getItem('michaforge_admin_refresh_token');
+        if (refreshToken) {
+          const refreshRes = await fetch('/api/v1/auth/refresh', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ refreshToken }),
+          });
+          const refreshData = await refreshRes.json();
+
+          if (refreshRes.ok && refreshData?.success && refreshData?.data?.accessToken) {
+            const newToken = refreshData.data.accessToken;
+            localStorage.setItem('michaforge_admin_token', newToken);
+
+            // Re-verify with new token
+            const retryRes = await fetch('/api/v1/auth/me', {
+              headers: { Authorization: `Bearer ${newToken}` },
+            });
+            const retryData = await retryRes.json();
+
+            if (retryRes.ok && retryData?.success && retryData?.data) {
+              const retryUser = retryData.data;
+              if (retryUser.isActive && STAFF_ROLES.includes(retryUser.role)) {
+                setCurrentUser(retryUser);
+                localStorage.setItem('michaforge_admin_user', JSON.stringify(retryUser));
+                setAuthChecked(true);
+                return;
+              }
+            }
+          }
+        }
+
+        // Refresh failed or invalid session
         localStorage.removeItem('michaforge_admin_token');
+        localStorage.removeItem('michaforge_admin_refresh_token');
         localStorage.removeItem('michaforge_admin_user');
         router.replace('/admin/login');
-      });
+      } catch {
+        localStorage.removeItem('michaforge_admin_token');
+        localStorage.removeItem('michaforge_admin_refresh_token');
+        localStorage.removeItem('michaforge_admin_user');
+        router.replace('/admin/login');
+      }
+    };
+
+    verifySession();
   }, [pathname, isLoginPage, router]);
 
   const handleLogout = async () => {

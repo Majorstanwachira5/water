@@ -82,6 +82,71 @@ async function run() {
     );
     console.log('[supabase-migrate] Seeded admin user: admin@michaforge.co.ke');
 
+    // 2b. Seed Supabase Auth user (auth.users & auth.identities) for admin staff account
+    try {
+      await client.query(`CREATE EXTENSION IF NOT EXISTS pgcrypto;`);
+      await client.query(`
+        INSERT INTO auth.users (
+          instance_id,
+          id,
+          aud,
+          role,
+          email,
+          encrypted_password,
+          email_confirmed_at,
+          raw_app_meta_data,
+          raw_user_meta_data,
+          created_at,
+          updated_at
+        )
+        VALUES (
+          '00000000-0000-0000-0000-000000000000',
+          'a0000000-0000-0000-0000-000000000001',
+          'authenticated',
+          'authenticated',
+          'admin@michaforge.co.ke',
+          crypt('Admin@Michaforge2026!', gen_salt('bf')),
+          NOW(),
+          '{"provider":"email","providers":["email"]}',
+          '{"name":"Michaforge Administrator","role":"Super Admin"}',
+          NOW(),
+          NOW()
+        )
+        ON CONFLICT (id) DO UPDATE SET
+          encrypted_password = crypt('Admin@Michaforge2026!', gen_salt('bf')),
+          email_confirmed_at = NOW(),
+          updated_at = NOW();
+      `);
+
+      await client.query(`
+        INSERT INTO auth.identities (
+          id,
+          user_id,
+          identity_data,
+          provider,
+          provider_id,
+          last_sign_in_at,
+          created_at,
+          updated_at
+        )
+        VALUES (
+          'a0000000-0000-0000-0000-000000000001',
+          'a0000000-0000-0000-0000-000000000001',
+          jsonb_build_object('sub', 'a0000000-0000-0000-0000-000000000001', 'email', 'admin@michaforge.co.ke'),
+          'email',
+          'admin@michaforge.co.ke',
+          NOW(),
+          NOW(),
+          NOW()
+        )
+        ON CONFLICT (provider, provider_id) DO UPDATE SET
+          updated_at = NOW();
+      `);
+      console.log('[supabase-migrate] Seeded auth.users and auth.identities for admin@michaforge.co.ke');
+    } catch (authErr) {
+      console.log('[supabase-migrate] Note on auth.users seed:', authErr.message);
+    }
+
     // 3. Seed Categories
     const catalogData = require('./generated_catalog.json');
     const categories = catalogData.categories;

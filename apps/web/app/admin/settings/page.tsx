@@ -27,9 +27,13 @@ export default function AdminSettingsPage() {
     setSaving(true);
     setStatusMessage(null);
     try {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('michaforge_admin_token') : null;
       const res = await fetch('/api/v1/admin/branding', {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
         body: JSON.stringify(brand),
       });
       const json = await res.json();
@@ -46,9 +50,13 @@ export default function AdminSettingsPage() {
   const handleTestNotification = async () => {
     setTestNotificationResult(null);
     try {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('michaforge_admin_token') : null;
       const res = await fetch('/api/v1/admin/notifications/test', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
         body: JSON.stringify({ channel: 'sms', recipient: brand?.primaryPhone || '0714843208' }),
       });
       const json = await res.json();

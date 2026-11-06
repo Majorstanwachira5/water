@@ -54,11 +54,13 @@ export default function AdminCategoriesPage() {
     if (!file) return;
     setUploadingImage(true);
     try {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('michaforge_admin_token') : null;
       const fd = new FormData();
       fd.append('file', file);
       fd.append('altText', formData.name || file.name);
       const res = await fetch('/api/v1/media/uploads', {
         method: 'POST',
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
         body: fd,
       });
       const json = await res.json();
@@ -76,16 +78,21 @@ export default function AdminCategoriesPage() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('michaforge_admin_token') : null;
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      };
       if (editingCategory) {
         await fetch(`/api/v1/categories/${editingCategory.id}`, {
           method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
+          headers,
           body: JSON.stringify(formData),
         });
       } else {
         await fetch('/api/v1/categories', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers,
           body: JSON.stringify(formData),
         });
       }
@@ -98,7 +105,11 @@ export default function AdminCategoriesPage() {
 
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this category?')) return;
-    await fetch(`/api/v1/categories/${id}`, { method: 'DELETE' });
+    const token = typeof window !== 'undefined' ? localStorage.getItem('michaforge_admin_token') : null;
+    await fetch(`/api/v1/categories/${id}`, {
+      method: 'DELETE',
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
     loadCategories();
   };
 

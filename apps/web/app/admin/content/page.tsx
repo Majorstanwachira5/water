@@ -154,11 +154,13 @@ export default function AdminContentBrandingPage() {
     if (!file) return;
     setUploadingField(key);
     try {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('michaforge_admin_token') : null;
       const fd = new FormData();
       fd.append('file', file);
       fd.append('altText', file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' '));
       const res = await fetch('/api/v1/media/uploads', {
         method: 'POST',
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
         body: fd,
       });
       const json = await res.json();

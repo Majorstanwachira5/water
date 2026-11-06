@@ -34,8 +34,11 @@ export default function AdminOverviewPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('michaforge_admin_token') : null;
+    const headers: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {};
+
     // Fetch real metrics from reporting service
-    fetch('/api/v1/admin/reports/overview')
+    fetch('/api/v1/admin/reports/overview', { headers })
       .then((r) => r.json())
       .then((json) => {
         if (json.success && json.data) setMetrics(json.data);
@@ -43,7 +46,7 @@ export default function AdminOverviewPage() {
       .catch(() => {});
 
     // Fetch recent enquiries
-    fetch('/api/v1/admin/enquiries')
+    fetch('/api/v1/admin/enquiries', { headers })
       .then((r) => r.json())
       .then((json) => {
         if (json.success && json.data) setRecentEnquiries(json.data.slice(0, 5));

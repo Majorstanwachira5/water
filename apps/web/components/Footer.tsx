@@ -81,7 +81,7 @@ export default function Footer({
                 </a>
               </li>
               <li>
-                <a href="/admin" className="hover:text-[#FF850D] flex items-center space-x-1 transition-colors">
+                <a href="/admin/login" className="hover:text-[#FF850D] flex items-center space-x-1 transition-colors">
                   <ShieldCheck className="w-3.5 h-3.5 text-[#FF850D]" />
                   <span>Staff Portal</span>
                 </a>

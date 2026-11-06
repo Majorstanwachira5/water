@@ -88,9 +88,13 @@ export default function AdminPricingPage() {
     setSavingId(productId);
     setStatusMessage(null);
     try {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('michaforge_admin_token') : null;
       const res = await fetch(`/api/v1/pricing/products/${productId}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
         body: JSON.stringify({
           price: parsedPrice,
           updatedBy: 'Store Administrator',
@@ -127,9 +131,13 @@ export default function AdminPricingPage() {
     }));
 
     try {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('michaforge_admin_token') : null;
       const res = await fetch('/api/v1/pricing/bulk-update', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
         body: JSON.stringify({ updates, updatedBy: 'Flyer Sync Wizard' }),
       });
       const json = await res.json();
