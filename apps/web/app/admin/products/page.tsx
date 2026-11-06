@@ -29,7 +29,7 @@ export default function AdminProductsPage() {
   const [formData, setFormData] = useState({
     name: '',
     sku: '',
-    categoryId: 'cat_pvc_pipes',
+    categoryId: 'cat_sanitary_ware',
     unit: 'each',
     price: '',
     description: '',
@@ -78,12 +78,12 @@ export default function AdminProductsPage() {
     setFormData({
       name: '',
       sku: `MF-${Date.now().toString().slice(-4)}`,
-      categoryId: categories[0]?.id || 'cat_pvc_pipes',
+      categoryId: categories[0]?.id || 'cat_sanitary_ware',
       unit: 'each',
       price: '',
       description: '',
       shortDescription: '',
-      imageUrl: '/images/products/product_pvc_pipes.png',
+      imageUrl: '/images/products/product_synnova_urinal.png',
       isFeatured: true,
     });
     setShowModal(true);

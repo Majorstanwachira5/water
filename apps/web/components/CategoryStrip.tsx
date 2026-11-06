@@ -14,7 +14,7 @@ const DEFAULT_CATEGORIES: Category[] = [
     id: 'cat_sanitary_ware',
     name: 'Sanitary Ware',
     slug: 'sanitary-ware',
-    description: 'Urinals, Basins & Toilets',
+    description: 'Urinals, Basins, Cisterns',
     iconName: 'sanitary',
     displayOrder: 1,
     isPublished: true,
@@ -23,9 +23,9 @@ const DEFAULT_CATEGORIES: Category[] = [
   },
   {
     id: 'cat_taps_faucets',
-    name: 'Taps & Faucets',
+    name: 'Taps & Mixers',
     slug: 'taps-faucets',
-    description: 'Basin Taps & Sprays',
+    description: 'Kitchen, Basin & Shattafs',
     iconName: 'tap',
     displayOrder: 2,
     isPublished: true,
@@ -33,56 +33,45 @@ const DEFAULT_CATEGORIES: Category[] = [
     updatedAt: '',
   },
   {
-    id: 'cat_pvc_pipes',
-    name: 'PVC Pipes',
-    slug: 'pvc-pipes',
-    description: 'Durable & Reliable',
-    iconName: 'pipe',
+    id: 'cat_shower_systems',
+    name: 'Showers & Heating',
+    slug: 'shower-systems',
+    description: 'Instant Showers & Columns',
+    iconName: 'shower',
     displayOrder: 3,
     isPublished: true,
     createdAt: '',
     updatedAt: '',
   },
   {
-    id: 'cat_pipe_fittings',
-    name: 'Pipe Fittings',
-    slug: 'pipe-fittings',
-    description: 'Various Sizes & Types',
-    iconName: 'fittings',
+    id: 'cat_kitchen_sinks',
+    name: 'Kitchen Sinks',
+    slug: 'kitchen-sinks',
+    description: 'Nano Black & Stainless Sinks',
+    iconName: 'sink',
     displayOrder: 4,
     isPublished: true,
     createdAt: '',
     updatedAt: '',
   },
   {
-    id: 'cat_valves',
-    name: 'Valves',
-    slug: 'valves',
-    description: 'Control Your Flow',
-    iconName: 'valve',
+    id: 'cat_plumbing_pipes',
+    name: 'Pipes & Drainage',
+    slug: 'plumbing-pipes',
+    description: 'Magic Bend, Traps & PPR',
+    iconName: 'pipe',
     displayOrder: 5,
     isPublished: true,
     createdAt: '',
     updatedAt: '',
   },
   {
-    id: 'cat_water_tanks',
-    name: 'Water Tanks',
-    slug: 'water-tanks',
-    description: 'Storage Solutions',
-    iconName: 'tank',
-    displayOrder: 6,
-    isPublished: true,
-    createdAt: '',
-    updatedAt: '',
-  },
-  {
     id: 'cat_hardware_items',
-    name: 'Hardware Items',
+    name: 'Hardware & Locks',
     slug: 'hardware-items',
-    description: 'Building Essentials',
+    description: 'Security Locks & 6pc Sets',
     iconName: 'hardware',
-    displayOrder: 7,
+    displayOrder: 6,
     isPublished: true,
     createdAt: '',
     updatedAt: '',
@@ -92,7 +81,7 @@ const DEFAULT_CATEGORIES: Category[] = [
 function PlumbingCategoryIcon({ name, iconName }: { name: string; iconName?: string }) {
   const key = `${name} ${iconName || ''}`.toLowerCase();
 
-  // Sanitary Ware & Ceramics (urinal / toilet / basin ceramic fixture)
+  // 1. Sanitary Ware & Ceramics (urinal / toilet / basin ceramic fixture)
   if (key.includes('sanitary') || key.includes('ceramic') || key.includes('urinal')) {
     return (
       <svg className="w-6 h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -104,30 +93,8 @@ function PlumbingCategoryIcon({ name, iconName }: { name: string; iconName?: str
     );
   }
 
-  // 1. PVC Pipes (diagonal cylinder pipe with socket collar)
-  if (key.includes('pipe') && !key.includes('fitting')) {
-    return (
-      <svg className="w-6 h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M5 19L19 5C20.5 3.5 23 3.5 24 4.5C25 5.5 25 8 23.5 9.5L9.5 23.5" />
-        <ellipse cx="7.2" cy="21.2" rx="3.2" ry="2" transform="rotate(-45 7.2 21.2)" />
-        <path d="M16 8L20 12" />
-      </svg>
-    );
-  }
-
-  // 2. Pipe Fittings (90-degree elbow pipe joint with collars)
-  if (key.includes('fitting')) {
-    return (
-      <svg className="w-6 h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="14" y="4" width="9" height="4" rx="1" />
-        <rect x="5" y="19" width="8" height="4" rx="1" />
-        <path d="M15 8H19C19 14 15 15 13 19H7C7 11 11 8 15 8Z" />
-      </svg>
-    );
-  }
-
-  // 3. Taps & Faucets (classic water tap with T-handle & droplet)
-  if (key.includes('tap') || key.includes('faucet')) {
+  // 2. Taps, Mixers & Shattafs
+  if (key.includes('tap') || key.includes('faucet') || key.includes('mixer') || key.includes('shattaf')) {
     return (
       <svg className="w-6 h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M10 6H18" />
@@ -139,34 +106,46 @@ function PlumbingCategoryIcon({ name, iconName }: { name: string; iconName?: str
     );
   }
 
-  // 4. Valves (inline flanged valve with top handwheel)
-  if (key.includes('valve')) {
+  // 3. Showers & Water Heating
+  if (key.includes('shower') || key.includes('heater') || key.includes('heating')) {
     return (
       <svg className="w-6 h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <ellipse cx="14" cy="6" rx="5" ry="2" />
-        <path d="M14 8V12" />
-        <rect x="4" y="13" width="3" height="8" rx="1" />
-        <rect x="21" y="13" width="3" height="8" rx="1" />
-        <path d="M7 15H21V19H7V15Z" />
-        <circle cx="14" cy="17" r="3" />
+        <path d="M5 7H14C17 7 19 9 19 12V14" />
+        <path d="M13 14H25L23 18H15L13 14Z" />
+        <line x1="16" y1="21" x2="16" y2="23" />
+        <line x1="19" y1="21" x2="19" y2="24" />
+        <line x1="22" y1="21" x2="22" y2="23" />
+        <circle cx="17.5" cy="26" r="0.75" fill="currentColor" />
+        <circle cx="20.5" cy="26" r="0.75" fill="currentColor" />
       </svg>
     );
   }
 
-  // 5. Water Tanks (ribbed cylindrical tank with top lid)
-  if (key.includes('tank')) {
+  // 4. Kitchen Sinks & Basins
+  if (key.includes('sink') || key.includes('basin')) {
     return (
       <svg className="w-6 h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="11" y="3" width="6" height="2.5" rx="1" />
-        <rect x="7" y="6" width="14" height="18" rx="3" />
-        <path d="M7 11H21" />
-        <path d="M7 16H21" />
-        <path d="M7 20H21" />
+        <rect x="4" y="8" width="20" height="15" rx="2" />
+        <line x1="14" y1="8" x2="14" y2="23" />
+        <circle cx="9" cy="15" r="1.5" />
+        <circle cx="19" cy="15" r="1.5" />
+        <path d="M14 8V5C14 4 15 3 16 3H17" />
       </svg>
     );
   }
 
-  // 6. Hardware Items (crossed spanner & screwdriver matching flyer)
+  // 5. Pipes & Drainage
+  if (key.includes('pipe') || key.includes('drainage') || key.includes('trap')) {
+    return (
+      <svg className="w-6 h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 19L19 5C20.5 3.5 23 3.5 24 4.5C25 5.5 25 8 23.5 9.5L9.5 23.5" />
+        <ellipse cx="7.2" cy="21.2" rx="3.2" ry="2" transform="rotate(-45 7.2 21.2)" />
+        <path d="M16 8L20 12" />
+      </svg>
+    );
+  }
+
+  // 6. Hardware & Locks
   return (
     <svg className="w-6 h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M18.5 5.5C17 7 17 9.5 18.5 11L10.5 19C9 17.5 6.5 17.5 5 19C4 20 4 21.5 4.5 22.5L7 20L8.5 21.5L6 24C7 24.5 8.5 24.5 9.5 23.5C11 22 11 19.5 9.5 18L17.5 10C19 11.5 21.5 11.5 23 10C24 9 24 7.5 23.5 6.5L21 9L19.5 7.5L22 5C21 4.5 19.5 4.5 18.5 5.5Z" />

@@ -44,7 +44,7 @@ export default function FeaturedProducts({
             const primaryImage =
               product.images && product.images.length > 0
                 ? product.images.find((img) => img.isPrimary)?.url || product.images[0].url
-                : '/images/products/product_pvc_pipes.png';
+                : '/images/products/product_synnova_urinal.png';
 
             const waUrl = generateWhatsAppLink(
               whatsappNumber,

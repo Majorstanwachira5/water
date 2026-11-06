@@ -83,71 +83,8 @@ async function run() {
     console.log('[supabase-migrate] Seeded admin user: admin@michaforge.co.ke');
 
     // 3. Seed Categories
-    const categories = [
-      {
-        id: 'cat_sanitary_ware',
-        name: 'Sanitary Ware',
-        slug: 'sanitary-ware',
-        description: 'Urinals, Basins & Toilets',
-        iconName: 'sanitary',
-        imageUrl: '/images/products/product_synnova_urinal.png',
-        displayOrder: 1,
-      },
-      {
-        id: 'cat_taps_faucets',
-        name: 'Taps & Faucets',
-        slug: 'taps-faucets',
-        description: 'Basin Taps & Sprays',
-        iconName: 'tap',
-        imageUrl: '/images/products/product_lirlee_basin_tap.png',
-        displayOrder: 2,
-      },
-      {
-        id: 'cat_pvc_pipes',
-        name: 'PVC Pipes',
-        slug: 'pvc-pipes',
-        description: 'Durable & Reliable',
-        iconName: 'pipe',
-        imageUrl: '',
-        displayOrder: 3,
-      },
-      {
-        id: 'cat_pipe_fittings',
-        name: 'Pipe Fittings',
-        slug: 'pipe-fittings',
-        description: 'Various Sizes & Types',
-        iconName: 'fittings',
-        imageUrl: '',
-        displayOrder: 4,
-      },
-      {
-        id: 'cat_valves',
-        name: 'Valves',
-        slug: 'valves',
-        description: 'Control Your Flow',
-        iconName: 'valve',
-        imageUrl: '',
-        displayOrder: 5,
-      },
-      {
-        id: 'cat_water_tanks',
-        name: 'Water Tanks',
-        slug: 'water-tanks',
-        description: 'Storage Solutions',
-        iconName: 'tank',
-        imageUrl: '',
-        displayOrder: 6,
-      },
-      {
-        id: 'cat_hardware_items',
-        name: 'Hardware Items',
-        slug: 'hardware-items',
-        description: 'Building Essentials',
-        iconName: 'hardware',
-        imageUrl: '',
-        displayOrder: 7,
-      },
-    ];
+    const catalogData = require('./generated_catalog.json');
+    const categories = catalogData.categories;
 
     for (const c of categories) {
       await client.query(
@@ -163,162 +100,28 @@ async function run() {
         [c.id, c.name, c.slug, c.description, c.iconName, c.imageUrl, c.displayOrder]
       );
     }
-    console.log('[supabase-migrate] Seeded categories.');
+    console.log(`[supabase-migrate] Seeded ${categories.length} categories.`);
 
     // 4. Seed Real Store Products & Verified Prices
-    const products = [
-      {
-        id: 'prd_synnova_urinal',
-        name: 'Synnova Wall-Hung Ceramic Urinal',
-        slug: 'synnova-wall-hung-ceramic-urinal',
-        sku: 'MF-SAN-001',
-        description:
-          'Premium vitreous china white wall-hung urinal manufactured by Synnova. Engineered with a smooth hygienic glaze that resists stains and bacteria buildup. Features a targeted top flush inlet and efficient bottom drain outlet for water conservation in commercial buildings, hotels, institutions, and modern homes.',
-        shortDescription: 'Premium vitreous china white wall-hung urinal by Synnova with stain-resistant glaze.',
-        categoryId: 'cat_sanitary_ware',
-        unit: 'each',
-        featuredOrder: 1,
-        price: null,
-        images: [
-          {
-            id: 'img_synnova_1',
-            url: '/images/products/product_synnova_urinal.png',
-            altText: 'Synnova Wall-Hung Ceramic Urinal',
-            displayOrder: 1,
-            isPrimary: true,
-          },
-        ],
-        specifications: [
-          { id: 'sp1', key: 'Brand', value: 'Synnova' },
-          { id: 'sp2', key: 'Mount Type', value: 'Wall-Hung / Wall Mounted' },
-          { id: 'sp3', key: 'Material', value: 'Vitreous China Glazed Ceramic' },
-          { id: 'sp4', key: 'Color', value: 'Gloss Alpine White' },
-        ],
-      },
-      {
-        id: 'prd_orient_urinal',
-        name: 'Orient Ceramics Wall-Hung Urinal Bowl',
-        slug: 'orient-ceramics-wall-hung-urinal',
-        sku: 'MF-SAN-002',
-        description:
-          'High-durability vitreous china ceramic urinal bowl by Orient Ceramics (Made in India). Heavy-duty build with protective edge rim, deep contoured basin to minimize splashing, and ultra-smooth surface for effortless sanitization and lasting gloss in high-traffic restrooms.',
-        shortDescription: 'Heavy-duty Orient Ceramics vitreous china wall-hung urinal bowl (Made in India).',
-        categoryId: 'cat_sanitary_ware',
-        unit: 'each',
-        featuredOrder: 2,
-        price: null,
-        images: [
-          {
-            id: 'img_orient_1',
-            url: '/images/products/product_orient_urinal.png',
-            altText: 'Orient Ceramics Wall-Hung Urinal Bowl',
-            displayOrder: 1,
-            isPrimary: true,
-          },
-        ],
-        specifications: [
-          { id: 'sp5', key: 'Brand', value: 'Orient Ceramics' },
-          { id: 'sp6', key: 'Origin', value: 'Made in India' },
-          { id: 'sp7', key: 'Mount Type', value: 'Wall Mounted' },
-          { id: 'sp8', key: 'Material', value: 'Heavy Duty Vitreous China' },
-        ],
-      },
-      {
-        id: 'prd_lirlee_basin_tap',
-        name: 'Lirlee Chrome Basin Pillar Tap',
-        slug: 'lirlee-chrome-basin-pillar-tap',
-        sku: 'MF-TAP-002',
-        description:
-          'Solid chrome-plated basin pillar tap from Lirlee Fashionable Sanitary Wares & Mixer Taps. Built with a solid brass body, gleaming mirror-chrome corrosion-resistant finish, smooth ergonomic quarter-turn lever, aerated water-saving nozzle, and threaded brass backnut for secure washbasin mounting.',
-        shortDescription: 'Mirror-finish solid brass pillar tap with quarter-turn precision control.',
-        categoryId: 'cat_taps_faucets',
-        unit: 'each',
-        featuredOrder: 3,
-        price: 1100,
-        images: [
-          {
-            id: 'img_lirlee_tap_1',
-            url: '/images/products/product_lirlee_basin_tap.png',
-            altText: 'Lirlee Chrome Basin Pillar Tap',
-            displayOrder: 1,
-            isPrimary: true,
-          },
-        ],
-        specifications: [
-          { id: 'sp9', key: 'Brand', value: 'Lirlee' },
-          { id: 'sp10', key: 'Type', value: 'Basin Pillar Tap / Faucet' },
-          { id: 'sp11', key: 'Material', value: 'Chrome-Plated Solid Brass' },
-          { id: 'sp12', key: 'Connection', value: '1/2" Standard Threaded Base' },
-        ],
-      },
-      {
-        id: 'prd_lirlee_chrome_shattaf',
-        name: 'Lirlee Tempesta-F Chrome Bidet Spray Set',
-        slug: 'lirlee-tempesta-f-chrome-bidet-spray-set',
-        sku: 'MF-TAP-003',
-        description:
-          'Complete Tempesta-F hygienic toilet bidet / shattaf spray kit by Lirlee. Includes ergonomic chrome trigger spray head with targeted comfort jet, heavy-duty 1.2m flexible stainless steel hose with leak-proof washers, and matching wall bracket holder for convenient bathroom installation.',
-        shortDescription: 'Tempesta-F chrome hygienic trigger spray handset with flexible stainless hose and bracket.',
-        categoryId: 'cat_taps_faucets',
-        unit: 'complete set',
-        featuredOrder: 4,
-        price: 950,
-        images: [
-          {
-            id: 'img_lirlee_chrome_shattaf_1',
-            url: '/images/products/product_lirlee_chrome_shattaf.png',
-            altText: 'Lirlee Tempesta-F Chrome Bidet Spray Set',
-            displayOrder: 1,
-            isPrimary: true,
-          },
-        ],
-        specifications: [
-          { id: 'sp13', key: 'Brand', value: 'Lirlee' },
-          { id: 'sp14', key: 'Series', value: 'Tempesta-F Trigger Spray 30' },
-          { id: 'sp15', key: 'Components', value: 'Spray Gun, Flexible Stainless Hose, Wall Holder' },
-        ],
-      },
-      {
-        id: 'prd_lirlee_black_shattaf',
-        name: 'Lirlee Tempesta-F Matte Black Trigger Spray Set',
-        slug: 'lirlee-tempesta-f-matte-black-trigger-spray-set',
-        sku: 'MF-TAP-004',
-        description:
-          'Modern matte black toilet shattaf / bidet spray kit (Model LR9218) by Lirlee. Features a contemporary matte black ergonomic trigger spray handset, smooth anti-twist matte black hose, and wall bracket. Adds a stylish modern touch to any modern washroom or luxury bathroom.',
-        shortDescription: 'Luxury matte black trigger spray kit (Model LR9218) with matte hose and wall mount.',
-        categoryId: 'cat_taps_faucets',
-        unit: 'complete set',
-        featuredOrder: 5,
-        price: 850,
-        images: [
-          {
-            id: 'img_lirlee_black_shattaf_1',
-            url: '/images/products/product_lirlee_black_shattaf.png',
-            altText: 'Lirlee Tempesta-F Matte Black Trigger Spray Set',
-            displayOrder: 1,
-            isPrimary: true,
-          },
-        ],
-        specifications: [
-          { id: 'sp16', key: 'Brand', value: 'Lirlee' },
-          { id: 'sp17', key: 'Model', value: 'LR9218 Tempesta-F Trigger Spray 30' },
-          { id: 'sp18', key: 'Finish', value: 'Matte Black Electrostatic Coat' },
-          { id: 'sp19', key: 'Components', value: 'Black Handset, Anti-Kink Black Hose, Wall Mount' },
-        ],
-      },
-    ];
+    const products = catalogData.products;
+    const pricesMap = new Map();
+    catalogData.prices.forEach((pr) => pricesMap.set(pr.productId, pr));
 
     for (const p of products) {
       await client.query(
         `INSERT INTO public.products
          (id, name, slug, sku, description, short_description, category_id, unit, status, is_featured, featured_order, images, specifications, created_at, updated_at)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'published', true, $9, $10::jsonb, $11::jsonb, NOW(), NOW())
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'published', $9, $10, $11::jsonb, $12::jsonb, NOW(), NOW())
          ON CONFLICT (id) DO UPDATE SET
            name = EXCLUDED.name,
+           slug = EXCLUDED.slug,
+           sku = EXCLUDED.sku,
            description = EXCLUDED.description,
            short_description = EXCLUDED.short_description,
            category_id = EXCLUDED.category_id,
            unit = EXCLUDED.unit,
+           is_featured = EXCLUDED.is_featured,
+           featured_order = EXCLUDED.featured_order,
            images = EXCLUDED.images,
            specifications = EXCLUDED.specifications,
            updated_at = NOW()`,
@@ -331,13 +134,16 @@ async function run() {
           p.shortDescription,
           p.categoryId,
           p.unit,
-          p.featuredOrder,
+          !!p.isFeatured,
+          p.featuredOrder || null,
           JSON.stringify(p.images),
-          JSON.stringify(p.specifications),
+          JSON.stringify(p.specifications || []),
         ]
       );
 
       // Seed Product Price
+      const pr = pricesMap.get(p.id);
+      const priceVal = pr ? pr.price : null;
       await client.query(
         `INSERT INTO public.product_prices
          (id, product_id, price, previous_price, currency, unit, effective_date, updated_by, reason, updated_at)
@@ -345,10 +151,10 @@ async function run() {
          ON CONFLICT (product_id) DO UPDATE SET
            price = EXCLUDED.price,
            unit = EXCLUDED.unit`,
-        [`prc_${p.featuredOrder}`, p.id, p.price, p.unit]
+        [`prc_${p.id.replace('prd_', '')}`, p.id, priceVal, p.unit]
       );
     }
-    console.log('[supabase-migrate] Seeded 6 products and pricing records.');
+    console.log(`[supabase-migrate] Seeded ${products.length} products and pricing records.`);
 
     // 5. Seed Site Content & Brand Settings
     const brand = {

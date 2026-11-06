@@ -24,12 +24,23 @@ export default function ProductDetailModal({
   secondaryPhone = '0721435772',
   secondaryWhatsappNumber = '+254721435772',
 }: ProductDetailModalProps) {
+  const [selectedImg, setSelectedImg] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (product && product.images && product.images.length > 0) {
+      setSelectedImg(product.images.find((img) => img.isPrimary)?.url || product.images[0].url);
+    } else {
+      setSelectedImg(null);
+    }
+  }, [product]);
+
   if (!isOpen || !product) return null;
 
-  const primaryImage =
-    product.images && product.images.length > 0
+  const displayImage =
+    selectedImg ||
+    (product.images && product.images.length > 0
       ? product.images.find((img) => img.isPrimary)?.url || product.images[0].url
-      : '/images/products/product_pvc_pipes.png';
+      : '/images/products/product_synnova_urinal.png');
 
   const primaryWaUrl = generateWhatsAppLink(whatsappNumber, product.name, product.sku);
   const secondaryWaUrl = generateWhatsAppLink(secondaryWhatsappNumber, product.name, product.sku);
@@ -49,16 +60,38 @@ export default function ProductDetailModal({
         </button>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 sm:p-8">
-          {/* Edge-to-edge Image without padding */}
-          <div className="bg-[#F8FAFB] rounded-xl overflow-hidden flex items-center justify-center border border-[#DFE5EB]">
-            <img
-              src={primaryImage}
-              alt={product.name}
-              className="w-full h-64 sm:h-72 object-cover"
-              onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src = '/images/modern_hardware_hero.png';
-              }}
-            />
+          {/* Edge-to-edge Image area with optional gallery thumbnails */}
+          <div className="flex flex-col space-y-3">
+            <div className="bg-[#F8FAFB] rounded-xl overflow-hidden flex items-center justify-center border border-[#DFE5EB]">
+              <img
+                src={displayImage}
+                alt={product.name}
+                className="w-full h-64 sm:h-72 object-cover"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = '/images/products/product_synnova_urinal.png';
+                }}
+              />
+            </div>
+
+            {/* Multiple Angle Gallery Thumbnails */}
+            {product.images && product.images.length > 1 && (
+              <div className="flex items-center space-x-2 overflow-x-auto pb-1">
+                {product.images.map((img, idx) => (
+                  <button
+                    key={img.id || idx}
+                    type="button"
+                    onClick={() => setSelectedImg(img.url)}
+                    className={`w-14 h-14 rounded-lg overflow-hidden border-2 flex-shrink-0 transition-all ${
+                      displayImage === img.url
+                        ? 'border-[#FF850D] shadow-md scale-105'
+                        : 'border-[#DFE5EB] opacity-75 hover:opacity-100'
+                    }`}
+                  >
+                    <img src={img.url} alt={img.altText || `View ${idx + 1}`} className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Details */}

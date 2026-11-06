@@ -270,9 +270,9 @@ export default function ProductsPage() {
               const primaryImage =
                 product.images && product.images.length > 0
                   ? product.images.find((img) => img.isPrimary)?.url || product.images[0].url
-                  : '/images/products/product_pvc_pipes.png';
+                  : '/images/products/product_synnova_urinal.png';
 
-              const waUrl = generateWhatsAppLink('+254714843208', product.name, product.sku);
+              const waUrl = generateWhatsAppLink(whatsapp, product.name, product.sku);
               const isPriceSet =
                 product.price !== null && product.price !== undefined && product.price > 0;
 
@@ -292,7 +292,7 @@ export default function ProductsPage() {
                       decoding="sync"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).src = '/images/products/product_pvc_pipes.png';
+                        (e.currentTarget as HTMLImageElement).src = '/images/products/product_synnova_urinal.png';
                       }}
                     />
                   </div>
