@@ -7,7 +7,7 @@ import CategoryStrip from '../../components/CategoryStrip';
 import ProductDetailModal from '../../components/ProductDetailModal';
 import ProductCard from '../../components/ProductCard';
 import { Search, Filter, RefreshCw } from 'lucide-react';
-import { CatalogProductItem, Category, DEFAULT_CATALOG_ITEMS, DEFAULT_CATEGORIES } from '@michaforge/shared-contracts';
+import { CatalogProductItem, Category } from '@michaforge/shared-contracts';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<CatalogProductItem[]>([]);
@@ -46,23 +46,10 @@ export default function ProductsPage() {
       const json = await res.json();
       let items: CatalogProductItem[] = [];
 
-      if (res.ok && json.success && Array.isArray(json.data) && json.data.length > 0) {
+      if (res.ok && json.success && Array.isArray(json.data)) {
         items = json.data;
       } else {
-        // Fall back to genuine store inventory if remote database is unseeded
-        items = DEFAULT_CATALOG_ITEMS.slice();
-        if (selectedCategory) {
-          items = items.filter((p) => p.categoryId === selectedCategory);
-        }
-        if (searchQuery.trim()) {
-          const q = searchQuery.toLowerCase();
-          items = items.filter(
-            (p) =>
-              p.name.toLowerCase().includes(q) ||
-              p.sku.toLowerCase().includes(q) ||
-              p.description.toLowerCase().includes(q)
-          );
-        }
+        setError(json.error?.message || 'Failed to retrieve products from Supabase');
       }
 
       if (sortBy === 'name') {
@@ -74,20 +61,8 @@ export default function ProductsPage() {
       }
       setProducts(items);
     } catch (err: any) {
-      let items = DEFAULT_CATALOG_ITEMS.slice();
-      if (selectedCategory) {
-        items = items.filter((p) => p.categoryId === selectedCategory);
-      }
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        items = items.filter(
-          (p) =>
-            p.name.toLowerCase().includes(q) ||
-            p.sku.toLowerCase().includes(q) ||
-            p.description.toLowerCase().includes(q)
-        );
-      }
-      setProducts(items);
+      setError('Unable to reach server. Please check your network connection.');
+      setProducts([]);
     } finally {
       setLoading(false);
     }
@@ -97,15 +72,11 @@ export default function ProductsPage() {
     fetch('/api/v1/categories')
       .then((r) => r.json())
       .then((json) => {
-        if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+        if (json.success && Array.isArray(json.data)) {
           setCategories(json.data);
-        } else {
-          setCategories(DEFAULT_CATEGORIES);
         }
       })
-      .catch(() => {
-        setCategories(DEFAULT_CATEGORIES);
-      });
+      .catch((err) => console.error('[ProductsPage] Failed to fetch categories:', err));
   }, []);
 
   useEffect(() => {

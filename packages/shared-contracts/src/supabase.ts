@@ -4343,15 +4343,11 @@ export const supabaseCatalogueRepo = {
       if (prodRes.data && prodRes.data.length > 0) {
         items = prodRes.data.map((r) => mapProductRow(r, catMap));
       }
-    } catch (_) {}
-
-    if (items.length === 0) {
-      const catMap: Record<string, Category> = {};
-      DEFAULT_CATEGORIES.forEach((c) => (catMap[c.id] = c));
-      items = DEFAULT_REAL_PRODUCTS.map((p) => ({
-        ...p,
-        category: catMap[p.categoryId],
-      }));
+      if (prodRes.error) {
+        console.error('[supabaseCatalogueRepo.listProducts] Error:', prodRes.error.message);
+      }
+    } catch (err: any) {
+      console.error('[supabaseCatalogueRepo.listProducts] Exception:', err.message);
     }
 
     if (filters?.status) {
@@ -4387,11 +4383,6 @@ export const supabaseCatalogueRepo = {
         return mapProductRow(data, catMap);
       }
     } catch (_) {}
-    const found = DEFAULT_REAL_PRODUCTS.find((p) => p.id === id);
-    if (found) {
-      const cat = DEFAULT_CATEGORIES.find((c) => c.id === found.categoryId);
-      return { ...found, category: cat };
-    }
     return null;
   },
 
@@ -4406,11 +4397,6 @@ export const supabaseCatalogueRepo = {
         return mapProductRow(data, catMap);
       }
     } catch (_) {}
-    const found = DEFAULT_REAL_PRODUCTS.find((p) => p.slug === slug);
-    if (found) {
-      const cat = DEFAULT_CATEGORIES.find((c) => c.id === found.categoryId);
-      return { ...found, category: cat };
-    }
     return null;
   },
 

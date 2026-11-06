@@ -22,6 +22,7 @@ import {
   supabaseCatalogAggregator,
   UserDbRecord,
   NotificationDbRecord,
+  getSupabaseClient,
 } from '@michaforge/shared-contracts';
 import {
   validatePriceValue,
@@ -519,7 +520,32 @@ async function handleApiRequest(
           mimeType = file.type || 'image/png';
           sizeBytes = file.size;
           const bytes = Buffer.from(await file.arrayBuffer());
-          dataUrl = `data:${mimeType};base64,${bytes.toString('base64')}`;
+
+          try {
+            const sb = getSupabaseClient();
+            const storagePath = `uploads/${fileName}`;
+            const { data: uploadData, error: uploadErr } = await sb.storage
+              .from('product-media')
+              .upload(storagePath, bytes, {
+                contentType: mimeType,
+                upsert: true,
+              });
+
+            if (!uploadErr && uploadData) {
+              const { data: pubData } = sb.storage
+                .from('product-media')
+                .getPublicUrl(storagePath);
+              if (pubData && pubData.publicUrl) {
+                dataUrl = pubData.publicUrl;
+              } else {
+                dataUrl = `data:${mimeType};base64,${bytes.toString('base64')}`;
+              }
+            } else {
+              dataUrl = `data:${mimeType};base64,${bytes.toString('base64')}`;
+            }
+          } catch {
+            dataUrl = `data:${mimeType};base64,${bytes.toString('base64')}`;
+          }
         }
       } else {
         const body = await safeJsonBody(req);

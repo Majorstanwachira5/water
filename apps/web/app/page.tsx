@@ -9,13 +9,10 @@ import AboutSection from '../components/AboutSection';
 import ContactSection from '../components/ContactSection';
 import Footer from '../components/Footer';
 import ProductDetailModal from '../components/ProductDetailModal';
-import { CatalogProductItem, Category, BrandSettings, DEFAULT_CATALOG_ITEMS } from '@michaforge/shared-contracts';
-
-// Real store products with genuine store inventory photos & verified prices
-const FALLBACK_PRODUCTS: CatalogProductItem[] = DEFAULT_CATALOG_ITEMS;
+import { CatalogProductItem, Category, BrandSettings } from '@michaforge/shared-contracts';
 
 export default function HomePage() {
-  const [products, setProducts] = useState<CatalogProductItem[]>(FALLBACK_PRODUCTS);
+  const [products, setProducts] = useState<CatalogProductItem[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [brand, setBrand] = useState<BrandSettings | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<CatalogProductItem | null>(null);
@@ -25,23 +22,23 @@ export default function HomePage() {
     fetch('/api/v1/catalog/products?featured=true')
       .then((res) => res.json())
       .then((json) => {
-        if (json.success && json.data && json.data.length > 0) {
+        if (json.success && Array.isArray(json.data)) {
           setProducts(json.data);
         }
       })
-      .catch(() => {});
+      .catch((err) => console.error('[HomePage] Failed to fetch featured products:', err));
 
-    // 2. Fetch Categories
+    // 2. Fetch Categories directly from Supabase
     fetch('/api/v1/categories')
       .then((res) => res.json())
       .then((json) => {
-        if (json.success && json.data) {
+        if (json.success && Array.isArray(json.data)) {
           setCategories(json.data);
         }
       })
-      .catch(() => {});
+      .catch((err) => console.error('[HomePage] Failed to fetch categories:', err));
 
-    // 3. Fetch Brand Settings
+    // 3. Fetch Brand Settings directly from Supabase
     fetch('/api/v1/settings/public')
       .then((res) => res.json())
       .then((json) => {
@@ -49,7 +46,7 @@ export default function HomePage() {
           setBrand(json.data);
         }
       })
-      .catch(() => {});
+      .catch((err) => console.error('[HomePage] Failed to fetch site settings:', err));
   }, []);
 
   const phone = brand?.primaryPhone || '0714843208';

@@ -29,36 +29,35 @@ export function ProductCard({
   const waUrl = generateWhatsAppLink(whatsappNumber, product.name, product.sku);
 
   return (
-    <div className="product-card flex flex-col justify-between bg-white border border-[#DFE5EB] rounded-xl overflow-hidden shadow-sm hover:border-[#FF850D]/60 transition-all text-left">
+    <div className="product-card h-full flex flex-col justify-between bg-white border border-[#DFE5EB] rounded-xl overflow-hidden shadow-sm hover:border-[#FF850D]/60 hover:shadow-md transition-all text-left">
       <div
-        className="w-full h-36 sm:h-40 bg-[#F8FAFB] overflow-hidden flex items-center justify-center cursor-pointer group border-b border-gray-100"
+        className="w-full aspect-[4/3] bg-[#F8FAFB] overflow-hidden flex items-center justify-center cursor-pointer group border-b border-gray-100 relative p-2"
         onClick={() => onSelect(product)}
       >
         <img
           src={primaryImage}
           alt={product.name}
-          loading="eager"
-          decoding="sync"
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          loading="lazy"
+          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
           onError={(e) => {
             (e.currentTarget as HTMLImageElement).src = fallbackImage;
           }}
         />
       </div>
 
-      <div className="p-2.5 pt-2 flex-1 flex flex-col justify-between">
+      <div className="p-3 flex-1 flex flex-col justify-between">
         <div>
           <h3
-            className="font-extrabold text-xs sm:text-[13px] text-[#073253] line-clamp-1 hover:text-[#FF850D] cursor-pointer"
+            className="font-extrabold text-xs sm:text-[13px] text-[#073253] line-clamp-2 min-h-[2rem] leading-tight hover:text-[#FF850D] cursor-pointer"
             onClick={() => onSelect(product)}
             title={product.name}
           >
             {product.name}
           </h3>
 
-          <div className="mt-0.5">
+          <div className="mt-1.5">
             {isPriceSet ? (
-              <div className="flex items-baseline space-x-1">
+              <div className="flex items-baseline space-x-1.5">
                 <span className="text-sm sm:text-[15px] font-black text-[#FF850D]">
                   {product.formattedPrice}
                 </span>
@@ -76,7 +75,7 @@ export function ProductCard({
             )}
           </div>
 
-          <p className="text-[11px] text-[#667585] mt-0.5 mb-2">
+          <p className="text-[11px] text-[#667585] mt-1 mb-2 font-medium">
             {product.unit}
           </p>
         </div>
@@ -85,7 +84,7 @@ export function ProductCard({
           href={waUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="w-full inline-flex items-center justify-center space-x-1.5 bg-[#0BAA58] hover:bg-[#09934B] text-white text-[11px] font-bold py-1.5 px-2 rounded-md transition-colors shadow-sm"
+          className="w-full inline-flex items-center justify-center space-x-1.5 bg-[#0BAA58] hover:bg-[#09934B] text-white text-[11px] font-bold py-2 px-2.5 rounded-lg transition-colors shadow-sm"
         >
           <MessageCircle className="w-3.5 h-3.5 fill-white flex-shrink-0" />
           <span className="truncate">Inquire on WhatsApp</span>
