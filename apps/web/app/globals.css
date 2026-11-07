@@ -95,3 +95,81 @@ img {
   scrollbar-width: none;
 }
 
+/* ==========================================================================
+   Black November & Promotional Category Section Ambient Animations
+   ========================================================================== */
+@keyframes promoKenBurns {
+  0% {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.09) translate3d(-1.2%, -0.8%, 0);
+  }
+  100% {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+}
+
+@keyframes promoShimmerSweep {
+  0% {
+    transform: translate3d(-120%, 0, 0) skewX(-22deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.55;
+  }
+  60% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: translate3d(220%, 0, 0) skewX(-22deg);
+    opacity: 0;
+  }
+}
+
+@keyframes promoOrbFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(24px, -14px, 0) scale(1.12);
+  }
+}
+
+@keyframes promoMarquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-promo-bg {
+  animation: promoKenBurns 18s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-promo-sweep {
+  animation: promoShimmerSweep 8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-promo-orb {
+  animation: promoOrbFloat 9s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-promo-marquee {
+  display: flex;
+  width: max-content;
+  animation: promoMarquee 32s linear infinite;
+  will-change: transform;
+}
+
+.animate-promo-marquee:hover {
+  animation-play-state: paused;
+}
+
+

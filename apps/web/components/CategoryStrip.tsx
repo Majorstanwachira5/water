@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { Flame, Sparkles, Tag } from 'lucide-react';
 import { Category } from '@michaforge/shared-contracts';
 
 interface CategoryStripProps {
@@ -79,15 +80,35 @@ const DEFAULT_CATEGORIES: Category[] = [
   },
 ];
 
-// Rich item highlights for the pop-out animation effect
+// Rich item highlights for each department card
 const CATEGORY_HIGHLIGHTS: Record<string, string[]> = {
-  cat_sanitary_ware: ['Ceramic Urinals', 'Wash Basins', 'Flush Kits', 'Grab Bars'],
-  cat_taps_faucets: ['Spring Mixers', 'Basin Taps', 'Bidet Shattafs', 'Goosenecks'],
-  cat_shower_systems: ['Instant Heaters', 'Shower Columns', 'Rain Heads', 'Mixer Valves'],
-  cat_kitchen_sinks: ['Nano Black', 'Double Bowl', 'Single Bowl', 'Drainer Kits'],
-  cat_plumbing_pipes: ['Magic Bends', 'Bottle Traps', 'PPR Pipes', 'Welding Kits'],
-  cat_hardware_items: ['Mortise Locks', '6pc Bath Sets', 'Towel Shelves', 'Curtain Rods'],
+  cat_sanitary_ware: ['Ceramic Urinals', 'Wash Basins', 'Flush Kits'],
+  cat_taps_faucets: ['Spring Mixers', 'Basin Taps', 'Bidet Shattafs'],
+  cat_shower_systems: ['Instant Heaters', 'Shower Columns', 'Rain Heads'],
+  cat_kitchen_sinks: ['Nano Black', 'Double Bowl', 'Single Bowl'],
+  cat_plumbing_pipes: ['Magic Bends', 'Bottle Traps', 'PPR Pipes'],
+  cat_hardware_items: ['Mortise Locks', '6pc Bath Sets', 'Towel Shelves'],
 };
+
+// Authentic store starting offer prices per category
+const CATEGORY_OFFER_PRICES: Record<string, string> = {
+  cat_sanitary_ware: 'From KSh 1,150',
+  cat_taps_faucets: 'From KSh 850',
+  cat_shower_systems: 'From KSh 1,200',
+  cat_kitchen_sinks: 'From KSh 2,600',
+  cat_plumbing_pipes: 'From KSh 900',
+  cat_hardware_items: 'From KSh 950',
+};
+
+const BLACK_NOVEMBER_DEALS = [
+  { badge: 'BLACK NOVEMBER', text: 'Mega Plumbing & Hardware Deals Live Now' },
+  { badge: 'HOT OFFER', text: 'Taps, Kitchen Mixers & Shattafs from KSh 850' },
+  { badge: 'FLASH DEAL', text: 'Instant Shower Heaters & Rain Heads from KSh 1,200' },
+  { badge: 'PROMO PRICE', text: 'Black Nano & SUS304 Double Sinks from KSh 2,600' },
+  { badge: 'HARDWARE SALE', text: 'Heavy-Duty Mortise Locks & 6pc Bath Sets from KSh 950' },
+  { badge: 'PIPES & TRAPS', text: 'Magic Bends, Bottle Traps & PPR Kits from KSh 900' },
+  { badge: 'CONTRACTOR BOQ', text: 'Special Wholesale Project Discounts Across Kenya' },
+];
 
 function PlumbingCategoryIcon({ name, iconName }: { name: string; iconName?: string }) {
   const key = `${name} ${iconName || ''}`.toLowerCase();
@@ -95,7 +116,7 @@ function PlumbingCategoryIcon({ name, iconName }: { name: string; iconName?: str
   // 1. Sanitary Ware & Ceramics
   if (key.includes('sanitary') || key.includes('ceramic') || key.includes('urinal') || key.includes('toilet') || key.includes('basin')) {
     return (
-      <svg className="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg className="w-6 h-6 sm:w-6 sm:h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M7 6H21V13C21 17 18 20 14 20C10 20 7 17 7 13V6Z" />
         <path d="M11 20V24H17V20" />
         <circle cx="14" cy="14" r="1.5" />
@@ -107,7 +128,7 @@ function PlumbingCategoryIcon({ name, iconName }: { name: string; iconName?: str
   // 2. Taps, Mixers & Shattafs
   if (key.includes('tap') || key.includes('faucet') || key.includes('mixer') || key.includes('shattaf') || key.includes('bidet')) {
     return (
-      <svg className="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg className="w-6 h-6 sm:w-6 sm:h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M10 6H18" />
         <path d="M14 6V10" />
         <path d="M6 12H18C20.5 12 22 13.5 22 16V18H18V16C18 15.2 17.5 15 16.5 15H6V12Z" />
@@ -120,7 +141,7 @@ function PlumbingCategoryIcon({ name, iconName }: { name: string; iconName?: str
   // 3. Showers & Water Heating
   if (key.includes('shower') || key.includes('heater') || key.includes('heating')) {
     return (
-      <svg className="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg className="w-6 h-6 sm:w-6 sm:h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M5 7H14C17 7 19 9 19 12V14" />
         <path d="M13 14H25L23 18H15L13 14Z" />
         <line x1="16" y1="21" x2="16" y2="23" />
@@ -135,7 +156,7 @@ function PlumbingCategoryIcon({ name, iconName }: { name: string; iconName?: str
   // 4. Kitchen Sinks & Basins
   if (key.includes('sink')) {
     return (
-      <svg className="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg className="w-6 h-6 sm:w-6 sm:h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <rect x="4" y="8" width="20" height="15" rx="2" />
         <line x1="14" y1="8" x2="14" y2="23" />
         <circle cx="9" cy="15" r="1.5" />
@@ -148,7 +169,7 @@ function PlumbingCategoryIcon({ name, iconName }: { name: string; iconName?: str
   // 5. Pipes, Drainage & Traps
   if (key.includes('pipe') || key.includes('drainage') || key.includes('trap') || key.includes('bend')) {
     return (
-      <svg className="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg className="w-6 h-6 sm:w-6 sm:h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M5 19L19 5C20.5 3.5 23 3.5 24 4.5C25 5.5 25 8 23.5 9.5L9.5 23.5" />
         <ellipse cx="7.2" cy="21.2" rx="3.2" ry="2" transform="rotate(-45 7.2 21.2)" />
         <path d="M16 8L20 12" />
@@ -158,7 +179,7 @@ function PlumbingCategoryIcon({ name, iconName }: { name: string; iconName?: str
 
   // 6. Hardware & Locks
   return (
-    <svg className="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg className="w-6 h-6 sm:w-6 sm:h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M18.5 5.5C17 7 17 9.5 18.5 11L10.5 19C9 17.5 6.5 17.5 5 19C4 20 4 21.5 4.5 22.5L7 20L8.5 21.5L6 24C7 24.5 8.5 24.5 9.5 23.5C11 22 11 19.5 9.5 18L17.5 10C19 11.5 21.5 11.5 23 10C24 9 24 7.5 23.5 6.5L21 9L19.5 7.5L22 5C21 4.5 19.5 4.5 18.5 5.5Z" />
       <path d="M6 6L12 12" />
       <path d="M16 16L22 22" />
@@ -172,51 +193,111 @@ export default function CategoryStrip({
   onSelectCategory,
   showAllOption = false,
 }: CategoryStripProps) {
-  // Use passed categories or standard published store categories
   const rawList = categories && categories.length > 0 ? categories : DEFAULT_CATEGORIES;
-  
-  // Ensure we display published categories ordered by display order
+
   const list = rawList
     .filter((c) => c.isPublished !== false)
     .sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0));
 
   return (
-    <section 
-      aria-label="Product Categories Navigation" 
-      className="bg-gradient-to-b from-[#F8FAFC] via-white to-[#F8FAFC] py-4 sm:py-5 border-b border-[#E2E8F0] relative z-10"
+    <section
+      aria-label="Product Categories and Black November Material Offers"
+      className="relative overflow-hidden bg-[#061C30] border-b border-[#FF850D]/30 select-none"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Section Header with Clear Visual Context */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-1.5 mb-3 sm:mb-4">
+      {/* 1. Translucent Animated Black November Hardware Showcase Backdrop */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <img
+          src="/images/black_november_promo_bg.jpg"
+          alt=""
+          aria-hidden="true"
+          className="w-full h-full object-cover object-center animate-promo-bg opacity-55 filter contrast-[1.08] saturate-[1.15]"
+        />
+        {/* Translucent Brand-Synced Gradient Veil so foreground text & cards stay 100% crisp */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#073253]/85 via-[#061B2E]/65 to-[#051626]/88" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#061B2E]/80 via-transparent to-[#061B2E]/80" />
+
+        {/* Dynamic Animated Glowing Orbs */}
+        <div className="absolute -top-16 left-1/4 w-72 h-72 rounded-full bg-[#FF850D]/20 blur-3xl animate-promo-orb" />
+        <div
+          className="absolute -bottom-20 right-1/4 w-80 h-80 rounded-full bg-amber-400/15 blur-3xl animate-promo-orb"
+          style={{ animationDelay: '-4s' }}
+        />
+
+        {/* Animated Shimmer Light Sweep */}
+        <div className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-[#FF850D]/15 to-transparent animate-promo-sweep" />
+      </div>
+
+      {/* 2. Live Scrolling "Black November Material Offers" Marquee Ribbon */}
+      <div className="relative z-10 bg-black/40 backdrop-blur-md border-b border-white/10 py-2 overflow-hidden">
+        <div className="animate-promo-marquee flex items-center">
+          {[0, 1].map((dupIdx) => (
+            <div
+              key={dupIdx}
+              className="flex items-center space-x-6 pr-6"
+              aria-hidden={dupIdx === 1}
+            >
+              {BLACK_NOVEMBER_DEALS.map((deal, idx) => (
+                <a
+                  key={`${dupIdx}-${idx}`}
+                  href="/products"
+                  className="inline-flex items-center space-x-2 text-xs whitespace-nowrap group"
+                >
+                  <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-[#FF850D] to-[#FFA133] text-white text-[10px] font-black uppercase tracking-wider">
+                    <Flame className="w-3 h-3 fill-white" />
+                    <span>{deal.badge}</span>
+                  </span>
+                  <span className="text-slate-100 group-hover:text-[#FFB057] font-semibold transition-colors">
+                    {deal.text}
+                  </span>
+                  <span className="text-[#FF850D]/60 pl-2">•</span>
+                </a>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 3. Main Category Showcase Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-5 sm:py-6">
+        {/* Section Header with Black November Promo Callout */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 mb-4 sm:mb-5">
           <div>
-            <div className="flex items-center space-x-2">
-              <span className="w-2 h-2 rounded-full bg-[#FF850D] animate-pulse" />
-              <span className="text-[11px] sm:text-xs font-black uppercase tracking-wider text-[#FF850D]">
+            <div className="inline-flex flex-wrap items-center gap-2 mb-1.5">
+              <span className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-[#FF850D] text-white text-[10.5px] font-black uppercase tracking-wider shadow-sm">
+                <Sparkles className="w-3 h-3" />
+                <span>Black November Material Offers</span>
+              </span>
+              <span className="text-[11px] font-bold uppercase tracking-wider text-amber-300">
                 Department Catalogue
               </span>
             </div>
-            <h2 className="text-lg sm:text-xl md:text-2xl font-black text-[#073253] tracking-tight mt-0.5">
+
+            <h2 className="text-xl sm:text-2xl md:text-[26px] font-black text-white tracking-tight leading-tight">
               Explore Plumbing &amp; Hardware Solutions
             </h2>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-wrap items-center gap-2">
             {showAllOption && selectedCategoryId && onSelectCategory && (
               <button
                 type="button"
                 onClick={() => onSelectCategory(null)}
-                className="text-xs font-bold text-[#FF850D] hover:text-[#073253] bg-orange-50 hover:bg-orange-100 border border-orange-200 px-3 py-1.5 rounded-lg transition-colors flex items-center space-x-1.5 shadow-none"
+                className="text-xs font-bold text-white bg-[#FF850D] hover:bg-[#E67300] px-3 py-1.5 rounded-lg transition-colors flex items-center space-x-1.5"
               >
                 <span>✕ Clear Filter</span>
               </button>
             )}
-            <p className="text-xs text-gray-500 hidden md:block">
-              Hover over any department to preview items, or click to filter live inventory
-            </p>
+            <a
+              href="/products"
+              className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-xs font-bold text-amber-200 transition-colors"
+            >
+              <Tag className="w-3.5 h-3.5 text-[#FF850D]" />
+              <span>Special Offer Prices Inside Every Department</span>
+            </a>
           </div>
         </div>
 
-        {/* Responsive Balanced Grid: 2 cols on mobile, 3 on tablet, 6 on desktop */}
+        {/* 4. Translucent Frosted-Glass Category Cards Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3.5">
           {list.map((cat) => {
             const isSelected =
@@ -227,6 +308,8 @@ export default function CategoryStrip({
               CATEGORY_HIGHLIGHTS[cat.id] ||
               cat.description?.split(',').map((s) => s.trim()) ||
               [];
+
+            const offerPrice = CATEGORY_OFFER_PRICES[cat.id] || 'Special Offer';
 
             return (
               <a
@@ -241,7 +324,7 @@ export default function CategoryStrip({
                 role="button"
                 tabIndex={0}
                 aria-pressed={isSelected}
-                aria-label={`Category: ${cat.name}. ${cat.description || ''}`}
+                aria-label={`Category: ${cat.name}. ${offerPrice}. ${cat.description || ''}`}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
@@ -252,42 +335,42 @@ export default function CategoryStrip({
                     }
                   }
                 }}
-                className={`group relative flex flex-col justify-between p-3 sm:p-3.5 rounded-xl sm:rounded-2xl cursor-pointer select-none min-h-[145px] sm:min-h-[160px] transform-gpu will-change-transform transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF850D] ${
+                className={`group relative flex flex-col justify-between p-3 sm:p-3.5 rounded-xl sm:rounded-2xl cursor-pointer select-none min-h-[160px] sm:min-h-[172px] backdrop-blur-md transform-gpu will-change-transform transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF850D] ${
                   isSelected
-                    ? 'bg-[#FFF8F2] border-2 border-[#FF850D] shadow-none -translate-y-0.5 z-20'
-                    : 'bg-white border border-[#E2E8F0] shadow-none z-10 hover:z-30 hover:scale-[1.02] sm:hover:scale-[1.03] hover:-translate-y-1 hover:border-[#FF850D] hover:bg-white'
+                    ? 'bg-white/95 border-2 border-[#FF850D] -translate-y-1 z-20'
+                    : 'bg-white/88 hover:bg-white/96 border border-white/50 z-10 hover:z-30 hover:scale-[1.03] hover:-translate-y-1.5 hover:border-[#FF850D]'
                 }`}
               >
-                {/* Top Accent Highlight */}
+                {/* Top Glowing Accent Bar */}
                 <div
                   className={`absolute top-0 left-3 right-3 h-1 rounded-b-full transition-all duration-300 ${
                     isSelected
-                      ? 'bg-gradient-to-r from-[#FF850D] via-[#FF982A] to-[#FF850D]'
-                      : 'bg-transparent group-hover:bg-gradient-to-r group-hover:from-[#FF850D] group-hover:via-[#FF982A] group-hover:to-[#FF850D]'
+                      ? 'bg-gradient-to-r from-[#FF850D] via-amber-400 to-[#FF850D]'
+                      : 'bg-gradient-to-r from-[#FF850D]/40 via-amber-400/40 to-[#FF850D]/40 group-hover:from-[#FF850D] group-hover:via-amber-400 group-hover:to-[#FF850D]'
                   }`}
                 />
 
-                {/* Card Top: Icon & Status Badge */}
-                <div className="flex items-start justify-between gap-2 mb-1.5 sm:mb-2">
+                {/* Card Top: Icon & Live Offer Price Pill */}
+                <div className="flex items-start justify-between gap-1.5 mb-2">
                   <div
                     className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center flex-shrink-0 border transition-all duration-300 ease-out ${
                       isSelected
                         ? 'bg-[#073253] text-[#FF850D] border-[#073253] scale-105'
-                        : 'bg-[#EEF2F6] text-[#073253] border-[#E2E8F0] group-hover:scale-105 group-hover:bg-[#073253] group-hover:text-[#FF850D] group-hover:border-[#073253]'
+                        : 'bg-[#073253]/10 text-[#073253] border-[#073253]/15 group-hover:scale-105 group-hover:bg-[#073253] group-hover:text-[#FF850D] group-hover:border-[#073253]'
                     }`}
                   >
                     <PlumbingCategoryIcon name={cat.name} iconName={cat.iconName} />
                   </div>
 
-                  {isSelected ? (
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-[#FF850D] text-white">
-                      Active
-                    </span>
-                  ) : (
-                    <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-orange-100 text-[#FF850D]">
-                      Explore
-                    </span>
-                  )}
+                  <span
+                    className={`inline-flex items-center px-2 py-0.5 rounded-full text-[9.5px] font-black tracking-tight transition-colors ${
+                      isSelected
+                        ? 'bg-[#FF850D] text-white'
+                        : 'bg-[#FFF3E6] text-[#D96B00] border border-[#FF850D]/30 group-hover:bg-[#FF850D] group-hover:text-white'
+                    }`}
+                  >
+                    {isSelected ? 'Active' : offerPrice}
+                  </span>
                 </div>
 
                 {/* Card Body: Name and Description */}
@@ -302,24 +385,18 @@ export default function CategoryStrip({
                     {cat.name}
                   </h3>
 
-                  <p
-                    className={`text-[10.5px] sm:text-[11px] leading-relaxed mt-0.5 transition-colors duration-200 ${
-                      isSelected
-                        ? 'text-[#073253]/85 font-medium'
-                        : 'text-[#5A6E82] group-hover:text-[#172B3A]'
-                    }`}
-                  >
+                  <p className="text-[10.5px] sm:text-[11px] leading-relaxed mt-0.5 text-[#334155] font-medium">
                     {cat.description}
                   </p>
 
-                  {/* Pop-Out Highlights Strip */}
+                  {/* Item Highlights Strip */}
                   {highlights.length > 0 && (
-                    <div className="mt-2 pt-1.5 border-t border-gray-100 group-hover:border-[#FF850D]/25 transition-colors">
+                    <div className="mt-2 pt-1.5 border-t border-slate-200/80 group-hover:border-[#FF850D]/30 transition-colors">
                       <div className="flex flex-wrap gap-1">
                         {highlights.slice(0, 3).map((item) => (
                           <span
                             key={item}
-                            className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-gray-100/90 text-gray-600 group-hover:bg-[#FFF3E6] group-hover:text-[#D96B00] group-hover:border group-hover:border-[#FF850D]/25 transition-all duration-200"
+                            className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-[#1E293B] group-hover:bg-[#FFF3E6] group-hover:text-[#C85A00] transition-colors duration-200"
                           >
                             {item}
                           </span>
@@ -329,22 +406,22 @@ export default function CategoryStrip({
                   )}
                 </div>
 
-                {/* Card Footer: Interactive CTA */}
-                <div className="mt-2 pt-2 border-t border-gray-100 flex items-center justify-between text-[11px] font-bold">
+                {/* Card Footer: Shop Offer CTA */}
+                <div className="mt-2 pt-2 border-t border-slate-200/80 flex items-center justify-between text-[11px] font-extrabold">
                   <span
                     className={`transition-colors duration-200 ${
                       isSelected
-                        ? 'text-[#FF850D] font-extrabold'
-                        : 'text-gray-400 group-hover:text-[#073253] group-hover:font-extrabold'
+                        ? 'text-[#FF850D]'
+                        : 'text-[#073253] group-hover:text-[#FF850D]'
                     }`}
                   >
-                    {isSelected ? 'Active Filter' : 'Browse Items'}
+                    {isSelected ? 'Active Filter' : 'Shop Offers'}
                   </span>
                   <span
                     className={`inline-flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-bold transition-all duration-300 ${
                       isSelected
                         ? 'bg-[#FF850D] text-white'
-                        : 'bg-gray-100 text-gray-500 group-hover:bg-[#FF850D] group-hover:text-white group-hover:translate-x-0.5'
+                        : 'bg-[#073253]/10 text-[#073253] group-hover:bg-[#FF850D] group-hover:text-white group-hover:translate-x-0.5'
                     }`}
                   >
                     {isSelected ? '✓' : '→'}
