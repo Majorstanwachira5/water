@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import ContentProtection from '../components/ContentProtection';
 
 export const metadata: Metadata = {
   title: 'Michaforge Enterprises | Quality Plumbing & Hardware Materials Kenya',
@@ -47,6 +48,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className="min-h-screen flex flex-col antialiased">
+        <ContentProtection />
         {children}
       </body>
     </html>
