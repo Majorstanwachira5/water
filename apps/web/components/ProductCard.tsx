@@ -40,7 +40,7 @@ export function ProductCard({
           src={primaryImage}
           alt={product.name}
           loading="lazy"
-          className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-500 filter brightness-[0.98]"
+          className="w-full h-full object-cover object-center group-hover:scale-[1.06] transition-transform duration-500 filter brightness-[0.98]"
           onError={(e) => {
             const target = e.currentTarget as HTMLImageElement;
             if (target.src !== fallbackImage) {

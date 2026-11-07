@@ -85,3 +85,13 @@ img {
 .product-card:hover {
   transform: translateY(-3px);
 }
+
+/* Hide scrollbars on horizontal quick-filter strips while keeping scroll active */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
