@@ -49,25 +49,19 @@ export function ProductCard({
           }}
         />
 
-        {/* Top Vignette for badges legibility */}
-        <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/35 via-black/15 to-transparent pointer-events-none" />
+        {/* Top Vignette for badge legibility */}
+        <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-black/25 to-transparent pointer-events-none" />
       </div>
 
-      {/* Top Floating Badges */}
-      <div className="absolute top-2.5 inset-x-2.5 z-10 flex items-center justify-between pointer-events-none">
-        {product.unit ? (
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-black/45 backdrop-blur-md text-white border border-white/20 shadow-2xs uppercase tracking-wider">
-            {product.unit}
+      {/* Top Floating Badge: Quality indicator only — price is displayed exclusively in the bottom panel to eliminate repetition */}
+      <div className="absolute top-2.5 left-2.5 z-10 flex items-center pointer-events-none">
+        {product.isFeatured ? (
+          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#FF850D] text-white shadow-2xs uppercase tracking-wider">
+            Featured
           </span>
         ) : (
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#073253]/80 backdrop-blur-md text-white border border-white/20 shadow-2xs">
+          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#073253]/75 backdrop-blur-md text-white border border-white/20 shadow-2xs">
             Genuine
-          </span>
-        )}
-
-        {isPriceSet && (
-          <span className="px-2.5 py-0.5 rounded-full text-xs font-black bg-[#FF850D] text-white shadow-2xs">
-            {product.formattedPrice}
           </span>
         )}
       </div>
@@ -86,7 +80,7 @@ export function ProductCard({
         <div className="flex items-baseline justify-between pt-0.5">
           {isPriceSet ? (
             <div className="flex items-baseline space-x-1.5">
-              <span className="text-xs sm:text-[13.5px] font-black text-[#FF850D]">
+              <span className="text-sm sm:text-[14.5px] font-black text-[#FF850D]">
                 {product.formattedPrice}
               </span>
               {product.previousPrice ? (
@@ -102,8 +96,8 @@ export function ProductCard({
             </div>
           )}
 
-          <span className="text-[10px] sm:text-[11px] text-[#667585] font-semibold truncate max-w-[90px] text-right">
-            {product.unit || 'per item'}
+          <span className="text-[10px] sm:text-[11px] text-[#667585] font-semibold truncate max-w-[100px] text-right">
+            {product.unit ? `per ${product.unit}` : 'per item'}
           </span>
         </div>
 
