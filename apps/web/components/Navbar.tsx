@@ -172,90 +172,112 @@ export default function Navbar({
       </div>
 
       {/* 3. SEPARATE ORANGE NAVIGATION BAR: Home | Products | About Us | Contact | Staff Login */}
-      <nav className="bg-[#FF850D] text-white shadow-xs border-t border-[#FF982A]">
+      <nav aria-label="Main Navigation" className="bg-[#FF850D] text-white shadow-sm border-t border-[#FF982A]">
         <div className="max-w-7xl mx-auto px-3 sm:px-6">
           {/* Desktop & Tablet Navigation */}
-          <div className="hidden md:flex items-center justify-center h-8 sm:h-9 space-x-1.5 lg:space-x-3 text-xs sm:text-[13px] font-bold">
+          <div className="hidden md:flex items-center justify-center py-2 space-x-2 lg:space-x-4 text-xs sm:text-[13px] font-bold">
             <a
               href="/"
-              className={`px-3 py-1 rounded transition-colors duration-150 ${
+              className={`px-4 py-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${
                 activePage === 'home'
-                  ? 'bg-[#073253] text-white shadow-xs'
+                  ? 'bg-[#073253] text-white shadow-sm ring-1 ring-black/15'
                   : 'text-white hover:bg-[#073253] hover:text-white'
               }`}
             >
               Home
             </a>
-            <span className="text-white/40 text-xs select-none">|</span>
 
             <a
               href="/products"
-              className={`px-3 py-1 rounded transition-colors duration-150 ${
+              className={`px-4 py-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${
                 activePage === 'products'
-                  ? 'bg-[#073253] text-white shadow-xs'
+                  ? 'bg-[#073253] text-white shadow-sm ring-1 ring-black/15'
                   : 'text-white hover:bg-[#073253] hover:text-white'
               }`}
             >
               Products
             </a>
-            <span className="text-white/40 text-xs select-none">|</span>
 
             <a
               href="/#about"
-              className="px-3 py-1 rounded text-white hover:bg-[#073253] hover:text-white transition-colors duration-150"
+              className={`px-4 py-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${
+                activePage === 'about'
+                  ? 'bg-[#073253] text-white shadow-sm ring-1 ring-black/15'
+                  : 'text-white hover:bg-[#073253] hover:text-white'
+              }`}
             >
               About Us
             </a>
-            <span className="text-white/40 text-xs select-none">|</span>
 
             <a
               href="/#contact"
-              className="px-3 py-1 rounded text-white hover:bg-[#073253] hover:text-white transition-colors duration-150"
+              className={`px-4 py-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${
+                activePage === 'contact'
+                  ? 'bg-[#073253] text-white shadow-sm ring-1 ring-black/15'
+                  : 'text-white hover:bg-[#073253] hover:text-white'
+              }`}
             >
               Contact
             </a>
-            <span className="text-white/40 text-xs select-none">|</span>
 
             <a
               href="/admin/login"
-              className="px-3 py-1 rounded text-white hover:bg-[#073253] hover:text-white transition-colors duration-150 inline-flex items-center space-x-1"
-              title="Staff Portal Login"
+              className="ml-2 bg-[#073253]/30 hover:bg-[#073253] text-white ring-1 ring-white/40 hover:ring-white/80 px-4 py-1.5 rounded-lg transition-all duration-150 inline-flex items-center space-x-1.5 shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              title="Secure Staff Portal Login"
             >
               <ShieldCheck className="w-3.5 h-3.5 text-white/90" />
               <span>Staff Login</span>
             </a>
           </div>
 
-          {/* Mobile Quick Bar (Swipeable / Center-aligned on small screens) */}
-          <div className="flex md:hidden items-center justify-center space-x-1.5 text-[11px] font-bold w-full overflow-x-auto py-1.5 scrollbar-none">
+          {/* Mobile Quick Bar (Comfortable Tap Targets with Smooth Active States) */}
+          <div className="flex md:hidden items-center justify-center space-x-2 text-xs font-bold w-full overflow-x-auto py-2 scrollbar-none">
             <a
               href="/"
-              className={`px-2 py-0.5 rounded transition-colors ${
-                activePage === 'home' ? 'bg-[#073253] text-white' : 'text-white hover:bg-[#073253]'
+              className={`px-3 py-1 rounded-full transition-colors flex-shrink-0 ${
+                activePage === 'home'
+                  ? 'bg-[#073253] text-white shadow-xs'
+                  : 'text-white hover:bg-[#073253]/80'
               }`}
             >
               Home
             </a>
-            <span className="text-white/40 select-none">|</span>
             <a
               href="/products"
-              className={`px-2 py-0.5 rounded transition-colors ${
-                activePage === 'products' ? 'bg-[#073253] text-white' : 'text-white hover:bg-[#073253]'
+              className={`px-3 py-1 rounded-full transition-colors flex-shrink-0 ${
+                activePage === 'products'
+                  ? 'bg-[#073253] text-white shadow-xs'
+                  : 'text-white hover:bg-[#073253]/80'
               }`}
             >
               Products
             </a>
-            <span className="text-white/40 select-none">|</span>
-            <a href="/#about" className="px-2 py-0.5 rounded text-white hover:bg-[#073253] transition-colors">
+            <a
+              href="/#about"
+              className={`px-3 py-1 rounded-full transition-colors flex-shrink-0 ${
+                activePage === 'about'
+                  ? 'bg-[#073253] text-white shadow-xs'
+                  : 'text-white hover:bg-[#073253]/80'
+              }`}
+            >
               About
             </a>
-            <span className="text-white/40 select-none">|</span>
-            <a href="/#contact" className="px-2 py-0.5 rounded text-white hover:bg-[#073253] transition-colors">
+            <a
+              href="/#contact"
+              className={`px-3 py-1 rounded-full transition-colors flex-shrink-0 ${
+                activePage === 'contact'
+                  ? 'bg-[#073253] text-white shadow-xs'
+                  : 'text-white hover:bg-[#073253]/80'
+              }`}
+            >
               Contact
             </a>
-            <span className="text-white/40 select-none">|</span>
-            <a href="/admin/login" className="px-2 py-0.5 rounded text-white hover:bg-[#073253] transition-colors">
-              Staff
+            <a
+              href="/admin/login"
+              className="px-3 py-1 rounded-full bg-[#073253]/40 text-white hover:bg-[#073253] transition-colors flex items-center space-x-1 flex-shrink-0 ring-1 ring-white/30"
+            >
+              <ShieldCheck className="w-3 h-3 text-white" />
+              <span>Staff</span>
             </a>
           </div>
         </div>

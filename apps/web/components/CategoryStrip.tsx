@@ -7,6 +7,7 @@ interface CategoryStripProps {
   categories?: Category[];
   selectedCategoryId?: string | null;
   onSelectCategory?: (id: string | null) => void;
+  showAllOption?: boolean;
 }
 
 const DEFAULT_CATEGORIES: Category[] = [
@@ -14,7 +15,7 @@ const DEFAULT_CATEGORIES: Category[] = [
     id: 'cat_sanitary_ware',
     name: 'Sanitary Ware',
     slug: 'sanitary-ware',
-    description: 'Urinals, Basins, Cisterns',
+    description: 'Urinals, Basins, Cisterns & Fittings',
     iconName: 'sanitary',
     displayOrder: 1,
     isPublished: true,
@@ -23,9 +24,9 @@ const DEFAULT_CATEGORIES: Category[] = [
   },
   {
     id: 'cat_taps_faucets',
-    name: 'Taps & Mixers',
+    name: 'Taps, Mixers & Shattafs',
     slug: 'taps-faucets',
-    description: 'Kitchen, Basin & Shattafs',
+    description: 'Kitchen, Basin Taps & Bidet Sprays',
     iconName: 'tap',
     displayOrder: 2,
     isPublished: true,
@@ -34,9 +35,9 @@ const DEFAULT_CATEGORIES: Category[] = [
   },
   {
     id: 'cat_shower_systems',
-    name: 'Showers & Heating',
+    name: 'Showers & Water Heating',
     slug: 'shower-systems',
-    description: 'Instant Showers & Columns',
+    description: 'Instant Showers, Columns & Rain Heads',
     iconName: 'shower',
     displayOrder: 3,
     isPublished: true,
@@ -45,9 +46,9 @@ const DEFAULT_CATEGORIES: Category[] = [
   },
   {
     id: 'cat_kitchen_sinks',
-    name: 'Kitchen Sinks',
+    name: 'Kitchen Sinks & Basins',
     slug: 'kitchen-sinks',
-    description: 'Nano Black & Stainless Sinks',
+    description: 'Black Nano, Stainless Double & Single',
     iconName: 'sink',
     displayOrder: 4,
     isPublished: true,
@@ -56,9 +57,9 @@ const DEFAULT_CATEGORIES: Category[] = [
   },
   {
     id: 'cat_plumbing_pipes',
-    name: 'Pipes & Drainage',
+    name: 'Pipes, Drainage & Traps',
     slug: 'plumbing-pipes',
-    description: 'Magic Bend, Traps & PPR',
+    description: 'Magic Bend, Bottle Traps & PPR Kit',
     iconName: 'pipe',
     displayOrder: 5,
     isPublished: true,
@@ -67,9 +68,9 @@ const DEFAULT_CATEGORIES: Category[] = [
   },
   {
     id: 'cat_hardware_items',
-    name: 'Hardware & Locks',
+    name: 'Hardware, Locks & Accessories',
     slug: 'hardware-items',
-    description: 'Security Locks & 6pc Sets',
+    description: 'Mortise Locks, 6pc Sets & Towel Shelves',
     iconName: 'hardware',
     displayOrder: 6,
     isPublished: true,
@@ -81,10 +82,10 @@ const DEFAULT_CATEGORIES: Category[] = [
 function PlumbingCategoryIcon({ name, iconName }: { name: string; iconName?: string }) {
   const key = `${name} ${iconName || ''}`.toLowerCase();
 
-  // 1. Sanitary Ware & Ceramics (urinal / toilet / basin ceramic fixture)
-  if (key.includes('sanitary') || key.includes('ceramic') || key.includes('urinal')) {
+  // 1. Sanitary Ware & Ceramics
+  if (key.includes('sanitary') || key.includes('ceramic') || key.includes('urinal') || key.includes('toilet') || key.includes('basin')) {
     return (
-      <svg className="w-6 h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg className="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M7 6H21V13C21 17 18 20 14 20C10 20 7 17 7 13V6Z" />
         <path d="M11 20V24H17V20" />
         <circle cx="14" cy="14" r="1.5" />
@@ -94,9 +95,9 @@ function PlumbingCategoryIcon({ name, iconName }: { name: string; iconName?: str
   }
 
   // 2. Taps, Mixers & Shattafs
-  if (key.includes('tap') || key.includes('faucet') || key.includes('mixer') || key.includes('shattaf')) {
+  if (key.includes('tap') || key.includes('faucet') || key.includes('mixer') || key.includes('shattaf') || key.includes('bidet')) {
     return (
-      <svg className="w-6 h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg className="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M10 6H18" />
         <path d="M14 6V10" />
         <path d="M6 12H18C20.5 12 22 13.5 22 16V18H18V16C18 15.2 17.5 15 16.5 15H6V12Z" />
@@ -109,7 +110,7 @@ function PlumbingCategoryIcon({ name, iconName }: { name: string; iconName?: str
   // 3. Showers & Water Heating
   if (key.includes('shower') || key.includes('heater') || key.includes('heating')) {
     return (
-      <svg className="w-6 h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg className="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M5 7H14C17 7 19 9 19 12V14" />
         <path d="M13 14H25L23 18H15L13 14Z" />
         <line x1="16" y1="21" x2="16" y2="23" />
@@ -122,9 +123,9 @@ function PlumbingCategoryIcon({ name, iconName }: { name: string; iconName?: str
   }
 
   // 4. Kitchen Sinks & Basins
-  if (key.includes('sink') || key.includes('basin')) {
+  if (key.includes('sink')) {
     return (
-      <svg className="w-6 h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg className="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <rect x="4" y="8" width="20" height="15" rx="2" />
         <line x1="14" y1="8" x2="14" y2="23" />
         <circle cx="9" cy="15" r="1.5" />
@@ -134,10 +135,10 @@ function PlumbingCategoryIcon({ name, iconName }: { name: string; iconName?: str
     );
   }
 
-  // 5. Pipes & Drainage
-  if (key.includes('pipe') || key.includes('drainage') || key.includes('trap')) {
+  // 5. Pipes, Drainage & Traps
+  if (key.includes('pipe') || key.includes('drainage') || key.includes('trap') || key.includes('bend')) {
     return (
-      <svg className="w-6 h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg className="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M5 19L19 5C20.5 3.5 23 3.5 24 4.5C25 5.5 25 8 23.5 9.5L9.5 23.5" />
         <ellipse cx="7.2" cy="21.2" rx="3.2" ry="2" transform="rotate(-45 7.2 21.2)" />
         <path d="M16 8L20 12" />
@@ -147,7 +148,7 @@ function PlumbingCategoryIcon({ name, iconName }: { name: string; iconName?: str
 
   // 6. Hardware & Locks
   return (
-    <svg className="w-6 h-6" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg className="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M18.5 5.5C17 7 17 9.5 18.5 11L10.5 19C9 17.5 6.5 17.5 5 19C4 20 4 21.5 4.5 22.5L7 20L8.5 21.5L6 24C7 24.5 8.5 24.5 9.5 23.5C11 22 11 19.5 9.5 18L17.5 10C19 11.5 21.5 11.5 23 10C24 9 24 7.5 23.5 6.5L21 9L19.5 7.5L22 5C21 4.5 19.5 4.5 18.5 5.5Z" />
       <path d="M6 6L12 12" />
       <path d="M16 16L22 22" />
@@ -159,15 +160,58 @@ export default function CategoryStrip({
   categories = DEFAULT_CATEGORIES,
   selectedCategoryId = null,
   onSelectCategory,
+  showAllOption = false,
 }: CategoryStripProps) {
-  const list = categories && categories.length > 0 ? categories : DEFAULT_CATEGORIES;
+  // Use passed categories or standard published store categories
+  const rawList = categories && categories.length > 0 ? categories : DEFAULT_CATEGORIES;
+  
+  // Ensure we display published categories ordered by display order
+  const list = rawList
+    .filter((c) => c.isPublished !== false)
+    .sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0));
 
   return (
-    <section className="bg-white py-4 border-b border-[#DFE5EB] shadow-sm">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 divide-y sm:divide-y-0 sm:divide-x divide-[#DFE5EB]">
+    <section 
+      aria-label="Product Categories Navigation" 
+      className="bg-gradient-to-b from-[#F8FAFC] via-white to-[#F8FAFC] py-5 sm:py-7 border-b border-[#DFE5EB] shadow-xs"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        {/* Section Header with Clear Visual Context */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-4 sm:mb-5">
+          <div>
+            <div className="flex items-center space-x-2">
+              <span className="w-2 h-2 rounded-full bg-[#FF850D]" />
+              <span className="text-[11px] sm:text-xs font-black uppercase tracking-wider text-[#FF850D]">
+                Department Catalogue
+              </span>
+            </div>
+            <h2 className="text-lg sm:text-xl md:text-2xl font-black text-[#073253] tracking-tight mt-0.5">
+              Explore Plumbing &amp; Hardware Solutions
+            </h2>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            {showAllOption && selectedCategoryId && onSelectCategory && (
+              <button
+                type="button"
+                onClick={() => onSelectCategory(null)}
+                className="text-xs font-bold text-[#FF850D] hover:text-[#073253] bg-orange-50 hover:bg-orange-100 border border-orange-200 px-3 py-1.5 rounded-lg transition-colors flex items-center space-x-1"
+              >
+                <span>✕ Clear Category Filter</span>
+              </button>
+            )}
+            <p className="text-xs text-gray-500 hidden md:block">
+              Click any department to filter real-time inventory and pricing
+            </p>
+          </div>
+        </div>
+
+        {/* Responsive Balanced Grid: 2 cols on mobile, 3 on tablet, 6 on desktop */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-3.5 lg:gap-4">
           {list.map((cat) => {
-            const isSelected = selectedCategoryId === cat.id;
+            const isSelected =
+              selectedCategoryId === cat.id ||
+              selectedCategoryId === cat.slug;
 
             return (
               <a
@@ -179,30 +223,96 @@ export default function CategoryStrip({
                     onSelectCategory(isSelected ? null : cat.id);
                   }
                 }}
-                className={`flex items-center space-x-3 px-3.5 py-2.5 transition-all group ${
+                role="button"
+                tabIndex={0}
+                aria-pressed={isSelected}
+                aria-label={`Category: ${cat.name}. ${cat.description || ''}`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    if (onSelectCategory) {
+                      onSelectCategory(isSelected ? null : cat.id);
+                    } else {
+                      window.location.href = `/products?category=${cat.id}`;
+                    }
+                  }
+                }}
+                className={`group relative flex flex-col justify-between p-3.5 sm:p-4 rounded-xl sm:rounded-2xl transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF850D] focus-visible:ring-offset-2 select-none min-h-[140px] sm:min-h-[160px] ${
                   isSelected
-                    ? 'bg-[#FF850D]/10'
-                    : 'hover:bg-[#F5F7FA]'
+                    ? 'bg-[#FFF8F2] border-2 border-[#FF850D] shadow-md -translate-y-0.5 ring-2 ring-[#FF850D]/20'
+                    : 'bg-white border border-[#DFE5EB] hover:border-[#FF850D] hover:bg-gradient-to-b hover:from-white hover:to-[#FFF9F5] hover:shadow-md hover:-translate-y-1'
                 }`}
               >
-                {/* Circular Icon Badge matching flyer */}
+                {/* Top Accent Highlight on Hover / Active */}
                 <div
-                  className={`w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 border transition-colors ${
+                  className={`absolute top-0 left-4 right-4 h-1 rounded-b-full transition-all duration-200 ${
                     isSelected
-                      ? 'bg-[#073253] text-[#FF850D] border-[#073253]'
-                      : 'bg-[#EEF2F6] text-[#073253] border-[#DFE5EB] group-hover:bg-[#073253] group-hover:text-white group-hover:border-[#073253]'
+                      ? 'bg-[#FF850D]'
+                      : 'bg-transparent group-hover:bg-[#FF850D]'
                   }`}
-                >
-                  <PlumbingCategoryIcon name={cat.name} iconName={cat.iconName} />
+                />
+
+                {/* Card Top: Icon & Active Badge */}
+                <div className="flex items-start justify-between gap-2 mb-2 sm:mb-3">
+                  <div
+                    className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0 border transition-all duration-200 ${
+                      isSelected
+                        ? 'bg-[#073253] text-[#FF850D] border-[#073253] shadow-sm'
+                        : 'bg-[#EEF2F6] text-[#073253] border-[#DFE5EB] group-hover:bg-[#073253] group-hover:text-[#FF850D] group-hover:border-[#073253] group-hover:scale-105 group-hover:shadow-sm'
+                    }`}
+                  >
+                    <PlumbingCategoryIcon name={cat.name} iconName={cat.iconName} />
+                  </div>
+
+                  {isSelected && (
+                    <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-black bg-[#FF850D] text-white shadow-xs">
+                      Active
+                    </span>
+                  )}
                 </div>
 
-                {/* Category Text */}
-                <div className="min-w-0 text-left">
-                  <span className="block text-xs sm:text-[13px] font-extrabold text-[#073253] group-hover:text-[#FF850D] transition-colors truncate">
+                {/* Card Body: Name and Description (NO Truncate; Natural Wrap with Adequate Space) */}
+                <div className="flex-1 flex flex-col justify-start">
+                  <h3
+                    className={`text-xs sm:text-[13px] md:text-sm font-black leading-snug tracking-tight transition-colors ${
+                      isSelected
+                        ? 'text-[#FF850D]'
+                        : 'text-[#073253] group-hover:text-[#FF850D]'
+                    }`}
+                  >
                     {cat.name}
-                  </span>
-                  <span className="block text-[11px] text-[#667585] truncate">
+                  </h3>
+
+                  <p
+                    className={`text-[11px] sm:text-xs leading-relaxed mt-1 transition-colors ${
+                      isSelected
+                        ? 'text-[#073253]/85 font-medium'
+                        : 'text-[#5A6E82] group-hover:text-[#172B3A]'
+                    }`}
+                  >
                     {cat.description}
+                  </p>
+                </div>
+
+                {/* Card Footer: Subtle Action Hint with Arrow */}
+                <div className="mt-3 pt-2 border-t border-gray-100 flex items-center justify-between text-[10px] sm:text-[11px] font-bold">
+                  <span
+                    className={`transition-colors ${
+                      isSelected
+                        ? 'text-[#FF850D]'
+                        : 'text-gray-400 group-hover:text-[#073253]'
+                    }`}
+                  >
+                    {isSelected ? 'Selected' : 'View Items'}
+                  </span>
+                  <span
+                    className={`inline-flex items-center transition-transform duration-200 ${
+                      isSelected
+                        ? 'text-[#FF850D]'
+                        : 'text-gray-400 group-hover:text-[#FF850D] group-hover:translate-x-1'
+                    }`}
+                  >
+                    {isSelected ? '✓' : '→'}
                   </span>
                 </div>
               </a>

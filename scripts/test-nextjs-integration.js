@@ -75,8 +75,8 @@ async function run() {
     `[test] Launching Next.js production server on port ${TEST_PORT}...`,
   );
   const nextProcess = spawn(
-    "npm",
-    ["run", "start", "--", "-H", "127.0.0.1", "-p", String(TEST_PORT)],
+    "npx",
+    ["next", "start", "-H", "127.0.0.1", "-p", String(TEST_PORT)],
     {
       cwd: path.join(__dirname, "../apps/web"),
       shell: true,
@@ -85,7 +85,10 @@ async function run() {
   );
 
   nextProcess.stdout.on("data", (d) => {
-    console.log(`[next] ${d.toString().trim()}`);
+    const str = d.toString();
+    if (str.includes("Ready in") || str.includes("started server")) {
+      console.log(`[next] ${str.trim()}`);
+    }
   });
 
   nextProcess.stderr.on("data", (d) => {
@@ -130,7 +133,26 @@ async function run() {
       assert.strictEqual(res.status, 200);
       assert.strictEqual(res.json.success, true);
       assert(Array.isArray(res.json.data));
-      assert(res.json.data.length > 0);
+      assert.strictEqual(res.json.data.length, 6, "Must return exactly the 6 active store categories");
+    });
+
+    await test("Category Filter by ID (/api/v1/catalog/products?categoryId=cat_taps_faucets)", async () => {
+      const res = await request("GET", "/api/v1/catalog/products?categoryId=cat_taps_faucets");
+      assert.strictEqual(res.status, 200);
+      assert.strictEqual(res.json.success, true);
+      assert(Array.isArray(res.json.data));
+      assert(res.json.data.length > 0, "Must return taps & mixers products");
+      for (const p of res.json.data) {
+        assert.strictEqual(p.categoryId, "cat_taps_faucets");
+      }
+    });
+
+    await test("Category Filter by Slug (/api/v1/catalog/products?category=taps-faucets)", async () => {
+      const res = await request("GET", "/api/v1/catalog/products?category=taps-faucets");
+      assert.strictEqual(res.status, 200);
+      assert.strictEqual(res.json.success, true);
+      assert(Array.isArray(res.json.data));
+      assert(res.json.data.length > 0, "Must resolve category slug to products");
     });
 
     await test("Public Settings (/api/v1/settings/public)", async () => {

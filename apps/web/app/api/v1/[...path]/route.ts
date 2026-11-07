@@ -155,12 +155,13 @@ async function handleApiRequest(
 
     // 2. Aggregated Public Catalog
     if (routePath === '/catalog/products' && method === 'GET') {
+      const categoryParam = searchParams.get('categoryId') || searchParams.get('category') || undefined;
       const result = await supabaseCatalogAggregator.getAggregatedProducts({
-        categoryId: searchParams.get('categoryId') || undefined,
+        categoryId: categoryParam,
         search: searchParams.get('search') || undefined,
         featured: searchParams.get('featured') || undefined,
         page: Number(searchParams.get('page') || 1),
-        limit: Number(searchParams.get('limit') || 50),
+        limit: Number(searchParams.get('limit') || 100),
       });
       return NextResponse.json({
         success: true,

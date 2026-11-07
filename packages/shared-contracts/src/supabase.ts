@@ -4261,6 +4261,7 @@ export const supabaseCatalogueRepo = {
       const { data, error } = await sb
         .from('categories')
         .select('*')
+        .eq('is_published', true)
         .order('display_order', { ascending: true });
       if (!error && data && data.length > 0) {
         return data.map(mapCategoryRow);
@@ -4354,7 +4355,13 @@ export const supabaseCatalogueRepo = {
       items = items.filter((p) => p.status === filters.status);
     }
     if (filters?.categoryId) {
-      items = items.filter((p) => p.categoryId === filters.categoryId);
+      const target = filters.categoryId.trim().toLowerCase();
+      items = items.filter(
+        (p) =>
+          (p.categoryId && p.categoryId.toLowerCase() === target) ||
+          (p.category?.id && p.category.id.toLowerCase() === target) ||
+          (p.category?.slug && p.category.slug.toLowerCase() === target)
+      );
     }
     if (filters?.featured) {
       items = items.filter((p) => p.isFeatured);
