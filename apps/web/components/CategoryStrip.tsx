@@ -297,7 +297,7 @@ export default function CategoryStrip({
           </div>
         </div>
 
-        {/* 4. Translucent Frosted-Glass Category Cards Grid */}
+        {/* 4. Cream-White Category Cards Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3.5">
           {list.map((cat) => {
             const isSelected =
@@ -335,10 +335,10 @@ export default function CategoryStrip({
                     }
                   }
                 }}
-                className={`group relative flex flex-col justify-between p-3 sm:p-3.5 rounded-xl sm:rounded-2xl cursor-pointer select-none min-h-[160px] sm:min-h-[172px] backdrop-blur-md transform-gpu will-change-transform transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF850D] ${
+                className={`group relative flex flex-col justify-between p-3 sm:p-3.5 rounded-xl sm:rounded-2xl cursor-pointer select-none min-h-[160px] sm:min-h-[172px] transform-gpu will-change-transform transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF850D] ${
                   isSelected
-                    ? 'bg-white/95 border-2 border-[#FF850D] -translate-y-1 z-20'
-                    : 'bg-white/88 hover:bg-white/96 border border-white/50 z-10 hover:z-30 hover:scale-[1.03] hover:-translate-y-1.5 hover:border-[#FF850D]'
+                    ? 'bg-[#FFF8EE] border-2 border-[#FF850D] -translate-y-1 z-20'
+                    : 'bg-[#FFFBF4] hover:bg-[#FFFDF9] border border-[#F2E9DC] z-10 hover:z-30 hover:scale-[1.03] hover:-translate-y-1.5 hover:border-[#FF850D]'
                 }`}
               >
                 {/* Top Glowing Accent Bar */}
@@ -356,7 +356,7 @@ export default function CategoryStrip({
                     className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center flex-shrink-0 border transition-all duration-300 ease-out ${
                       isSelected
                         ? 'bg-[#073253] text-[#FF850D] border-[#073253] scale-105'
-                        : 'bg-[#073253]/10 text-[#073253] border-[#073253]/15 group-hover:scale-105 group-hover:bg-[#073253] group-hover:text-[#FF850D] group-hover:border-[#073253]'
+                        : 'bg-[#F4EEE4] text-[#073253] border-[#E8DFD1] group-hover:scale-105 group-hover:bg-[#073253] group-hover:text-[#FF850D] group-hover:border-[#073253]'
                     }`}
                   >
                     <PlumbingCategoryIcon name={cat.name} iconName={cat.iconName} />
@@ -366,7 +366,7 @@ export default function CategoryStrip({
                     className={`inline-flex items-center px-2 py-0.5 rounded-full text-[9.5px] font-black tracking-tight transition-colors ${
                       isSelected
                         ? 'bg-[#FF850D] text-white'
-                        : 'bg-[#FFF3E6] text-[#D96B00] border border-[#FF850D]/30 group-hover:bg-[#FF850D] group-hover:text-white'
+                        : 'bg-[#FFF0DC] text-[#C85A00] border border-[#FF850D]/30 group-hover:bg-[#FF850D] group-hover:text-white'
                     }`}
                   >
                     {isSelected ? 'Active' : offerPrice}
@@ -385,18 +385,18 @@ export default function CategoryStrip({
                     {cat.name}
                   </h3>
 
-                  <p className="text-[10.5px] sm:text-[11px] leading-relaxed mt-0.5 text-[#334155] font-medium">
+                  <p className="text-[10.5px] sm:text-[11px] leading-relaxed mt-0.5 text-[#475569] font-medium">
                     {cat.description}
                   </p>
 
                   {/* Item Highlights Strip */}
                   {highlights.length > 0 && (
-                    <div className="mt-2 pt-1.5 border-t border-slate-200/80 group-hover:border-[#FF850D]/30 transition-colors">
+                    <div className="mt-2 pt-1.5 border-t border-[#EFE7DA] group-hover:border-[#FF850D]/30 transition-colors">
                       <div className="flex flex-wrap gap-1">
                         {highlights.slice(0, 3).map((item) => (
                           <span
                             key={item}
-                            className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-[#1E293B] group-hover:bg-[#FFF3E6] group-hover:text-[#C85A00] transition-colors duration-200"
+                            className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-[#F5EFE6] text-[#334155] group-hover:bg-[#FFF0DC] group-hover:text-[#C85A00] transition-colors duration-200"
                           >
                             {item}
                           </span>
@@ -407,7 +407,7 @@ export default function CategoryStrip({
                 </div>
 
                 {/* Card Footer: Shop Offer CTA */}
-                <div className="mt-2 pt-2 border-t border-slate-200/80 flex items-center justify-between text-[11px] font-extrabold">
+                <div className="mt-2 pt-2 border-t border-[#EFE7DA] flex items-center justify-between text-[11px] font-extrabold">
                   <span
                     className={`transition-colors duration-200 ${
                       isSelected
