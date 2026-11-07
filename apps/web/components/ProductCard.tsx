@@ -29,62 +29,90 @@ export function ProductCard({
   const waUrl = generateWhatsAppLink(whatsappNumber, product.name, product.sku);
 
   return (
-    <div className="product-card h-full flex flex-col justify-between bg-white border border-[#DFE5EB] rounded-xl overflow-hidden shadow-sm hover:border-[#FF850D]/60 hover:shadow-md transition-all text-left">
+    <div className="product-card group relative flex flex-col justify-end w-full h-[320px] sm:h-[340px] rounded-2xl overflow-hidden bg-white border border-slate-200/70 hover:border-[#FF850D]/70 transition-all duration-300 text-left select-none">
+      {/* Background Image: Fits all over, edge-to-edge, with smooth zoom on hover */}
       <div
-        className="w-full aspect-[4/3] bg-[#F8FAFB] overflow-hidden flex items-center justify-center cursor-pointer group border-b border-gray-100 relative p-2"
+        className="absolute inset-0 w-full h-full cursor-pointer overflow-hidden bg-slate-100"
         onClick={() => onSelect(product)}
+        title={`View ${product.name}`}
       >
         <img
           src={primaryImage}
           alt={product.name}
           loading="lazy"
-          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-500 filter brightness-[0.98]"
           onError={(e) => {
-            (e.currentTarget as HTMLImageElement).src = fallbackImage;
+            const target = e.currentTarget as HTMLImageElement;
+            if (target.src !== fallbackImage) {
+              target.src = fallbackImage;
+            }
           }}
         />
+
+        {/* Top Vignette for badges legibility */}
+        <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/35 via-black/15 to-transparent pointer-events-none" />
       </div>
 
-      <div className="p-3 flex-1 flex flex-col justify-between">
-        <div>
-          <h3
-            className="font-extrabold text-xs sm:text-[13px] text-[#073253] line-clamp-2 min-h-[2rem] leading-tight hover:text-[#FF850D] cursor-pointer"
-            onClick={() => onSelect(product)}
-            title={product.name}
-          >
-            {product.name}
-          </h3>
-
-          <div className="mt-1.5">
-            {isPriceSet ? (
-              <div className="flex items-baseline space-x-1.5">
-                <span className="text-sm sm:text-[15px] font-black text-[#FF850D]">
-                  {product.formattedPrice}
-                </span>
-                {product.previousPrice ? (
-                  <span className="text-[10px] text-gray-400 line-through">
-                    KSh {product.previousPrice}
-                  </span>
-                ) : null}
-              </div>
-            ) : (
-              <div className="inline-flex items-center space-x-1 text-[11px] font-bold text-[#FF850D] bg-orange-50 px-1.5 py-0.5 rounded">
-                <Tag className="w-3 h-3" />
-                <span>Contact for Price</span>
-              </div>
-            )}
-          </div>
-
-          <p className="text-[11px] text-[#667585] mt-1 mb-2 font-medium">
+      {/* Top Floating Badges */}
+      <div className="absolute top-2.5 inset-x-2.5 z-10 flex items-center justify-between pointer-events-none">
+        {product.unit ? (
+          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-black/45 backdrop-blur-md text-white border border-white/20 shadow-2xs uppercase tracking-wider">
             {product.unit}
-          </p>
+          </span>
+        ) : (
+          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#073253]/80 backdrop-blur-md text-white border border-white/20 shadow-2xs">
+            Genuine
+          </span>
+        )}
+
+        {isPriceSet && (
+          <span className="px-2.5 py-0.5 rounded-full text-xs font-black bg-[#FF850D] text-white shadow-2xs">
+            {product.formattedPrice}
+          </span>
+        )}
+      </div>
+
+      {/* Floating Bottom Panel: Words above image with frosted backdrop blur & seamless blend */}
+      <div className="relative z-10 p-2.5 sm:p-3 backdrop-blur-md bg-white/85 group-hover:bg-white/95 border-t border-white/50 transition-all duration-300 space-y-1.5">
+        <h3
+          className="font-extrabold text-xs sm:text-[13px] text-[#073253] group-hover:text-[#FF850D] line-clamp-2 leading-tight transition-colors cursor-pointer"
+          onClick={() => onSelect(product)}
+          title={product.name}
+        >
+          {product.name}
+        </h3>
+
+        {/* Price & Unit Details Row */}
+        <div className="flex items-baseline justify-between pt-0.5">
+          {isPriceSet ? (
+            <div className="flex items-baseline space-x-1.5">
+              <span className="text-xs sm:text-[13.5px] font-black text-[#FF850D]">
+                {product.formattedPrice}
+              </span>
+              {product.previousPrice ? (
+                <span className="text-[10px] text-gray-400 line-through">
+                  KSh {product.previousPrice}
+                </span>
+              ) : null}
+            </div>
+          ) : (
+            <div className="inline-flex items-center space-x-1 text-[10px] font-bold text-[#FF850D] bg-orange-50 px-1.5 py-0.5 rounded">
+              <Tag className="w-2.5 h-2.5" />
+              <span>Contact for Price</span>
+            </div>
+          )}
+
+          <span className="text-[10px] sm:text-[11px] text-[#667585] font-semibold truncate max-w-[90px] text-right">
+            {product.unit || 'per item'}
+          </span>
         </div>
 
+        {/* Action Button: Compact, zero wasted gaps */}
         <a
           href={waUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="w-full inline-flex items-center justify-center space-x-1.5 bg-[#0BAA58] hover:bg-[#09934B] text-white text-[11px] font-bold py-2 px-2.5 rounded-lg transition-colors shadow-sm"
+          className="w-full inline-flex items-center justify-center space-x-1.5 bg-[#0BAA58] hover:bg-[#09934B] text-white text-[11px] font-bold py-2 px-2.5 rounded-xl transition-all shadow-2xs active:scale-[0.98]"
         >
           <MessageCircle className="w-3.5 h-3.5 fill-white flex-shrink-0" />
           <span className="truncate">Inquire on WhatsApp</span>
@@ -95,4 +123,3 @@ export function ProductCard({
 }
 
 export default ProductCard;
-
