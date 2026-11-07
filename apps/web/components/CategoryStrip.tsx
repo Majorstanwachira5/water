@@ -183,19 +183,19 @@ export default function CategoryStrip({
   return (
     <section 
       aria-label="Product Categories Navigation" 
-      className="bg-gradient-to-b from-[#F8FAFC] via-white to-[#F8FAFC] py-6 sm:py-8 border-b border-[#DFE5EB] shadow-xs relative z-10"
+      className="bg-gradient-to-b from-[#F8FAFC] via-white to-[#F8FAFC] py-4 sm:py-5 border-b border-[#E2E8F0] relative z-10"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Section Header with Clear Visual Context */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-4 sm:mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-1.5 mb-3 sm:mb-4">
           <div>
             <div className="flex items-center space-x-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#FF850D] animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-[#FF850D] animate-pulse" />
               <span className="text-[11px] sm:text-xs font-black uppercase tracking-wider text-[#FF850D]">
                 Department Catalogue
               </span>
             </div>
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-[#073253] tracking-tight mt-0.5">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-black text-[#073253] tracking-tight mt-0.5">
               Explore Plumbing &amp; Hardware Solutions
             </h2>
           </div>
@@ -205,9 +205,9 @@ export default function CategoryStrip({
               <button
                 type="button"
                 onClick={() => onSelectCategory(null)}
-                className="text-xs font-bold text-[#FF850D] hover:text-[#073253] bg-orange-50 hover:bg-orange-100 border border-orange-200 px-3.5 py-1.5 rounded-lg transition-colors flex items-center space-x-1.5 shadow-xs"
+                className="text-xs font-bold text-[#FF850D] hover:text-[#073253] bg-orange-50 hover:bg-orange-100 border border-orange-200 px-3 py-1.5 rounded-lg transition-colors flex items-center space-x-1.5 shadow-none"
               >
-                <span>✕ Clear Category Filter</span>
+                <span>✕ Clear Filter</span>
               </button>
             )}
             <p className="text-xs text-gray-500 hidden md:block">
@@ -217,7 +217,7 @@ export default function CategoryStrip({
         </div>
 
         {/* Responsive Balanced Grid: 2 cols on mobile, 3 on tablet, 6 on desktop */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-4.5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3.5">
           {list.map((cat) => {
             const isSelected =
               selectedCategoryId === cat.id ||
@@ -252,35 +252,35 @@ export default function CategoryStrip({
                     }
                   }
                 }}
-                className={`group relative flex flex-col justify-between p-3.5 sm:p-4 rounded-xl sm:rounded-2xl cursor-pointer select-none min-h-[170px] sm:min-h-[190px] transform-gpu will-change-transform transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF850D] focus-visible:ring-offset-2 ${
+                className={`group relative flex flex-col justify-between p-3 sm:p-3.5 rounded-xl sm:rounded-2xl cursor-pointer select-none min-h-[145px] sm:min-h-[160px] transform-gpu will-change-transform transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF850D] ${
                   isSelected
-                    ? 'bg-[#FFF8F2] border-2 border-[#FF850D] shadow-lg -translate-y-1.5 ring-2 ring-[#FF850D]/25 z-20'
-                    : 'bg-white border border-[#DFE5EB] shadow-xs z-10 hover:z-30 hover:scale-[1.04] sm:hover:scale-[1.06] hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#073253]/20 hover:border-[#FF850D] hover:bg-white hover:ring-4 hover:ring-[#FF850D]/15'
+                    ? 'bg-[#FFF8F2] border-2 border-[#FF850D] shadow-none -translate-y-0.5 z-20'
+                    : 'bg-white border border-[#E2E8F0] shadow-none z-10 hover:z-30 hover:scale-[1.02] sm:hover:scale-[1.03] hover:-translate-y-1 hover:border-[#FF850D] hover:bg-white'
                 }`}
               >
-                {/* Top Accent Highlight (Pulses / Lights up in Brand Orange on Hover & Active) */}
+                {/* Top Accent Highlight */}
                 <div
-                  className={`absolute top-0 left-3 right-3 h-1.5 rounded-b-full transition-all duration-300 ${
+                  className={`absolute top-0 left-3 right-3 h-1 rounded-b-full transition-all duration-300 ${
                     isSelected
-                      ? 'bg-gradient-to-r from-[#FF850D] via-[#FF982A] to-[#FF850D] shadow-xs'
-                      : 'bg-transparent group-hover:bg-gradient-to-r group-hover:from-[#FF850D] group-hover:via-[#FF982A] group-hover:to-[#FF850D] group-hover:shadow-xs'
+                      ? 'bg-gradient-to-r from-[#FF850D] via-[#FF982A] to-[#FF850D]'
+                      : 'bg-transparent group-hover:bg-gradient-to-r group-hover:from-[#FF850D] group-hover:via-[#FF982A] group-hover:to-[#FF850D]'
                   }`}
                 />
 
                 {/* Card Top: Icon & Status Badge */}
-                <div className="flex items-start justify-between gap-2 mb-2 sm:mb-2.5">
+                <div className="flex items-start justify-between gap-2 mb-1.5 sm:mb-2">
                   <div
-                    className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0 border transition-all duration-300 ease-out ${
+                    className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center flex-shrink-0 border transition-all duration-300 ease-out ${
                       isSelected
-                        ? 'bg-[#073253] text-[#FF850D] border-[#073253] shadow-md scale-105'
-                        : 'bg-[#EEF2F6] text-[#073253] border-[#DFE5EB] group-hover:scale-110 group-hover:rotate-2 group-hover:bg-[#073253] group-hover:text-[#FF850D] group-hover:border-[#073253] group-hover:shadow-md'
+                        ? 'bg-[#073253] text-[#FF850D] border-[#073253] scale-105'
+                        : 'bg-[#EEF2F6] text-[#073253] border-[#E2E8F0] group-hover:scale-105 group-hover:bg-[#073253] group-hover:text-[#FF850D] group-hover:border-[#073253]'
                     }`}
                   >
                     <PlumbingCategoryIcon name={cat.name} iconName={cat.iconName} />
                   </div>
 
                   {isSelected ? (
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-[#FF850D] text-white shadow-xs">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-[#FF850D] text-white">
                       Active
                     </span>
                   ) : (
@@ -290,10 +290,10 @@ export default function CategoryStrip({
                   )}
                 </div>
 
-                {/* Card Body: Name and Description (Full Text, No Truncate) */}
+                {/* Card Body: Name and Description */}
                 <div className="flex-1 flex flex-col justify-start">
                   <h3
-                    className={`text-xs sm:text-[13.5px] md:text-sm font-black leading-snug tracking-tight transition-colors duration-200 ${
+                    className={`text-xs sm:text-[13px] font-black leading-snug tracking-tight transition-colors duration-200 ${
                       isSelected
                         ? 'text-[#FF850D]'
                         : 'text-[#073253] group-hover:text-[#FF850D]'
@@ -303,7 +303,7 @@ export default function CategoryStrip({
                   </h3>
 
                   <p
-                    className={`text-[11px] sm:text-xs leading-relaxed mt-1 transition-colors duration-200 ${
+                    className={`text-[10.5px] sm:text-[11px] leading-relaxed mt-0.5 transition-colors duration-200 ${
                       isSelected
                         ? 'text-[#073253]/85 font-medium'
                         : 'text-[#5A6E82] group-hover:text-[#172B3A]'
@@ -312,14 +312,14 @@ export default function CategoryStrip({
                     {cat.description}
                   </p>
 
-                  {/* Pop-Out Highlights Strip (Reveals specific items when pausing over category) */}
+                  {/* Pop-Out Highlights Strip */}
                   {highlights.length > 0 && (
-                    <div className="mt-2.5 pt-2 border-t border-gray-100 group-hover:border-[#FF850D]/25 transition-colors">
+                    <div className="mt-2 pt-1.5 border-t border-gray-100 group-hover:border-[#FF850D]/25 transition-colors">
                       <div className="flex flex-wrap gap-1">
                         {highlights.slice(0, 3).map((item) => (
                           <span
                             key={item}
-                            className="text-[9.5px] font-bold px-1.5 py-0.5 rounded bg-gray-100/90 text-gray-600 group-hover:bg-[#FFF3E6] group-hover:text-[#D96B00] group-hover:border group-hover:border-[#FF850D]/25 transition-all duration-200"
+                            className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-gray-100/90 text-gray-600 group-hover:bg-[#FFF3E6] group-hover:text-[#D96B00] group-hover:border group-hover:border-[#FF850D]/25 transition-all duration-200"
                           >
                             {item}
                           </span>
@@ -329,8 +329,8 @@ export default function CategoryStrip({
                   )}
                 </div>
 
-                {/* Card Footer: Interactive CTA Button */}
-                <div className="mt-3 pt-2.5 border-t border-gray-100 flex items-center justify-between text-[11px] font-bold">
+                {/* Card Footer: Interactive CTA */}
+                <div className="mt-2 pt-2 border-t border-gray-100 flex items-center justify-between text-[11px] font-bold">
                   <span
                     className={`transition-colors duration-200 ${
                       isSelected
@@ -341,10 +341,10 @@ export default function CategoryStrip({
                     {isSelected ? 'Active Filter' : 'Browse Items'}
                   </span>
                   <span
-                    className={`inline-flex items-center justify-center w-5 h-5 rounded-full text-xs font-bold transition-all duration-300 ${
+                    className={`inline-flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-bold transition-all duration-300 ${
                       isSelected
-                        ? 'bg-[#FF850D] text-white shadow-xs'
-                        : 'bg-gray-100 text-gray-500 group-hover:bg-[#FF850D] group-hover:text-white group-hover:translate-x-1 group-hover:shadow-xs'
+                        ? 'bg-[#FF850D] text-white'
+                        : 'bg-gray-100 text-gray-500 group-hover:bg-[#FF850D] group-hover:text-white group-hover:translate-x-0.5'
                     }`}
                   >
                     {isSelected ? '✓' : '→'}

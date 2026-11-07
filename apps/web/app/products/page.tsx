@@ -165,48 +165,74 @@ function ProductsContent() {
       />
 
       {/* Page Title & Search Header */}
-      <div className="bg-[#073253] text-white py-8 px-4">
-        <div className="max-w-7xl mx-auto space-y-4">
-          <div className="max-w-xl">
-            <span className="text-xs font-bold text-[#FF850D] uppercase tracking-wider">
-              Michaforge Catalogue
-            </span>
-            <h1 className="text-3xl sm:text-4xl font-black mt-1">
-              Plumbing &amp; Hardware Catalogue
-            </h1>
-            <p className="text-gray-300 text-sm mt-2">
-              Browse pipes, fittings, valves, taps, water tanks and essential plumbing supplies.
-            </p>
-          </div>
+      <div className="relative bg-[#073253] text-white py-5 sm:py-6 lg:py-7 px-4 sm:px-6 overflow-hidden">
+        {/* Subtle Ambient Showroom Backdrop */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
+          <img
+            src="/images/about/showroom_display.png"
+            alt=""
+            aria-hidden="true"
+            className="w-full h-full object-cover object-center filter brightness-[0.25] contrast-[1.1] saturate-[1.1] opacity-25"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = '/images/about/showroom_display.jpg';
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#073253] via-[#073253]/95 to-[#073253]/85" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#073253]/80 via-transparent to-[#073253]/90" />
+        </div>
 
-          {/* Search Bar */}
-          <form onSubmit={handleSearchSubmit} className="max-w-2xl flex gap-2">
-            <div className="relative flex-1">
-              <Search className="w-5 h-5 absolute left-3.5 top-3 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search by product name, SKU, or specification..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-11 pr-4 py-2.5 rounded-lg text-[#172B3A] text-sm focus:outline-none focus:ring-2 focus:ring-[#FF850D]"
-              />
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-center">
+            {/* Left Column: Title & Subtitle */}
+            <div className="lg:col-span-7 space-y-1">
+              <div className="flex items-center space-x-2">
+                <span className="w-2 h-2 rounded-full bg-[#FF850D] animate-pulse" />
+                <span className="text-[11px] sm:text-xs font-black text-[#FF850D] uppercase tracking-wider">
+                  Michaforge Catalogue
+                </span>
+              </div>
+              <h1 className="text-2xl sm:text-3xl lg:text-[34px] font-black tracking-tight text-white leading-tight">
+                Plumbing &amp; Hardware Catalogue
+              </h1>
+              <p className="text-gray-200 text-xs sm:text-sm max-w-xl leading-relaxed">
+                Browse pipes, fittings, valves, taps, water tanks and essential plumbing supplies.
+              </p>
             </div>
-            <button
-              type="submit"
-              className="bg-[#FF850D] hover:bg-[#E67300] text-white px-5 py-2.5 rounded-lg text-sm font-bold transition-colors"
-            >
-              Search
-            </button>
-            {(searchQuery || selectedCategory) && (
-              <button
-                type="button"
-                onClick={handleClearFilters}
-                className="bg-white/10 hover:bg-white/20 text-white px-4 py-2.5 rounded-lg text-xs font-semibold transition-colors"
-              >
-                Clear
-              </button>
-            )}
-          </form>
+
+            {/* Right Column: Search Bar placed on the right to eliminate empty space */}
+            <div className="lg:col-span-5 flex justify-center lg:justify-end">
+              <form onSubmit={handleSearchSubmit} className="w-full max-w-md flex flex-col sm:flex-row gap-2">
+                <div className="relative flex-1">
+                  <Search className="w-4 h-4 absolute left-3.5 top-3 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Search product, SKU or spec..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl text-[#172B3A] text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#FF850D] bg-white border border-white/20 shadow-none placeholder:text-gray-400"
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    type="submit"
+                    className="bg-[#FF850D] hover:bg-[#E67300] text-white px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-none flex-shrink-0 flex items-center justify-center space-x-1.5"
+                  >
+                    <Search className="w-3.5 h-3.5" />
+                    <span>Search</span>
+                  </button>
+                  {(searchQuery || selectedCategory) && (
+                    <button
+                      type="button"
+                      onClick={handleClearFilters}
+                      className="bg-white/15 hover:bg-white/25 text-white px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-colors flex-shrink-0"
+                    >
+                      Clear
+                    </button>
+                  )}
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -219,9 +245,9 @@ function ProductsContent() {
       />
 
       {/* Catalogue Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-grow w-full">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-5 flex-grow w-full">
         {/* Controls row */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-200">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-3.5 pb-2.5 border-b border-gray-200">
           <div className="flex flex-wrap items-center gap-2 text-sm text-[#172B3A] font-medium">
             <span>Showing:</span>
             <span className="font-bold text-[#073253]">
