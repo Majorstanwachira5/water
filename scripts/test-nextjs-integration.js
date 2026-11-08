@@ -178,6 +178,7 @@ async function run() {
       const res = await request("GET", "/");
       assert.strictEqual(res.status, 200);
       assert(res.raw.includes("/images/hero_showroom_red_tap.jpg"));
+      assert(res.raw.includes("/images/about/showroom_corner_red_tap.jpg"));
       assert(res.raw.includes("About Us"));
       assert(res.raw.includes("Michaforge Enterprises is a trusted supplier and dealer in plumbing and hardware materials"));
       assert(res.raw.includes("Our Mission"));

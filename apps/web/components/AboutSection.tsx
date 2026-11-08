@@ -36,6 +36,15 @@ const ABOUT_SLIDES: AboutSlide[] = [
     subcaption: 'Trusted by homeowners, contractors, builders and industry professionals.',
   },
   {
+    id: 'showroom_corner',
+    image: '/images/about/showroom_corner_red_tap.jpg',
+    fallback: '/images/about/showroom_display.png',
+    tag: 'Plumbing & Hardware Showroom',
+    badge: 'Quality & Reliability',
+    caption: 'Building trust through quality and reliability across every department.',
+    subcaption: 'Basins, mixers, shower columns, sanitary ware & hardware fittings in stock.',
+  },
+  {
     id: 'founder_portrait',
     image: '/images/about/founder_hardware_portrait.png',
     fallback: '/images/about/founder_portrait.jpg',
@@ -179,7 +188,8 @@ export default function AboutSection({ aboutContent, address }: AboutSectionProp
               <div className="absolute inset-0">
                 {ABOUT_SLIDES.map((slide, idx) => {
                   const isActive = idx === currentSlide;
-                  const isShowroomBanner = slide.id === 'showroom_display';
+                  const isShowroomBanner =
+                    slide.id === 'showroom_display' || slide.id === 'showroom_corner';
 
                   return (
                     <div
@@ -193,7 +203,7 @@ export default function AboutSection({ aboutContent, address }: AboutSectionProp
                           <img
                             src={slide.image}
                             alt={slide.caption}
-                            className="w-full h-auto max-h-full object-contain rounded-xl shadow-md border border-white/15"
+                            className="w-auto h-auto max-w-full max-h-full object-contain rounded-xl shadow-md border border-white/15"
                             onError={(e) => {
                               const target = e.currentTarget as HTMLImageElement;
                               if (!target.dataset.fallbackApplied) {
