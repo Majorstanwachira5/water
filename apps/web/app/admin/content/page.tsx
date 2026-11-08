@@ -570,7 +570,7 @@ export default function AdminContentBrandingPage() {
             { name: 'Deep Navy', hex: '#073253' },
             { name: 'Primary Navy', hex: '#0B3556' },
             { name: 'Brand Orange', hex: '#FF850D' },
-            { name: 'Red Accent', hex: '#D92D36' },
+            { name: 'Dark Orange Accent', hex: '#D96B00' },
             { name: 'WhatsApp Green', hex: '#0BAA58' },
             { name: 'Off-White BG', hex: '#F5F7FA' },
             { name: 'Border Grey', hex: '#DFE5EB' },

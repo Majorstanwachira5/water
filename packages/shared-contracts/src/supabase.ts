@@ -4641,7 +4641,7 @@ const DEFAULT_BRAND: BrandSettings = {
     deepNavy: '#073253',
     primaryNavy: '#0B3556',
     orange: '#FF850D',
-    redLogoAccent: '#D92D36',
+    redLogoAccent: '#FF850D',
     white: '#FFFFFF',
     lightGrey: '#F5F7FA',
     borderGrey: '#DFE5EB',

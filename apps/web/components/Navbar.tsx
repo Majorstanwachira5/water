@@ -68,7 +68,7 @@ export default function Navbar({
           className="flex items-center flex-shrink-0 group"
           aria-label="Michaforge Enterprises Logo"
         >
-          <div className="relative flex items-center justify-center bg-white rounded-lg p-1 border border-[#D92D36]/25 shadow-xs group-hover:border-[#D92D36] transition-all">
+          <div className="relative flex items-center justify-center bg-white rounded-lg p-1 border border-[#FF850D]/30 shadow-xs group-hover:border-[#FF850D] transition-all">
             <img
               src="/images/logo_emblem.png"
               alt="Michaforge MFE Faucet Logo"
@@ -86,10 +86,10 @@ export default function Navbar({
           className="flex-1 flex flex-col items-center justify-center text-center px-1 sm:px-3 group"
         >
           <div className="flex flex-wrap items-baseline justify-center gap-x-1.5 sm:gap-x-2.5 leading-none">
-            <span className="text-lg sm:text-2xl md:text-[26px] lg:text-[28px] font-black tracking-wide text-[#D92D36] drop-shadow-xs">
+            <span className="text-lg sm:text-2xl md:text-[26px] lg:text-[28px] font-black tracking-wide text-[#073253] drop-shadow-xs">
               MICHAFORGE
             </span>
-            <span className="text-base sm:text-xl md:text-[22px] lg:text-[24px] font-black tracking-wider text-[#073253]">
+            <span className="text-base sm:text-xl md:text-[22px] lg:text-[24px] font-black tracking-wider text-[#FF850D]">
               ENTERPRISES
             </span>
           </div>

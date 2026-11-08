@@ -48,15 +48,15 @@ export default function AdminLoginPage() {
       <div className="max-w-md w-full bg-white rounded-3xl p-8 sm:p-10 shadow-2xl border border-gray-100">
         {/* Brand header */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-white border-2 border-[#D92D36]/20 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md p-1.5">
+          <div className="w-16 h-16 bg-white border-2 border-[#FF850D]/25 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-md p-1.5">
             <img
               src="/images/logo_emblem.png"
               alt="Michaforge Logo"
               className="w-full h-full object-contain"
             />
           </div>
-          <h2 className="text-2xl font-black text-[#073253]">
-            MICHAFORGE ENTERPRISES
+          <h2 className="text-2xl font-black">
+            <span className="text-[#073253]">MICHAFORGE</span> <span className="text-[#FF850D]">ENTERPRISES</span>
           </h2>
           <p className="text-xs text-[#FF850D] font-bold uppercase tracking-wider mt-1">
             Staff &amp; Management Portal
