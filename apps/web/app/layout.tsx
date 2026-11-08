@@ -26,10 +26,10 @@ export const metadata: Metadata = {
     siteName: 'Michaforge Enterprises',
     images: [
       {
-        url: '/images/hero_plumbing_supplies.png',
+        url: '/images/hero_showroom_red_tap.jpg',
         width: 1200,
-        height: 630,
-        alt: 'Michaforge Enterprises Plumbing Supplies',
+        height: 675,
+        alt: 'Michaforge Enterprises Showroom — Plumbing & Hardware Materials',
       },
     ],
     locale: 'en_KE',

@@ -4635,7 +4635,7 @@ const DEFAULT_BRAND: BrandSettings = {
   heroSubheadline: 'WELCOME TO MICHAFORGE ENTERPRISES',
   heroDescription:
     'Your trusted supplier of plumbing materials, pipes, fittings, taps, valves and all hardware essentials.',
-  heroImageUrl: '/images/modern_hardware_hero.png',
+  heroImageUrl: '/images/hero_showroom_red_tap.jpg',
   announcementText: 'Quality Plumbing & Hardware Solutions',
   colors: {
     deepNavy: '#073253',

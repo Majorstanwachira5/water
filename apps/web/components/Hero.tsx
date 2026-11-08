@@ -16,7 +16,7 @@ export default function Hero({
   subheadline = 'WELCOME TO MICHAFORGE ENTERPRISES',
   description = 'Your trusted supplier of plumbing materials, pipes, fittings, taps, valves and all hardware essentials.',
   whatsappNumber = '+254714843208',
-  heroImageUrl = '/images/modern_hardware_hero.png',
+  heroImageUrl = '/images/hero_showroom_red_tap.jpg',
 }: HeroProps) {
   const cleanPhone = whatsappNumber.replace(/[^0-9]/g, '');
   const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(
@@ -24,8 +24,10 @@ export default function Hero({
   )}`;
 
   const resolvedHeroImage =
-    !heroImageUrl || heroImageUrl === '/images/hero_plumbing_supplies.png'
-      ? '/images/modern_hardware_hero.png'
+    !heroImageUrl ||
+    heroImageUrl === '/images/hero_plumbing_supplies.png' ||
+    heroImageUrl === '/images/modern_hardware_hero.png'
+      ? '/images/hero_showroom_red_tap.jpg'
       : heroImageUrl;
 
   return (
@@ -118,18 +120,21 @@ export default function Hero({
             </div>
           </div>
 
-          {/* Right Column: Modern Hardware Showcase Photo (Returned back crystal clear) */}
+          {/* Right Column: Showroom Banner with Real Red Tap MFE Logo & Value Strip */}
           <div className="lg:col-span-6 flex justify-center lg:justify-end">
-            <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl border-2 border-[#FF850D]/40 bg-[#0B3556]">
+            <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl border-2 border-[#FF850D]/40 bg-[#073253]">
               <img
                 src={resolvedHeroImage}
-                alt="Michaforge Enterprises Modern Plumbing and Hardware Materials"
-                className="w-full h-[250px] sm:h-[300px] lg:h-[320px] object-cover"
+                alt="Michaforge Enterprises Showroom — Plumbing & Hardware Materials"
+                className="w-full h-auto block object-contain"
                 onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src = '/images/hero_plumbing_supplies.png';
+                  const target = e.currentTarget as HTMLImageElement;
+                  if (!target.dataset.fallbackApplied) {
+                    target.dataset.fallbackApplied = '1';
+                    target.src = '/images/modern_hardware_hero.png';
+                  }
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#073253]/25 via-transparent to-transparent pointer-events-none" />
             </div>
           </div>
         </div>

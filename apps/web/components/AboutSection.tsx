@@ -27,31 +27,31 @@ interface AboutSlide {
 
 const ABOUT_SLIDES: AboutSlide[] = [
   {
+    id: 'showroom_display',
+    image: '/images/hero_showroom_red_tap.jpg',
+    fallback: '/images/about/showroom_display.png',
+    tag: 'Kombo Munyiri Rd, Gikomba',
+    badge: 'Comprehensive Inventory',
+    caption: 'Quality plumbing and hardware materials at competitive prices.',
+    subcaption: 'Trusted by homeowners, contractors, builders and industry professionals.',
+  },
+  {
     id: 'founder_portrait',
     image: '/images/about/founder_hardware_portrait.png',
     fallback: '/images/about/founder_portrait.jpg',
     tag: "Kenya's Trusted Supplier",
     badge: 'Managing Director & Technical Specialist',
-    caption: 'Quality plumbing and hardware materials at competitive prices.',
-    subcaption: 'Trusted by homeowners, contractors, builders and industry professionals.',
+    caption: 'Quality products, fair prices and guaranteed customer satisfaction.',
+    subcaption: 'Hands-on contractor support, direct quotations & certified brand durability.',
   },
   {
     id: 'founder_store',
     image: '/images/about/founder_hardware_store.png',
     fallback: '/images/about/founder_standing.jpg',
-    tag: 'Kombo Munyiri Rd, Gikomba',
-    badge: 'Next to Gold Stone Plaza, Nairobi',
+    tag: 'Next to Gold Stone Plaza, Nairobi',
+    badge: 'Nairobi Showroom Hub',
     caption: 'Wide range of reliable products in stock for every project.',
     subcaption: 'Honesty, quality, affordability and dependable customer service.',
-  },
-  {
-    id: 'showroom_display',
-    image: '/images/about/showroom_display.png',
-    fallback: '/images/modern_hardware_about.png',
-    tag: 'Quality & Reliability',
-    badge: 'Comprehensive Inventory',
-    caption: 'Heavy-duty PPR, uPVC, brass valves & sanitary fixtures.',
-    subcaption: 'Quality products, fair prices and guaranteed customer satisfaction.',
   },
 ];
 
@@ -167,7 +167,7 @@ export default function AboutSection({ aboutContent, address }: AboutSectionProp
           {/* Left Column: Interactive Looping Image Carousel */}
           <div className="lg:col-span-5 flex">
             <div
-              className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border-2 border-white bg-[#073253] group select-none min-h-[380px] sm:min-h-[440px]"
+              className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border-2 border-white bg-[#073253] group select-none min-h-[420px] sm:min-h-[450px]"
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
               onTouchStart={handleTouchStart}
@@ -179,6 +179,7 @@ export default function AboutSection({ aboutContent, address }: AboutSectionProp
               <div className="absolute inset-0">
                 {ABOUT_SLIDES.map((slide, idx) => {
                   const isActive = idx === currentSlide;
+                  const isShowroomBanner = slide.id === 'showroom_display';
 
                   return (
                     <div
@@ -187,22 +188,43 @@ export default function AboutSection({ aboutContent, address }: AboutSectionProp
                         isActive ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
                       }`}
                     >
-                      <img
-                        src={slide.image}
-                        alt={slide.caption}
-                        className="w-full h-full object-cover object-top filter brightness-[0.98] transition-transform duration-700 group-hover:scale-105"
-                        onError={(e) => {
-                          const target = e.currentTarget as HTMLImageElement;
-                          if (target.src !== slide.fallback) {
-                            target.src = slide.fallback;
-                          } else {
-                            target.src = '/images/modern_hardware_about.png';
-                          }
-                        }}
-                      />
+                      {isShowroomBanner ? (
+                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-[#073253] via-[#0B3556] to-[#073253] px-2.5 sm:px-3 pt-12 pb-28 sm:pt-14 sm:pb-32">
+                          <img
+                            src={slide.image}
+                            alt={slide.caption}
+                            className="w-full h-auto max-h-full object-contain rounded-xl shadow-md border border-white/15"
+                            onError={(e) => {
+                              const target = e.currentTarget as HTMLImageElement;
+                              if (!target.dataset.fallbackApplied) {
+                                target.dataset.fallbackApplied = '1';
+                                target.src = slide.fallback;
+                              }
+                            }}
+                          />
+                        </div>
+                      ) : (
+                        <>
+                          <img
+                            src={slide.image}
+                            alt={slide.caption}
+                            className="w-full h-full object-cover object-top filter brightness-[0.98] transition-transform duration-700 group-hover:scale-105"
+                            onError={(e) => {
+                              const target = e.currentTarget as HTMLImageElement;
+                              if (!target.dataset.fallbackApplied) {
+                                target.dataset.fallbackApplied = '1';
+                                target.src = slide.fallback;
+                              } else if (!target.dataset.secondaryFallback) {
+                                target.dataset.secondaryFallback = '1';
+                                target.src = '/images/modern_hardware_about.png';
+                              }
+                            }}
+                          />
 
-                      {/* Deep Gradient Overlay for Maximum Text Legibility */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#073253]/95 via-[#073253]/45 to-transparent" />
+                          {/* Deep Gradient Overlay for Maximum Text Legibility */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#073253]/95 via-[#073253]/45 to-transparent" />
+                        </>
+                      )}
                     </div>
                   );
                 })}
@@ -240,7 +262,7 @@ export default function AboutSection({ aboutContent, address }: AboutSectionProp
               </button>
 
               {/* Bottom Caption Overlay */}
-              <div className="absolute bottom-0 inset-x-0 z-20 p-5 sm:p-6 text-white space-y-1.5">
+              <div className="absolute bottom-0 inset-x-0 z-20 p-4 sm:p-5 text-white space-y-1">
                 <div className="flex items-center space-x-2">
                   <span className="w-2 h-2 rounded-full bg-[#FF850D]" />
                   <span className="text-[11px] sm:text-xs uppercase tracking-widest text-[#FF850D] font-extrabold drop-shadow-xs">

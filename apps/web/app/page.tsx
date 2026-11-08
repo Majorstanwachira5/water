@@ -74,7 +74,7 @@ export default function HomePage() {
           subheadline={brand?.heroSubheadline}
           description={brand?.heroDescription}
           whatsappNumber={whatsapp}
-          heroImageUrl={brand?.heroImageUrl || '/images/modern_hardware_hero.png'}
+          heroImageUrl={brand?.heroImageUrl || '/images/hero_showroom_red_tap.jpg'}
         />
 
         {/* 3. Category Strip with Circular Icons */}
