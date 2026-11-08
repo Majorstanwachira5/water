@@ -806,6 +806,7 @@ function ProductsContent() {
         whatsappNumber={whatsapp}
         secondaryPhone={secondaryPhone}
         secondaryWhatsappNumber={secondaryWhatsapp}
+        address={brand?.address}
       />
 
       <ProductDetailModal

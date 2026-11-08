@@ -9,12 +9,13 @@ import AboutSection from '../components/AboutSection';
 import ContactSection from '../components/ContactSection';
 import Footer from '../components/Footer';
 import ProductDetailModal from '../components/ProductDetailModal';
-import { CatalogProductItem, Category, BrandSettings } from '@michaforge/shared-contracts';
+import { CatalogProductItem, Category, BrandSettings, AboutContent } from '@michaforge/shared-contracts';
 
 export default function HomePage() {
   const [products, setProducts] = useState<CatalogProductItem[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [brand, setBrand] = useState<BrandSettings | null>(null);
+  const [about, setAbout] = useState<AboutContent | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<CatalogProductItem | null>(null);
 
   useEffect(() => {
@@ -38,15 +39,16 @@ export default function HomePage() {
       })
       .catch((err) => console.error('[HomePage] Failed to fetch categories:', err));
 
-    // 3. Fetch Brand Settings directly from Supabase
-    fetch('/api/v1/settings/public')
+    // 3. Fetch Brand Settings & About Content directly from Supabase
+    fetch('/api/v1/content/homepage')
       .then((res) => res.json())
       .then((json) => {
         if (json.success && json.data) {
-          setBrand(json.data);
+          if (json.data.brand) setBrand(json.data.brand);
+          if (json.data.about) setAbout(json.data.about);
         }
       })
-      .catch((err) => console.error('[HomePage] Failed to fetch site settings:', err));
+      .catch((err) => console.error('[HomePage] Failed to fetch homepage content:', err));
   }, []);
 
   const phone = brand?.primaryPhone || '0714843208';
@@ -86,7 +88,7 @@ export default function HomePage() {
         />
 
         {/* 5. About Section */}
-        <AboutSection />
+        <AboutSection aboutContent={about} address={brand?.address} />
 
         {/* 6. Contact Section with Call, SMS, WhatsApp & Enquiry Form */}
         <ContactSection
@@ -94,6 +96,7 @@ export default function HomePage() {
           whatsappNumber={whatsapp}
           secondaryPhone={secondaryPhone}
           secondaryWhatsappNumber={secondaryWhatsapp}
+          address={brand?.address}
         />
       </main>
 
@@ -103,6 +106,7 @@ export default function HomePage() {
         whatsappNumber={whatsapp}
         secondaryPhone={secondaryPhone}
         secondaryWhatsappNumber={secondaryWhatsapp}
+        address={brand?.address}
       />
 
       {/* Product Detail Modal */}

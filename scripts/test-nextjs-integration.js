@@ -162,6 +162,28 @@ async function run() {
       assert(res.json.data.businessName.toUpperCase().includes("MICHAFORGE"));
     });
 
+    await test("Homepage About Us & Brand Content (/api/v1/content/homepage)", async () => {
+      const res = await request("GET", "/api/v1/content/homepage");
+      assert.strictEqual(res.status, 200);
+      assert.strictEqual(res.json.success, true);
+      assert.strictEqual(res.json.data.about.title, "About Us");
+      assert.strictEqual(res.json.data.about.paragraphs.length, 3);
+      assert.strictEqual(res.json.data.about.features.length, 3);
+      assert(res.json.data.about.slogan.includes("Building Trust Through Quality and Reliability."));
+      assert(res.json.data.about.location.includes("Kombo Munyiri Rd, Gikomba"));
+    });
+
+    await test("Public Homepage HTML renders exact About Us sections (GET /)", async () => {
+      const res = await request("GET", "/");
+      assert.strictEqual(res.status, 200);
+      assert(res.raw.includes("About Us"));
+      assert(res.raw.includes("Michaforge Enterprises is a trusted supplier and dealer in plumbing and hardware materials"));
+      assert(res.raw.includes("Our Mission"));
+      assert(res.raw.includes("Our Vision"));
+      assert(res.raw.includes("Our Slogan"));
+      assert(res.raw.includes("Kombo Munyiri Rd, Gikomba, next to Gold Stone Plaza, Nairobi, Kenya"));
+    });
+
     // 3. Customer Enquiry Submission
     await test("Customer Enquiry Submission (/api/v1/enquiries)", async () => {
       const res = await request("POST", "/api/v1/enquiries", {

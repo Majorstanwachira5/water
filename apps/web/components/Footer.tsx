@@ -9,6 +9,7 @@ interface FooterProps {
   whatsappNumber?: string;
   secondaryPhone?: string;
   secondaryWhatsappNumber?: string;
+  address?: string;
 }
 
 export default function Footer({
@@ -16,6 +17,7 @@ export default function Footer({
   whatsappNumber = '+254714843208',
   secondaryPhone = '0721435772',
   secondaryWhatsappNumber = '+254721435772',
+  address = 'Kombo Munyiri Rd, Gikomba, next to Gold Stone Plaza, Nairobi, Kenya',
 }: FooterProps) {
   const primaryWaUrl = generateWhatsAppLink(
     whatsappNumber,
@@ -138,8 +140,8 @@ export default function Footer({
               <div className="flex items-start space-x-2 text-gray-300 pt-1">
                 <MapPin className="w-3.5 h-3.5 text-[#FF850D] flex-shrink-0 mt-0.5" />
                 <div>
-                  <span className="block">Visit Our Shop</span>
-                  <span className="text-[11px] text-gray-400">Nairobi, Kenya</span>
+                  <span className="block font-semibold text-white">Location</span>
+                  <span className="text-[11px] text-gray-300 leading-snug block">{address}</span>
                 </div>
               </div>
             </div>
@@ -163,7 +165,7 @@ export default function Footer({
               </div>
             </div>
             <div className="pt-1 text-[11px] text-gray-300 italic leading-snug">
-              <div>Quality Products | Reliable Service</div>
+              <div>&ldquo;Building Trust Through Quality and Reliability.&rdquo;</div>
               <div className="text-gray-400">Your Plumbing &amp; Hardware Partner</div>
             </div>
           </div>

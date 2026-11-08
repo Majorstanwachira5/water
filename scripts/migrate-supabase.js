@@ -233,7 +233,7 @@ async function run() {
       secondaryWhatsappNumber: '+254721435772',
       smsNumber: '+254714843208',
       email: 'info@michaforge.co.ke',
-      address: 'Nairobi, Kenya',
+      address: 'Kombo Munyiri Rd, Gikomba, next to Gold Stone Plaza, Nairobi, Kenya',
       country: 'Kenya',
       currency: 'KES',
       timezone: 'Africa/Nairobi',
@@ -261,23 +261,35 @@ async function run() {
     };
 
     const aboutContent = {
-      title: 'About Michaforge Enterprises',
+      title: 'About Us',
       description:
-        'Michaforge Enterprises is a premier supplier of quality plumbing materials and hardware essentials in Kenya. We provide dependable, contractor-grade piping solutions, precision fittings, reliable taps, and flow control valves to builders, homeowners, and trade professionals.',
+        'Michaforge Enterprises is a trusted supplier and dealer in plumbing and hardware materials, committed to providing quality products at competitive prices. We pride ourselves on offering a wide range of reliable products to meet the needs of homeowners, contractors, builders and other industry professionals. Our focus is on quality, affordability and excellent customer service. At Michaforge Enterprises, our goal is to deliver value and earn the trust of every customer we serve. Our commitment is simple: Quality products, fair prices and customer satisfaction.',
+      paragraphs: [
+        'Michaforge Enterprises is a trusted supplier and dealer in plumbing and hardware materials, committed to providing quality products at competitive prices.',
+        'We pride ourselves on offering a wide range of reliable products to meet the needs of homeowners, contractors, builders and other industry professionals. Our focus is on quality, affordability and excellent customer service.',
+        'At Michaforge Enterprises, our goal is to deliver value and earn the trust of every customer we serve. Our commitment is simple: Quality products, fair prices and customer satisfaction.',
+      ],
+      valuesLead:
+        'Our values are built on honesty, quality, affordability and excellent customer service:',
       features: [
         {
-          title: 'Genuine Quality',
-          desc: 'High standard pipes and fittings engineered for durability and reliable performance.',
+          title: 'Quality',
+          desc: 'Reliable products you can trust.',
         },
         {
-          title: 'Comprehensive Stock',
-          desc: 'Full range of PVC, PPR, taps, valves, water tanks, and essential hardware items.',
+          title: 'Affordability',
+          desc: 'Competitive prices that offer value for money.',
         },
         {
-          title: 'Direct WhatsApp Support',
-          desc: 'Instant quotations, technical sizing advice, and responsive customer assistance.',
+          title: 'Customer Service',
+          desc: 'Friendly, dependable and professional service.',
         },
       ],
+      mission: 'To provide quality plumbing and hardware materials at affordable prices.',
+      vision:
+        'To be the leading destination for plumbing and hardware solutions in quality, affordability and excellence.',
+      slogan: '"Building Trust Through Quality and Reliability."',
+      location: 'Kombo Munyiri Rd, Gikomba, next to Gold Stone Plaza, Nairobi, Kenya',
     };
 
     await client.query(

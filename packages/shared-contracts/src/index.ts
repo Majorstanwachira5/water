@@ -257,6 +257,23 @@ export interface BrandSettings {
   };
 }
 
+export interface AboutValueItem {
+  title: string;
+  desc: string;
+}
+
+export interface AboutContent {
+  title: string;
+  description: string;
+  paragraphs?: string[];
+  valuesLead?: string;
+  features: AboutValueItem[];
+  mission?: string;
+  vision?: string;
+  slogan?: string;
+  location?: string;
+}
+
 // --- Audit & Reports ---
 export interface AuditLog {
   id: string;

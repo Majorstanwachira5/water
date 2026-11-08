@@ -9,6 +9,7 @@ interface ContactSectionProps {
   whatsappNumber?: string;
   secondaryPhone?: string;
   secondaryWhatsappNumber?: string;
+  address?: string;
 }
 
 export default function ContactSection({
@@ -16,6 +17,7 @@ export default function ContactSection({
   whatsappNumber = '+254714843208',
   secondaryPhone = '0721435772',
   secondaryWhatsappNumber = '+254721435772',
+  address = 'Kombo Munyiri Rd, Gikomba, next to Gold Stone Plaza, Nairobi, Kenya',
 }: ContactSectionProps) {
   const [formData, setFormData] = useState({
     customerName: '',
@@ -244,9 +246,12 @@ export default function ContactSection({
                 Monday – Saturday: 7:30 AM – 6:00 PM <br />
                 Sunday &amp; Public Holidays: On Call / WhatsApp
               </p>
-              <div className="flex items-center space-x-2 text-xs text-gray-300 pt-2 border-t border-[#0B3556]">
-                <MapPin className="w-4 h-4 text-[#FF850D]" />
-                <span>Nairobi &amp; Countrywide Deliveries in Kenya</span>
+              <div className="flex items-start space-x-2 text-xs text-gray-200 pt-2.5 border-t border-[#0B3556]">
+                <MapPin className="w-4 h-4 text-[#FF850D] flex-shrink-0 mt-0.5" />
+                <div>
+                  <span className="block font-bold text-white">{address}</span>
+                  <span className="text-[11px] text-gray-300">Nairobi &amp; Countrywide Deliveries in Kenya</span>
+                </div>
               </div>
             </div>
           </div>

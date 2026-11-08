@@ -2,14 +2,18 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  CheckCircle2,
   ShieldCheck,
-  Truck,
+  Tag,
   Headphones,
+  Target,
+  Eye,
+  Quote,
+  MapPin,
   ChevronLeft,
   ChevronRight,
   Sparkles,
 } from 'lucide-react';
+import { AboutContent } from '@michaforge/shared-contracts';
 
 interface AboutSlide {
   id: string;
@@ -28,33 +32,86 @@ const ABOUT_SLIDES: AboutSlide[] = [
     fallback: '/images/about/founder_portrait.jpg',
     tag: "Kenya's Trusted Supplier",
     badge: 'Managing Director & Technical Specialist',
-    caption: 'Genuine modern plumbing & hardware materials built to last.',
-    subcaption: 'Hands-on contractor support, direct quotations & certified brand durability.',
+    caption: 'Quality plumbing and hardware materials at competitive prices.',
+    subcaption: 'Trusted by homeowners, contractors, builders and industry professionals.',
   },
   {
     id: 'founder_store',
     image: '/images/about/founder_hardware_store.png',
     fallback: '/images/about/founder_standing.jpg',
-    tag: 'Direct Project Supply',
-    badge: 'Nairobi Storefront & Warehouse Hub',
-    caption: 'Over 70+ certified plumbing and hardware product lines in stock.',
-    subcaption: 'Prompt delivery of complete project bills of quantities across all Kenyan counties.',
+    tag: 'Kombo Munyiri Rd, Gikomba',
+    badge: 'Next to Gold Stone Plaza, Nairobi',
+    caption: 'Wide range of reliable products in stock for every project.',
+    subcaption: 'Honesty, quality, affordability and dependable customer service.',
   },
   {
     id: 'showroom_display',
     image: '/images/about/showroom_display.png',
     fallback: '/images/modern_hardware_about.png',
-    tag: "Contractors' First Choice",
+    tag: 'Quality & Reliability',
     badge: 'Comprehensive Inventory',
-    caption: 'Heavy-duty PPR, uPVC, brass valves & stylish sanitary fixtures.',
-    subcaption: 'Commercial-grade resilience engineered for modern residential and commercial builds.',
+    caption: 'Heavy-duty PPR, uPVC, brass valves & sanitary fixtures.',
+    subcaption: 'Quality products, fair prices and guaranteed customer satisfaction.',
   },
 ];
 
-export default function AboutSection() {
+const DEFAULT_ABOUT_CONTENT: AboutContent = {
+  title: 'About Us',
+  description:
+    'Michaforge Enterprises is a trusted supplier and dealer in plumbing and hardware materials, committed to providing quality products at competitive prices.',
+  paragraphs: [
+    'Michaforge Enterprises is a trusted supplier and dealer in plumbing and hardware materials, committed to providing quality products at competitive prices.',
+    'We pride ourselves on offering a wide range of reliable products to meet the needs of homeowners, contractors, builders and other industry professionals. Our focus is on quality, affordability and excellent customer service.',
+    'At Michaforge Enterprises, our goal is to deliver value and earn the trust of every customer we serve. Our commitment is simple: Quality products, fair prices and customer satisfaction.',
+  ],
+  valuesLead:
+    'Our values are built on honesty, quality, affordability and excellent customer service:',
+  features: [
+    {
+      title: 'Quality',
+      desc: 'Reliable products you can trust.',
+    },
+    {
+      title: 'Affordability',
+      desc: 'Competitive prices that offer value for money.',
+    },
+    {
+      title: 'Customer Service',
+      desc: 'Friendly, dependable and professional service.',
+    },
+  ],
+  mission: 'To provide quality plumbing and hardware materials at affordable prices.',
+  vision:
+    'To be the leading destination for plumbing and hardware solutions in quality, affordability and excellence.',
+  slogan: '"Building Trust Through Quality and Reliability."',
+  location: 'Kombo Munyiri Rd, Gikomba, next to Gold Stone Plaza, Nairobi, Kenya',
+};
+
+interface AboutSectionProps {
+  aboutContent?: AboutContent | null;
+  address?: string;
+}
+
+export default function AboutSection({ aboutContent, address }: AboutSectionProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const touchStartXRef = useRef<number | null>(null);
+
+  const paragraphs =
+    aboutContent?.paragraphs && aboutContent.paragraphs.length > 0
+      ? aboutContent.paragraphs
+      : DEFAULT_ABOUT_CONTENT.paragraphs!;
+  const valuesLead = aboutContent?.valuesLead || DEFAULT_ABOUT_CONTENT.valuesLead!;
+  const values =
+    aboutContent?.features && aboutContent.features.length > 0
+      ? aboutContent.features
+      : DEFAULT_ABOUT_CONTENT.features;
+  const mission = aboutContent?.mission || DEFAULT_ABOUT_CONTENT.mission!;
+  const vision = aboutContent?.vision || DEFAULT_ABOUT_CONTENT.vision!;
+  const slogan = aboutContent?.slogan || DEFAULT_ABOUT_CONTENT.slogan!;
+  const locationText =
+    aboutContent?.location ||
+    (address && address !== 'Nairobi, Kenya' ? address : DEFAULT_ABOUT_CONTENT.location!);
 
   // Auto-looping carousel timer (advances every 4.5 seconds when not paused)
   useEffect(() => {
@@ -75,7 +132,6 @@ export default function AboutSection() {
     setCurrentSlide((prev) => (prev - 1 + ABOUT_SLIDES.length) % ABOUT_SLIDES.length);
   };
 
-  // Touch Swipe Handlers for Mobile Browsers
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartXRef.current = e.touches[0].clientX;
   };
@@ -97,14 +153,21 @@ export default function AboutSection() {
 
   const active = ABOUT_SLIDES[currentSlide];
 
+  const getValueIcon = (idx: number) => {
+    if (idx === 0) return <ShieldCheck className="w-5 h-5 text-[#FF850D] flex-shrink-0" />;
+    if (idx === 1) return <Tag className="w-5 h-5 text-[#0BAA58] flex-shrink-0" />;
+    return <Headphones className="w-5 h-5 text-[#073253] flex-shrink-0" />;
+  };
+
   return (
-    <section id="about" className="py-12 sm:py-16 bg-[#F5F7FA] border-t border-[#DFE5EB] relative">
+    <section id="about" className="py-10 sm:py-14 bg-[#F5F7FA] border-t border-[#DFE5EB] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+        {/* Top Row: Showroom Carousel + About Us & Our Values */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 lg:gap-9 items-stretch">
           {/* Left Column: Interactive Looping Image Carousel */}
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-5 flex">
             <div
-              className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border-2 border-white bg-[#073253] group select-none h-[420px] sm:h-[480px]"
+              className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border-2 border-white bg-[#073253] group select-none min-h-[380px] sm:min-h-[440px]"
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
               onTouchStart={handleTouchStart}
@@ -113,7 +176,7 @@ export default function AboutSection() {
               aria-label="Michaforge Leadership & Showroom Carousel"
             >
               {/* Slides Container with Crossfade Transitions */}
-              <div className="relative w-full h-full">
+              <div className="absolute inset-0">
                 {ABOUT_SLIDES.map((slide, idx) => {
                   const isActive = idx === currentSlide;
 
@@ -145,7 +208,7 @@ export default function AboutSection() {
                 })}
               </div>
 
-              {/* Floating Top Badge (Slide Counter & Auto-play Status) */}
+              {/* Floating Top Badge */}
               <div className="absolute top-3.5 inset-x-3.5 z-20 flex items-center justify-between text-xs">
                 <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md text-white font-bold border border-white/15 shadow-sm">
                   <Sparkles className="w-3 h-3 text-[#FF850D]" />
@@ -157,7 +220,7 @@ export default function AboutSection() {
                 </span>
               </div>
 
-              {/* Navigation Arrows (Visible on Desktop Hover & Always on Tablet/Mobile) */}
+              {/* Navigation Arrows */}
               <button
                 type="button"
                 onClick={handlePrev}
@@ -176,7 +239,7 @@ export default function AboutSection() {
                 <ChevronRight className="w-5 h-5" />
               </button>
 
-              {/* Bottom Caption Overlay (Exact Heading from Original) */}
+              {/* Bottom Caption Overlay */}
               <div className="absolute bottom-0 inset-x-0 z-20 p-5 sm:p-6 text-white space-y-1.5">
                 <div className="flex items-center space-x-2">
                   <span className="w-2 h-2 rounded-full bg-[#FF850D]" />
@@ -193,7 +256,7 @@ export default function AboutSection() {
                   {active.subcaption}
                 </p>
 
-                {/* Looping Slide Indicators (Clickable Progress Dots) */}
+                {/* Looping Slide Indicators */}
                 <div className="pt-2 flex items-center justify-between">
                   <div className="flex items-center space-x-1.5">
                     {ABOUT_SLIDES.map((_, idx) => (
@@ -219,62 +282,106 @@ export default function AboutSection() {
             </div>
           </div>
 
-          {/* Right Column: About details */}
-          <div className="lg:col-span-7 space-y-5">
-            <div>
-              <span className="text-xs font-bold text-[#FF850D] uppercase tracking-wider">
-                About Our Business
-              </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#073253] tracking-tight mt-1">
-                Dealers in All Plumbing Materials &amp; Hardware
-              </h2>
-              <div className="w-16 h-1 bg-[#FF850D] mt-2 rounded-full" />
+          {/* Right Column: Exact About Us Narrative & Core Values */}
+          <div className="lg:col-span-7 flex flex-col justify-between space-y-5">
+            <div className="space-y-3.5">
+              <div>
+                <span className="text-xs font-extrabold text-[#FF850D] uppercase tracking-wider">
+                  Michaforge Enterprises
+                </span>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#073253] tracking-tight mt-0.5">
+                  About Us
+                </h2>
+                <div className="w-16 h-1 bg-[#FF850D] mt-2 rounded-full" />
+              </div>
+
+              <div className="space-y-3 text-[#172B3A] text-sm sm:text-[15px] leading-relaxed">
+                {paragraphs.map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
+              </div>
             </div>
 
-            <p className="text-[#172B3A] text-sm sm:text-base leading-relaxed">
-              <strong>Michaforge Enterprises</strong> is your reliable plumbing partner in Kenya, supplying commercial builders, plumbing contractors, and residential owners with certified piping systems, durable fittings, brass valves, stylish faucets, and high-capacity water storage tanks.
-            </p>
+            {/* Our Values Box */}
+            <div className="bg-white rounded-2xl border border-[#DFE5EB] p-4 sm:p-5 space-y-3.5 shadow-2xs">
+              <p className="text-xs sm:text-sm font-bold text-[#073253] leading-snug">
+                {valuesLead}
+              </p>
 
-            {/* Feature Cards Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
-              <div className="flex items-start space-x-3 bg-white p-4 rounded-xl border border-[#DFE5EB] shadow-2xs hover:border-[#FF850D] transition-colors">
-                <ShieldCheck className="w-5 h-5 text-[#FF850D] flex-shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="font-bold text-sm text-[#073253]">Certified Quality</h4>
-                  <p className="text-xs text-[#667585] mt-0.5 leading-normal">
-                    Heavy-duty uPVC, PPR, brass valves, and high-pressure fittings built to last.
-                  </p>
-                </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {values.map((val, idx) => (
+                  <div
+                    key={val.title}
+                    className="rounded-xl bg-[#F8FAFC] border border-[#DFE5EB] p-3.5 hover:border-[#FF850D] transition-colors flex flex-col space-y-1.5"
+                  >
+                    <div className="flex items-center space-x-2">
+                      {getValueIcon(idx)}
+                      <h3 className="font-extrabold text-sm text-[#073253]">{val.title}</h3>
+                    </div>
+                    <p className="text-xs text-[#475569] leading-relaxed">{val.desc}</p>
+                  </div>
+                ))}
               </div>
+            </div>
+          </div>
+        </div>
 
-              <div className="flex items-start space-x-3 bg-white p-4 rounded-xl border border-[#DFE5EB] shadow-2xs hover:border-[#FF850D] transition-colors">
-                <Truck className="w-5 h-5 text-[#0BAA58] flex-shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="font-bold text-sm text-[#073253]">Full Contractor Supply</h4>
-                  <p className="text-xs text-[#667585] mt-0.5 leading-normal">
-                    Complete project bills of quantities supplied promptly across Kenya.
-                  </p>
-                </div>
+        {/* Bottom Rows: Our Mission, Our Vision, Our Slogan & LOCATION */}
+        <div className="mt-6 sm:mt-8 space-y-4">
+          {/* Mission & Vision Row */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-white rounded-2xl border border-[#DFE5EB] hover:border-[#FF850D] transition-colors p-5 flex items-start space-x-4 shadow-2xs">
+              <div className="w-11 h-11 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center flex-shrink-0">
+                <Target className="w-5 h-5 text-[#FF850D]" />
               </div>
-
-              <div className="flex items-start space-x-3 bg-white p-4 rounded-xl border border-[#DFE5EB] shadow-2xs hover:border-[#FF850D] transition-colors">
-                <Headphones className="w-5 h-5 text-[#073253] flex-shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="font-bold text-sm text-[#073253]">Direct Technical Advice</h4>
-                  <p className="text-xs text-[#667585] mt-0.5 leading-normal">
-                    Instant advice on pipe diameters, pressure ratings, and installation fittings.
-                  </p>
-                </div>
+              <div>
+                <h3 className="text-sm sm:text-base font-black text-[#073253]">Our Mission</h3>
+                <p className="text-xs sm:text-sm text-[#172B3A] mt-1 leading-relaxed">
+                  {mission}
+                </p>
               </div>
+            </div>
 
-              <div className="flex items-start space-x-3 bg-white p-4 rounded-xl border border-[#DFE5EB] shadow-2xs hover:border-[#FF850D] transition-colors">
-                <CheckCircle2 className="w-5 h-5 text-[#FF850D] flex-shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="font-bold text-sm text-[#073253]">Transparent Pricing</h4>
-                  <p className="text-xs text-[#667585] mt-0.5 leading-normal">
-                    Direct quotations via call, SMS, or WhatsApp on 0714843208.
-                  </p>
-                </div>
+            <div className="bg-white rounded-2xl border border-[#DFE5EB] hover:border-[#073253] transition-colors p-5 flex items-start space-x-4 shadow-2xs">
+              <div className="w-11 h-11 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center flex-shrink-0">
+                <Eye className="w-5 h-5 text-[#073253]" />
+              </div>
+              <div>
+                <h3 className="text-sm sm:text-base font-black text-[#073253]">Our Vision</h3>
+                <p className="text-xs sm:text-sm text-[#172B3A] mt-1 leading-relaxed">
+                  {vision}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Slogan & Location Row */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-[#073253] text-white rounded-2xl border border-[#0B3556] p-5 flex items-start space-x-4 relative overflow-hidden">
+              <div className="w-11 h-11 rounded-xl bg-[#FF850D]/20 border border-[#FF850D]/40 flex items-center justify-center flex-shrink-0">
+                <Quote className="w-5 h-5 text-[#FF850D]" />
+              </div>
+              <div>
+                <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#FF850D]">
+                  Our Slogan
+                </span>
+                <p className="text-sm sm:text-base font-extrabold text-white mt-1 italic leading-snug">
+                  {slogan}
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-[#0B3556] text-white rounded-2xl border border-[#FF850D]/40 p-5 flex items-start space-x-4 relative overflow-hidden">
+              <div className="w-11 h-11 rounded-xl bg-[#FF850D]/20 border border-[#FF850D]/40 flex items-center justify-center flex-shrink-0">
+                <MapPin className="w-5 h-5 text-[#FF850D]" />
+              </div>
+              <div>
+                <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#FF850D]">
+                  LOCATION
+                </span>
+                <p className="text-sm sm:text-base font-bold text-white mt-1 leading-snug">
+                  {locationText}
+                </p>
               </div>
             </div>
           </div>
