@@ -60,13 +60,13 @@ export default function ProductDetailModal({
         </button>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 sm:p-8">
-          {/* Edge-to-edge Image area with optional gallery thumbnails */}
+          {/* Whole Product Image Stage with optional gallery thumbnails */}
           <div className="flex flex-col space-y-3">
-            <div className="bg-[#F8FAFB] rounded-xl overflow-hidden flex items-center justify-center border border-[#DFE5EB]">
+            <div className="bg-white rounded-xl overflow-hidden flex items-center justify-center border border-[#DFE5EB] aspect-square p-2">
               <img
                 src={displayImage}
                 alt={product.name}
-                className="w-full h-64 sm:h-72 object-cover"
+                className="w-full h-full object-contain object-center"
                 onError={(e) => {
                   (e.currentTarget as HTMLImageElement).src = '/images/products/product_synnova_urinal.png';
                 }}
@@ -81,13 +81,13 @@ export default function ProductDetailModal({
                     key={img.id || idx}
                     type="button"
                     onClick={() => setSelectedImg(img.url)}
-                    className={`w-14 h-14 rounded-lg overflow-hidden border-2 flex-shrink-0 transition-all ${
+                    className={`w-14 h-14 rounded-lg overflow-hidden border-2 bg-white p-0.5 flex-shrink-0 transition-all ${
                       displayImage === img.url
                         ? 'border-[#FF850D] shadow-md scale-105'
                         : 'border-[#DFE5EB] opacity-75 hover:opacity-100'
                     }`}
                   >
-                    <img src={img.url} alt={img.altText || `View ${idx + 1}`} className="w-full h-full object-cover" />
+                    <img src={img.url} alt={img.altText || `View ${idx + 1}`} className="w-full h-full object-contain" />
                   </button>
                 ))}
               </div>

@@ -335,14 +335,14 @@ async function handleApiRequest(
       }
       if (method === 'DELETE') {
         if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
-        const ok = await supabaseCatalogueRepo.archiveProduct(segments[1]);
+        const ok = await supabaseCatalogueRepo.deleteProduct(segments[1]);
         if (!ok) {
           return NextResponse.json(
             { success: false, error: { code: 'NOT_FOUND', message: 'Product not found' } },
             { status: 404 }
           );
         }
-        return NextResponse.json({ success: true, data: { message: 'Product archived successfully' } });
+        return NextResponse.json({ success: true, data: { message: 'Product deleted permanently' } });
       }
     }
 
@@ -396,7 +396,7 @@ async function handleApiRequest(
           id: existing ? existing.id : `prc_${crypto.randomUUID().slice(0, 8)}`,
           productId,
           price: newPrice,
-          previousPrice: prevPrice,
+          previousPrice: null,
           currency: 'KES',
           unit: unit || (existing ? existing.unit : 'each'),
           effectiveDate: now,
@@ -464,7 +464,7 @@ async function handleApiRequest(
           id: existing ? existing.id : `prc_${crypto.randomUUID().slice(0, 8)}`,
           productId,
           price: newPrice,
-          previousPrice: prevPrice,
+          previousPrice: null,
           currency: 'KES',
           unit: unit || (existing ? existing.unit : 'each'),
           effectiveDate: now,

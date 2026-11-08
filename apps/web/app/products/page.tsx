@@ -719,16 +719,18 @@ function ProductsContent() {
 
             {/* Loading Skeleton Grid */}
             {loading && (
-              <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-3.5 animate-pulse">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-3.5 animate-pulse">
                 {[...Array(8)].map((_, i) => (
                   <div
                     key={i}
-                    className="bg-white rounded-2xl border border-slate-200/80 p-3 h-[320px] flex flex-col justify-end space-y-2.5"
+                    className="bg-white rounded-2xl border border-slate-200/80 overflow-hidden flex flex-col"
                   >
-                    <div className="bg-slate-200 flex-1 rounded-xl" />
-                    <div className="bg-slate-200 h-4 rounded w-4/5" />
-                    <div className="bg-slate-200 h-4 rounded w-2/5" />
-                    <div className="bg-slate-200 h-8 rounded-xl w-full" />
+                    <div className="bg-slate-200 aspect-square w-full" />
+                    <div className="p-3 space-y-2">
+                      <div className="bg-slate-200 h-4 rounded w-4/5" />
+                      <div className="bg-slate-200 h-4 rounded w-2/5" />
+                      <div className="bg-slate-200 h-8 rounded-xl w-full mt-1" />
+                    </div>
                   </div>
                 ))}
               </div>

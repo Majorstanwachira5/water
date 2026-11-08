@@ -1451,46 +1451,6 @@ export const DEFAULT_REAL_PRODUCTS: Product[] = [
     "updatedAt": "2026-11-05T00:00:00Z"
   },
   {
-    "id": "prd_lirlee_black_taps_collection",
-    "name": "Lirlee Designer Matte Black Taps & Faucets Display Suite",
-    "slug": "lirlee-designer-matte-black-taps-display-suite",
-    "sku": "MF-TAP-017",
-    "description": "Exclusive designer collection of matte black kitchen and washroom faucets by Lirlee. High-end electrostatic finish repels fingerprints and mineral deposits, providing sleek minimalism for luxury home installations.",
-    "shortDescription": "Lirlee luxury matte black designer faucet collection with electrostatic coating.",
-    "categoryId": "cat_taps_faucets",
-    "unit": "each",
-    "status": "published",
-    "isFeatured": false,
-    "images": [
-      {
-        "id": "img_lirlee_suite_1",
-        "url": "/images/products/product_lirlee_black_taps_collection.png",
-        "altText": "Lirlee Matte Black Faucets Collection",
-        "displayOrder": 1,
-        "isPrimary": true
-      }
-    ],
-    "specifications": [
-      {
-        "id": "sp_lbs_1",
-        "key": "Brand",
-        "value": "Lirlee Designer Series"
-      },
-      {
-        "id": "sp_lbs_2",
-        "key": "Coating",
-        "value": "Electrostatic PVD Matte Black"
-      },
-      {
-        "id": "sp_lbs_3",
-        "key": "Application",
-        "value": "Kitchen Sink & Vanity Washbasin"
-      }
-    ],
-    "createdAt": "2026-11-05T00:00:00Z",
-    "updatedAt": "2026-11-05T00:00:00Z"
-  },
-  {
     "id": "prd_gunmetal_pullout_kitchen_mixer",
     "name": "Modern Brushed Gunmetal L-Shape Kitchen Mixer with Pull-Out Wand",
     "slug": "modern-brushed-gunmetal-l-shape-kitchen-mixer-pullout",
@@ -2130,52 +2090,6 @@ export const DEFAULT_REAL_PRODUCTS: Product[] = [
     "updatedAt": "2026-11-05T00:00:00Z"
   },
   {
-    "id": "prd_granite_quartz_single_sink_black",
-    "name": "Granite Quartz Undermount Single Bowl Kitchen & Bar Sink (Black)",
-    "slug": "granite-quartz-undermount-single-bowl-kitchen-bar-sink-black",
-    "sku": "MF-SNK-001",
-    "description": "Luxury engineered composite black granite quartz kitchen sink. Composed of 80% natural quartz mineral particles bound by advanced acrylic resins for extreme scratch resistance, thermal shock endurance up to 280°C, and sound absorption.",
-    "shortDescription": "Heat and scratch resistant black granite quartz composite undermount kitchen sink.",
-    "categoryId": "cat_kitchen_sinks",
-    "unit": "each",
-    "status": "published",
-    "isFeatured": true,
-    "featuredOrder": 17,
-    "images": [
-      {
-        "id": "img_quartz_black_1",
-        "url": "/images/products/product_granite_quartz_single_sink_black.png",
-        "altText": "Black Granite Quartz Single Bowl Sink",
-        "displayOrder": 1,
-        "isPrimary": true
-      }
-    ],
-    "specifications": [
-      {
-        "id": "sp_gq_1",
-        "key": "Material",
-        "value": "80% Natural Granite Quartz Composite"
-      },
-      {
-        "id": "sp_gq_2",
-        "key": "Mounting",
-        "value": "Undermount or Flush-Mount Installation"
-      },
-      {
-        "id": "sp_gq_3",
-        "key": "Heat Resistance",
-        "value": "Withstands up to 280°C Heat"
-      },
-      {
-        "id": "sp_gq_4",
-        "key": "Finish",
-        "value": "Non-Porous Hygienic Matte Black"
-      }
-    ],
-    "createdAt": "2026-11-05T00:00:00Z",
-    "updatedAt": "2026-11-05T00:00:00Z"
-  },
-  {
     "id": "prd_black_nano_double_bowl_sink_faucet",
     "name": "Black Nano Stainless Steel Double Bowl Kitchen Sink with Pull-Down Faucet",
     "slug": "black-nano-stainless-double-bowl-kitchen-sink-faucet",
@@ -2407,41 +2321,6 @@ export const DEFAULT_REAL_PRODUCTS: Product[] = [
         "id": "sp_ks_3",
         "key": "Included Accessories",
         "value": "Stainless Drain Colander + Built-in Soap Dispenser + Waste Traps"
-      }
-    ],
-    "createdAt": "2026-11-05T00:00:00Z",
-    "updatedAt": "2026-11-05T00:00:00Z"
-  },
-  {
-    "id": "prd_sus304_handcrafted_undermount_sink",
-    "name": "SUS304 Handcrafted Double Bowl Undermount Kitchen Sink",
-    "slug": "sus304-handcrafted-double-bowl-undermount-kitchen-sink",
-    "sku": "MF-SNK-008",
-    "description": "Seamless handcrafted undermount double kitchen sink made from commercial-grade SUS304 satin brushed stainless steel. Clean straight lines and subtle R10 radius corners pair flawlessly with quartz, granite, or solid surface countertops.",
-    "shortDescription": "Commercial-grade SUS304 handcrafted double undermount kitchen sink.",
-    "categoryId": "cat_kitchen_sinks",
-    "unit": "each",
-    "status": "published",
-    "isFeatured": false,
-    "images": [
-      {
-        "id": "img_sus_under_1",
-        "url": "/images/products/product_sus304_handcrafted_undermount_sink.png",
-        "altText": "SUS304 Handcrafted Undermount Sink",
-        "displayOrder": 1,
-        "isPrimary": true
-      }
-    ],
-    "specifications": [
-      {
-        "id": "sp_hcu_1",
-        "key": "Corners",
-        "value": "R10 Precision Radius Rounded Corners"
-      },
-      {
-        "id": "sp_hcu_2",
-        "key": "Insulation",
-        "value": "Thick Protective Rubber Coating & Anti-Condensation Undercoat"
       }
     ],
     "createdAt": "2026-11-05T00:00:00Z",
@@ -3672,18 +3551,6 @@ export const DEFAULT_REAL_PRICES: ProductPrice[] = [
     "updatedAt": "2026-11-05T00:00:00Z"
   },
   {
-    "id": "prc_lirlee_black_taps_collection",
-    "productId": "prd_lirlee_black_taps_collection",
-    "price": 2950,
-    "previousPrice": null,
-    "currency": "KES",
-    "unit": "each",
-    "effectiveDate": "2026-11-05T00:00:00Z",
-    "updatedBy": "Store Manager",
-    "reason": "Store catalogue price",
-    "updatedAt": "2026-11-05T00:00:00Z"
-  },
-  {
     "id": "prc_gunmetal_pullout_kitchen_mixer",
     "productId": "prd_gunmetal_pullout_kitchen_mixer",
     "price": 2950,
@@ -3864,18 +3731,6 @@ export const DEFAULT_REAL_PRICES: ProductPrice[] = [
     "updatedAt": "2026-11-05T00:00:00Z"
   },
   {
-    "id": "prc_granite_quartz_single_sink_black",
-    "productId": "prd_granite_quartz_single_sink_black",
-    "price": 2800,
-    "previousPrice": null,
-    "currency": "KES",
-    "unit": "each",
-    "effectiveDate": "2026-11-05T00:00:00Z",
-    "updatedBy": "Store Manager",
-    "reason": "Store catalogue price",
-    "updatedAt": "2026-11-05T00:00:00Z"
-  },
-  {
     "id": "prc_black_nano_double_bowl_sink_faucet",
     "productId": "prd_black_nano_double_bowl_sink_faucet",
     "price": 2950,
@@ -3942,18 +3797,6 @@ export const DEFAULT_REAL_PRICES: ProductPrice[] = [
     "previousPrice": null,
     "currency": "KES",
     "unit": "complete set",
-    "effectiveDate": "2026-11-05T00:00:00Z",
-    "updatedBy": "Store Manager",
-    "reason": "Store catalogue price",
-    "updatedAt": "2026-11-05T00:00:00Z"
-  },
-  {
-    "id": "prc_sus304_handcrafted_undermount_sink",
-    "productId": "prd_sus304_handcrafted_undermount_sink",
-    "price": 2900,
-    "previousPrice": null,
-    "currency": "KES",
-    "unit": "each",
     "effectiveDate": "2026-11-05T00:00:00Z",
     "updatedBy": "Store Manager",
     "reason": "Store catalogue price",
@@ -4247,7 +4090,7 @@ export const DEFAULT_CATALOG_ITEMS: CatalogProductItem[] = DEFAULT_REAL_PRODUCTS
     ...prod,
     category: cat,
     price: priceVal,
-    previousPrice: pr ? pr.previousPrice : null,
+    previousPrice: null,
     currency,
     priceDisplayState: hasPrice ? 'configured' : 'contact_for_price',
     formattedPrice: formatPriceValue(priceVal, currency),
@@ -4470,6 +4313,19 @@ export const supabaseCatalogueRepo = {
       archivedAt: now,
     });
     return !!updated;
+  },
+
+  async deleteProduct(id: string): Promise<boolean> {
+    const sb = getSupabaseClient();
+    await sb.from('price_history').delete().eq('product_id', id);
+    await sb.from('product_prices').delete().eq('product_id', id);
+    const { data, error } = await sb
+      .from('products')
+      .delete()
+      .eq('id', id)
+      .select('id');
+    if (error) throw new Error(error.message);
+    return !!(data && data.length > 0);
   },
 };
 
@@ -5074,7 +4930,7 @@ export const supabaseCatalogAggregator = {
       return {
         ...prod,
         price: priceVal,
-        previousPrice: pr ? pr.previousPrice : null,
+        previousPrice: null,
         currency,
         priceDisplayState: hasPrice ? 'configured' : 'contact_for_price',
         formattedPrice: formatPriceValue(priceVal, currency),
@@ -5107,7 +4963,7 @@ export const supabaseCatalogAggregator = {
     return {
       ...prod,
       price: priceVal,
-      previousPrice: pr ? pr.previousPrice : null,
+      previousPrice: null,
       currency,
       priceDisplayState: hasPrice ? 'configured' : 'contact_for_price',
       formattedPrice: formatPriceValue(priceVal, currency),

@@ -29,10 +29,10 @@ export function ProductCard({
   const waUrl = generateWhatsAppLink(whatsappNumber, product.name, product.sku);
 
   return (
-    <div className="product-card group relative flex flex-col justify-end w-full h-[320px] sm:h-[340px] rounded-2xl overflow-hidden bg-white border border-slate-200/70 hover:border-[#FF850D]/70 transition-all duration-300 text-left select-none">
-      {/* Background Image: Fits all over, edge-to-edge, with smooth zoom on hover */}
+    <div className="product-card group flex flex-col bg-white rounded-2xl overflow-hidden border border-slate-200/85 hover:border-[#FF850D]/80 transition-all duration-300 text-left select-none">
+      {/* Top Product Image Stage: Clean 1:1 square frame above title & prices so the whole product is 100% visible */}
       <div
-        className="absolute inset-0 w-full h-full cursor-pointer overflow-hidden bg-slate-100"
+        className="relative w-full aspect-square bg-white cursor-pointer overflow-hidden border-b border-slate-100 flex items-center justify-center p-1"
         onClick={() => onSelect(product)}
         title={`View ${product.name}`}
       >
@@ -40,7 +40,7 @@ export function ProductCard({
           src={primaryImage}
           alt={product.name}
           loading="lazy"
-          className="w-full h-full object-cover object-center group-hover:scale-[1.06] transition-transform duration-500 filter brightness-[0.98]"
+          className="w-full h-full object-contain object-center group-hover:scale-[1.04] transition-transform duration-300"
           onError={(e) => {
             const target = e.currentTarget as HTMLImageElement;
             if (target.src !== fallbackImage) {
@@ -49,64 +49,49 @@ export function ProductCard({
           }}
         />
 
-        {/* Top Vignette for badge legibility */}
-        <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-black/25 to-transparent pointer-events-none" />
-      </div>
-
-      {/* Top Floating Badge: Quality indicator only — price is displayed exclusively in the bottom panel to eliminate repetition */}
-      <div className="absolute top-2.5 left-2.5 z-10 flex items-center pointer-events-none">
-        {product.isFeatured ? (
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#FF850D] text-white shadow-2xs uppercase tracking-wider">
+        {product.isFeatured && (
+          <span className="absolute top-2 left-2 z-10 px-2 py-0.5 rounded-full text-[9.5px] font-bold bg-[#FF850D] text-white uppercase tracking-wider pointer-events-none">
             Featured
-          </span>
-        ) : (
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#073253]/75 backdrop-blur-md text-white border border-white/20 shadow-2xs">
-            Genuine
           </span>
         )}
       </div>
 
-      {/* Floating Bottom Panel: Words above image with frosted backdrop blur & seamless blend */}
-      <div className="relative z-10 p-2.5 sm:p-3 backdrop-blur-md bg-white/85 group-hover:bg-white/95 border-t border-white/50 transition-all duration-300 space-y-1.5">
-        <h3
-          className="font-extrabold text-xs sm:text-[13px] text-[#073253] group-hover:text-[#FF850D] line-clamp-2 leading-tight transition-colors cursor-pointer"
-          onClick={() => onSelect(product)}
-          title={product.name}
-        >
-          {product.name}
-        </h3>
+      {/* Bottom Details & Pricing Panel */}
+      <div className="flex-1 flex flex-col justify-between p-2.5 sm:p-3 bg-white space-y-2">
+        <div className="space-y-1">
+          <h3
+            className="font-extrabold text-xs sm:text-[13px] text-[#073253] group-hover:text-[#FF850D] line-clamp-2 leading-snug transition-colors cursor-pointer min-h-[2.3em]"
+            onClick={() => onSelect(product)}
+            title={product.name}
+          >
+            {product.name}
+          </h3>
 
-        {/* Price & Unit Details Row */}
-        <div className="flex items-baseline justify-between pt-0.5">
-          {isPriceSet ? (
-            <div className="flex items-baseline space-x-1.5">
-              <span className="text-sm sm:text-[14.5px] font-black text-[#FF850D]">
+          {/* Current Price & Unit Row (No canceled grey previous prices) */}
+          <div className="flex items-baseline justify-between gap-1 pt-0.5">
+            {isPriceSet ? (
+              <span className="text-sm sm:text-[15px] font-black text-[#FF850D] tracking-tight">
                 {product.formattedPrice}
               </span>
-              {product.previousPrice ? (
-                <span className="text-[10px] text-gray-400 line-through">
-                  KSh {product.previousPrice}
-                </span>
-              ) : null}
-            </div>
-          ) : (
-            <div className="inline-flex items-center space-x-1 text-[10px] font-bold text-[#FF850D] bg-orange-50 px-1.5 py-0.5 rounded">
-              <Tag className="w-2.5 h-2.5" />
-              <span>Contact for Price</span>
-            </div>
-          )}
+            ) : (
+              <div className="inline-flex items-center space-x-1 text-[10.5px] font-bold text-[#FF850D] bg-orange-50 px-1.5 py-0.5 rounded">
+                <Tag className="w-2.5 h-2.5" />
+                <span>Contact for Price</span>
+              </div>
+            )}
 
-          <span className="text-[10px] sm:text-[11px] text-[#667585] font-semibold truncate max-w-[100px] text-right">
-            {product.unit ? `per ${product.unit}` : 'per item'}
-          </span>
+            <span className="text-[10px] sm:text-[11px] text-[#64748B] font-semibold truncate max-w-[95px] text-right">
+              {product.unit ? `per ${product.unit}` : 'per item'}
+            </span>
+          </div>
         </div>
 
-        {/* Action Button: Compact, zero wasted gaps */}
+        {/* Action Button */}
         <a
           href={waUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="w-full inline-flex items-center justify-center space-x-1.5 bg-[#0BAA58] hover:bg-[#09934B] text-white text-[11px] font-bold py-2 px-2.5 rounded-xl transition-all shadow-2xs active:scale-[0.98]"
+          className="w-full inline-flex items-center justify-center space-x-1.5 bg-[#0BAA58] hover:bg-[#09934B] text-white text-[11px] font-bold py-2 px-2.5 rounded-xl transition-colors active:scale-[0.98]"
         >
           <MessageCircle className="w-3.5 h-3.5 fill-white flex-shrink-0" />
           <span className="truncate">Inquire on WhatsApp</span>

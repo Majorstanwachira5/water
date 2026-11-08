@@ -220,8 +220,8 @@ export default function AdminProductsPage() {
     }
   };
 
-  const handleArchive = async (id: string) => {
-    if (!confirm('Are you sure you want to archive this product?')) return;
+  const handleDeleteProduct = async (id: string) => {
+    if (!confirm('Are you sure you want to permanently delete this product? This will remove it completely from the store catalogue and pricing.')) return;
     const token = typeof window !== 'undefined' ? localStorage.getItem('michaforge_admin_token') : null;
     await fetch(`/api/v1/products/${id}`, {
       method: 'DELETE',
@@ -296,11 +296,11 @@ export default function AdminProductsPage() {
                     <tr key={prod.id} className="hover:bg-gray-50">
                       <td className="py-2.5 px-4 font-bold text-[#073253]">
                         <div className="flex items-center space-x-3">
-                          <div className="w-12 h-12 rounded-lg overflow-hidden border border-gray-200 bg-white flex-shrink-0">
+                          <div className="w-12 h-12 rounded-lg overflow-hidden border border-gray-200 bg-white flex-shrink-0 p-0.5">
                             <img
                               src={prod.images?.[0]?.url || '/images/products/product_pvc_pipes.png'}
                               alt={prod.name}
-                              className="w-full h-full object-cover"
+                              className="w-full h-full object-contain"
                             />
                           </div>
                           <div>
@@ -347,9 +347,9 @@ export default function AdminProductsPage() {
                           <Edit2 className="w-4 h-4" />
                         </button>
                         <button
-                          onClick={() => handleArchive(prod.id)}
+                          onClick={() => handleDeleteProduct(prod.id)}
                           className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors"
-                          title="Archive product"
+                          title="Delete product permanently"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -379,12 +379,12 @@ export default function AdminProductsPage() {
                 </label>
 
                 <div className="flex flex-col sm:flex-row items-center gap-4">
-                  {/* Crisp Zero-Padding Preview */}
-                  <div className="w-32 h-28 rounded-xl overflow-hidden border-2 border-[#073253]/20 bg-white flex-shrink-0 shadow-sm">
+                  {/* Crisp Contain Preview */}
+                  <div className="w-28 h-28 rounded-xl overflow-hidden border-2 border-[#073253]/20 bg-white flex-shrink-0 shadow-sm p-1 flex items-center justify-center">
                     <img
                       src={formData.imageUrl || '/images/products/product_pvc_pipes.png'}
                       alt="Product preview"
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                     />
                   </div>
 
@@ -435,7 +435,7 @@ export default function AdminProductsPage() {
                           }`}
                           title={asset.altText}
                         >
-                          <img src={asset.url} alt={asset.altText} className="w-full h-full object-cover" />
+                          <img src={asset.url} alt={asset.altText} className="w-full h-full object-contain bg-white" />
                         </button>
                       ))}
                     </div>

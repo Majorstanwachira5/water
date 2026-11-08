@@ -38,8 +38,8 @@ export default function FeaturedProducts({
           </a>
         </div>
 
-        {/* Product Cards Grid: 6 cards matching flyer row with tight spacing & zero image padding */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5 sm:gap-3">
+        {/* Product Cards Grid: crisp square image display above title & price */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
           {products.map((product) => (
             <ProductCard
               key={product.id}

@@ -226,14 +226,14 @@ app.patch('/api/v1/products/:id', async (req, res) => {
 
 app.delete('/api/v1/products/:id', async (req, res) => {
   try {
-    const ok = await supabaseCatalogueRepo.archiveProduct(req.params.id);
+    const ok = await supabaseCatalogueRepo.deleteProduct(req.params.id);
     if (!ok) {
       return res.status(404).json({
         success: false,
         error: { code: 'NOT_FOUND', message: 'Product not found' },
       });
     }
-    res.json({ success: true, data: { message: 'Product archived successfully' } });
+    res.json({ success: true, data: { message: 'Product deleted permanently' } });
   } catch (err: any) {
     res.status(500).json({
       success: false,

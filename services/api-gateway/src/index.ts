@@ -212,12 +212,11 @@ app.get('/api/v1/catalog/products', async (req, res) => {
         const prc = pricesMap[p.id];
         const hasValidPrice = prc && prc.price !== null && prc.price !== undefined && prc.price > 0;
         const currentPrice = hasValidPrice ? prc.price : null;
-        const previousPrice = prc && prc.previousPrice ? prc.previousPrice : null;
 
         return {
           ...p,
           price: currentPrice,
-          previousPrice: previousPrice,
+          previousPrice: null,
           currency: 'KES',
           priceDisplayState: (hasValidPrice ? 'configured' : 'contact_for_price') as 'configured' | 'contact_for_price',
           formattedPrice: formatCurrency(currentPrice, 'KES'),
@@ -297,7 +296,7 @@ app.get('/api/v1/catalog/products/slug/:slug', async (req, res) => {
       const aggregated: CatalogProductItem = {
         ...product,
         price: currentPrice,
-        previousPrice: priceRecord?.previousPrice ?? null,
+        previousPrice: null,
         currency: 'KES',
         priceDisplayState: (hasValidPrice ? 'configured' : 'contact_for_price') as 'configured' | 'contact_for_price',
         formattedPrice: formatCurrency(currentPrice, 'KES'),
