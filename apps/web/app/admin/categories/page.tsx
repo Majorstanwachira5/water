@@ -15,6 +15,7 @@ export default function AdminCategoriesPage() {
     description: '',
     iconName: 'pipe',
     imageUrl: '',
+    startingPrice: '',
   });
 
   const loadCategories = async () => {
@@ -34,7 +35,7 @@ export default function AdminCategoriesPage() {
 
   const handleOpenCreate = () => {
     setEditingCategory(null);
-    setFormData({ name: '', description: '', iconName: 'pipe', imageUrl: '' });
+    setFormData({ name: '', description: '', iconName: 'pipe', imageUrl: '', startingPrice: '' });
     setShowModal(true);
   };
 
@@ -45,6 +46,7 @@ export default function AdminCategoriesPage() {
       description: cat.description,
       iconName: cat.iconName,
       imageUrl: cat.imageUrl || '',
+      startingPrice: cat.startingPrice !== undefined && cat.startingPrice !== null ? String(cat.startingPrice) : '',
     });
     setShowModal(true);
   };
@@ -83,17 +85,24 @@ export default function AdminCategoriesPage() {
         'Content-Type': 'application/json',
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       };
+      const payload = {
+        name: formData.name,
+        description: formData.description,
+        iconName: formData.iconName,
+        imageUrl: formData.imageUrl,
+        startingPrice: formData.startingPrice.trim() !== '' ? Number(formData.startingPrice) : null,
+      };
       if (editingCategory) {
         await fetch(`/api/v1/categories/${editingCategory.id}`, {
           method: 'PATCH',
           headers,
-          body: JSON.stringify(formData),
+          body: JSON.stringify(payload),
         });
       } else {
         await fetch('/api/v1/categories', {
           method: 'POST',
           headers,
-          body: JSON.stringify(formData),
+          body: JSON.stringify(payload),
         });
       }
       setShowModal(false);
@@ -143,6 +152,7 @@ export default function AdminCategoriesPage() {
                 <th className="py-3 px-4">Category Name</th>
                 <th className="py-3 px-4">Tagline / Description</th>
                 <th className="py-3 px-4">Icon Key</th>
+                <th className="py-3 px-4">Starting Price ('From')</th>
                 <th className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
@@ -153,6 +163,22 @@ export default function AdminCategoriesPage() {
                   <td className="py-3 px-4 font-bold text-[#073253]">{cat.name}</td>
                   <td className="py-3 px-4 text-gray-600">{cat.description}</td>
                   <td className="py-3 px-4 font-mono text-gray-500">{cat.iconName}</td>
+                  <td className="py-3 px-4">
+                    <div className="flex flex-col gap-0.5">
+                      <span className="font-bold text-[#FF850D] text-xs">
+                        {cat.formattedFromPrice || (cat.effectiveFromPrice ? `From KSh ${cat.effectiveFromPrice.toLocaleString('en-KE')}` : '—')}
+                      </span>
+                      {cat.startingPrice && cat.startingPrice > 0 ? (
+                        <span className="text-[10px] text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200 inline-block w-fit font-semibold">
+                          Custom: KSh {cat.startingPrice.toLocaleString('en-KE')}
+                        </span>
+                      ) : (
+                        <span className="text-[10px] text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 inline-block w-fit font-medium">
+                          Auto Min: {cat.computedFromPrice ? `KSh ${cat.computedFromPrice.toLocaleString('en-KE')}` : 'Live DB'}
+                        </span>
+                      )}
+                    </div>
+                  </td>
                   <td className="py-3 px-4 text-right space-x-2">
                     <button
                       onClick={() => handleOpenEdit(cat)}
@@ -220,6 +246,44 @@ export default function AdminCategoriesPage() {
                   <option value="tank">Water Tank</option>
                   <option value="hardware">Hardware / Tool</option>
                 </select>
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block font-bold text-gray-700">Starting Price / From (KSh)</label>
+                  {editingCategory?.computedFromPrice && (
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, startingPrice: String(editingCategory.computedFromPrice) })}
+                      className="text-[10px] text-[#073253] hover:text-[#FF850D] font-bold"
+                    >
+                      Use Real Min (KSh {editingCategory.computedFromPrice.toLocaleString('en-KE')})
+                    </button>
+                  )}
+                </div>
+                <div className="relative">
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    value={formData.startingPrice}
+                    onChange={(e) => setFormData({ ...formData, startingPrice: e.target.value })}
+                    placeholder={editingCategory?.computedFromPrice ? `Auto from live products (currently KSh ${editingCategory.computedFromPrice.toLocaleString('en-KE')})` : 'e.g. 850'}
+                    className="w-full px-3 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FF850D]"
+                  />
+                  {formData.startingPrice && (
+                    <button
+                      type="button"
+                      onClick={() => setFormData({ ...formData, startingPrice: '' })}
+                      className="absolute right-2 top-2 text-[10px] text-gray-400 hover:text-red-500 font-bold px-1.5 py-0.5 bg-gray-100 rounded"
+                    >
+                      Clear (Auto)
+                    </button>
+                  )}
+                </div>
+                <p className="text-[10.5px] text-gray-500 mt-1">
+                  Leave blank to automatically calculate and display the lowest price from your live products in this category in real time. Set a price to override with a custom starting offer.
+                </p>
               </div>
 
               <div>

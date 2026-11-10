@@ -70,6 +70,10 @@ export interface Category {
   imageUrl?: string;
   displayOrder: number;
   isPublished: boolean;
+  startingPrice?: number | null;
+  computedFromPrice?: number | null;
+  effectiveFromPrice?: number | null;
+  formattedFromPrice?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -232,6 +236,13 @@ export interface BrandSettings {
   smsNumber: string; // "+254714843208"
   email?: string;
   address?: string;
+  googleMapsUrl?: string;
+  googleMapsPlusCode?: string;
+  coordinates?: {
+    lat: number;
+    lng: number;
+  };
+  categoryStartingPrices?: Record<string, number | null>;
   country: string; // "Kenya"
   currency: string; // "KES"
   timezone: string; // "Africa/Nairobi"
@@ -272,6 +283,8 @@ export interface AboutContent {
   vision?: string;
   slogan?: string;
   location?: string;
+  googleMapsUrl?: string;
+  googleMapsPlusCode?: string;
 }
 
 // --- Audit & Reports ---

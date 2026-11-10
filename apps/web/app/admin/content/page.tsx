@@ -101,6 +101,7 @@ export default function AdminContentBrandingPage() {
     secondaryWhatsappNumber: '',
     email: '',
     address: '',
+    googleMapsUrl: '',
     announcementText: '',
     heroHeadline: '',
     heroSubheadline: '',
@@ -127,6 +128,7 @@ export default function AdminContentBrandingPage() {
             secondaryWhatsappNumber: b.secondaryWhatsappNumber || '+254721435772',
             email: b.email || '',
             address: b.address || '',
+            googleMapsUrl: b.googleMapsUrl || '',
             announcementText: b.announcementText || '',
             heroHeadline: b.heroHeadline || '',
             heroSubheadline: b.heroSubheadline || '',
@@ -186,6 +188,7 @@ export default function AdminContentBrandingPage() {
       secondaryWhatsappNumber: brand.secondaryWhatsappNumber || '+254721435772',
       email: brand.email || '',
       address: brand.address || '',
+      googleMapsUrl: brand.googleMapsUrl || '',
       announcementText: brand.announcementText || '',
       heroHeadline: brand.heroHeadline || '',
       heroSubheadline: brand.heroSubheadline || '',
@@ -219,6 +222,7 @@ export default function AdminContentBrandingPage() {
           secondaryWhatsappNumber: form.secondaryWhatsappNumber,
           email: form.email,
           address: form.address,
+          googleMapsUrl: form.googleMapsUrl,
           announcementText: form.announcementText,
           logoUrl: form.logoUrl,
           logoWhiteUrl: form.logoWhiteUrl,
@@ -359,6 +363,18 @@ export default function AdminContentBrandingPage() {
             className={INPUT_CLS}
             value={form.address}
             onChange={(e) => handleChange('address', e.target.value)}
+          />
+        </Field>
+        <Field
+          label="Google Maps Place / Directions URL"
+          hint="Direct Google Maps URL for GPS directions (e.g. https://www.google.com/maps/place/... or Plus Code PR9M+5HJ Nairobi)."
+        >
+          <input
+            id="field-google-maps-url"
+            className={INPUT_CLS}
+            value={form.googleMapsUrl}
+            onChange={(e) => handleChange('googleMapsUrl', e.target.value)}
+            placeholder="https://www.google.com/maps/place/1%C2%B016'55.3%22S+36%C2%B050'02.0%22E/@-1.282029,36.833892,17z"
           />
         </Field>
       </Section>

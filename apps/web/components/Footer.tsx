@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Phone, MessageCircle, MapPin, ChevronRight, ShieldCheck } from 'lucide-react';
+import { Phone, MessageCircle, MapPin, ChevronRight, ShieldCheck, ExternalLink } from 'lucide-react';
 import { generateWhatsAppLink } from '@michaforge/shared-validation';
 
 interface FooterProps {
@@ -10,6 +10,7 @@ interface FooterProps {
   secondaryPhone?: string;
   secondaryWhatsappNumber?: string;
   address?: string;
+  googleMapsUrl?: string;
 }
 
 export default function Footer({
@@ -18,6 +19,7 @@ export default function Footer({
   secondaryPhone = '0721435772',
   secondaryWhatsappNumber = '+254721435772',
   address = 'Kombo Munyiri Rd, Gikomba, next to Gold Stone Plaza, Nairobi, Kenya',
+  googleMapsUrl = "https://www.google.com/maps/place/1%C2%B016'55.3%22S+36%C2%B050'02.0%22E/@-1.282029,36.833892,17z",
 }: FooterProps) {
   const primaryWaUrl = generateWhatsAppLink(
     whatsappNumber,
@@ -137,13 +139,29 @@ export default function Footer({
                 <span>WhatsApp: {secondaryPhone}</span>
               </a>
 
-              <div className="flex items-start space-x-2 text-gray-300 pt-1">
-                <MapPin className="w-3.5 h-3.5 text-[#FF850D] flex-shrink-0 mt-0.5" />
-                <div>
-                  <span className="block font-semibold text-white">Location</span>
-                  <span className="text-[11px] text-gray-300 leading-snug block">{address}</span>
+              {/* Direct Clickable Location with Google Maps */}
+              <a
+                href={googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-start space-x-2 text-gray-300 hover:text-[#FF850D] pt-1 transition-colors"
+                title="Open Michaforge shop on Google Maps (PR9M+5HJ Nairobi)"
+              >
+                <MapPin className="w-3.5 h-3.5 text-[#FF850D] flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center space-x-1.5">
+                    <span className="font-semibold text-white group-hover:text-[#FF850D] transition-colors">Location</span>
+                    <span className="text-[9px] font-bold text-[#FF850D] bg-[#FF850D]/15 border border-[#FF850D]/30 px-1.5 py-0.2 rounded inline-flex items-center space-x-0.5">
+                      <span>Google Maps</span>
+                      <ExternalLink className="w-2.5 h-2.5 ml-0.5" />
+                    </span>
+                  </div>
+                  <span className="text-[11px] text-gray-300 group-hover:text-gray-100 leading-snug block">{address}</span>
+                  <span className="text-[10px] text-[#FF850D] font-semibold block mt-0.5 group-hover:underline">
+                    📍 Get Directions (PR9M+5HJ) &rarr;
+                  </span>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
 

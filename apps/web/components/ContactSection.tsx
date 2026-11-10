@@ -10,6 +10,7 @@ interface ContactSectionProps {
   secondaryPhone?: string;
   secondaryWhatsappNumber?: string;
   address?: string;
+  googleMapsUrl?: string;
 }
 
 export default function ContactSection({
@@ -18,6 +19,7 @@ export default function ContactSection({
   secondaryPhone = '0721435772',
   secondaryWhatsappNumber = '+254721435772',
   address = 'Kombo Munyiri Rd, Gikomba, next to Gold Stone Plaza, Nairobi, Kenya',
+  googleMapsUrl = "https://www.google.com/maps/place/1%C2%B016'55.3%22S+36%C2%B050'02.0%22E/@-1.282029,36.833892,17z",
 }: ContactSectionProps) {
   const [formData, setFormData] = useState({
     customerName: '',
@@ -246,13 +248,28 @@ export default function ContactSection({
                 Monday – Saturday: 7:30 AM – 6:00 PM <br />
                 Sunday &amp; Public Holidays: On Call / WhatsApp
               </p>
-              <div className="flex items-start space-x-2 text-xs text-gray-200 pt-2.5 border-t border-[#0B3556]">
-                <MapPin className="w-4 h-4 text-[#FF850D] flex-shrink-0 mt-0.5" />
-                <div>
-                  <span className="block font-bold text-white">{address}</span>
-                  <span className="text-[11px] text-gray-300">Nairobi &amp; Countrywide Deliveries in Kenya</span>
+              <a
+                href={googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-start space-x-2.5 text-xs text-gray-200 pt-3 border-t border-[#0B3556] hover:text-white transition-colors"
+                title="Open Michaforge Enterprises on Google Maps"
+              >
+                <MapPin className="w-4 h-4 text-[#FF850D] flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
+                <div className="flex-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="block font-bold text-white group-hover:text-[#FF850D] transition-colors">
+                      {address}
+                    </span>
+                    <span className="text-[10px] font-bold text-[#FF850D] bg-[#FF850D]/20 px-2 py-0.5 rounded border border-[#FF850D]/40 whitespace-nowrap">
+                      Maps 📍
+                    </span>
+                  </div>
+                  <span className="text-[11px] text-gray-300 block mt-0.5">
+                    Nairobi &amp; Countrywide Deliveries in Kenya • <span className="text-[#FF850D] underline underline-offset-2">Get Directions (PR9M+5HJ) →</span>
+                  </span>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
 

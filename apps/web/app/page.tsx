@@ -88,7 +88,11 @@ export default function HomePage() {
         />
 
         {/* 5. About Section */}
-        <AboutSection aboutContent={about} address={brand?.address} />
+        <AboutSection
+          aboutContent={about}
+          address={brand?.address}
+          googleMapsUrl={brand?.googleMapsUrl}
+        />
 
         {/* 6. Contact Section with Call, SMS, WhatsApp & Enquiry Form */}
         <ContactSection
@@ -97,6 +101,7 @@ export default function HomePage() {
           secondaryPhone={secondaryPhone}
           secondaryWhatsappNumber={secondaryWhatsapp}
           address={brand?.address}
+          googleMapsUrl={brand?.googleMapsUrl}
         />
       </main>
 
@@ -107,6 +112,7 @@ export default function HomePage() {
         secondaryPhone={secondaryPhone}
         secondaryWhatsappNumber={secondaryWhatsapp}
         address={brand?.address}
+        googleMapsUrl={brand?.googleMapsUrl}
       />
 
       {/* Product Detail Modal */}

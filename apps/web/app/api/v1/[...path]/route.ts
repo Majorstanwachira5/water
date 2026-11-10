@@ -184,10 +184,58 @@ async function handleApiRequest(
       return NextResponse.json({ success: true, data: item });
     }
 
-    // 3. Categories
+    // 3. Categories (Enriched with live dynamic minimum product prices & admin overrides)
     if (routePath === '/categories' && method === 'GET') {
-      const categories = await supabaseCatalogueRepo.listCategories();
-      return NextResponse.json({ success: true, data: categories });
+      const [categories, products, prices, brand] = await Promise.all([
+        supabaseCatalogueRepo.listCategories(),
+        supabaseCatalogueRepo.listProducts({ status: 'published' }),
+        supabasePricingRepo.listPrices(),
+        supabaseContentRepo.getBrandSettings(),
+      ]);
+
+      const priceMap = new Map<string, number>();
+      for (const p of prices) {
+        if (p.price !== null && p.price !== undefined && Number(p.price) > 0) {
+          priceMap.set(p.productId, Number(p.price));
+        }
+      }
+
+      const startingMap = brand?.categoryStartingPrices || {};
+
+      const enriched = categories.map((cat) => {
+        const catProds = products.filter(
+          (p) =>
+            (p.categoryId && p.categoryId.toLowerCase() === cat.id.toLowerCase()) ||
+            (p.category?.id && p.category.id.toLowerCase() === cat.id.toLowerCase()) ||
+            (p.category?.slug && p.category.slug.toLowerCase() === cat.slug.toLowerCase())
+        );
+
+        const activePrices = catProds
+          .map((p) => priceMap.get(p.id))
+          .filter((pr): pr is number => typeof pr === 'number' && pr > 0);
+
+        const computedFromPrice = activePrices.length > 0 ? Math.min(...activePrices) : null;
+
+        const customStarting =
+          startingMap[cat.id] !== undefined && startingMap[cat.id] !== null && Number(startingMap[cat.id]) > 0
+            ? Number(startingMap[cat.id])
+            : (cat.startingPrice && cat.startingPrice > 0 ? cat.startingPrice : null);
+
+        const effectiveFromPrice = customStarting ?? computedFromPrice;
+        const formattedFromPrice = effectiveFromPrice
+          ? `From KSh ${effectiveFromPrice.toLocaleString('en-KE')}`
+          : 'Special Offer';
+
+        return {
+          ...cat,
+          startingPrice: customStarting,
+          computedFromPrice,
+          effectiveFromPrice,
+          formattedFromPrice,
+        };
+      });
+
+      return NextResponse.json({ success: true, data: enriched });
     }
 
     if (routePath === '/categories' && method === 'POST') {
@@ -201,8 +249,9 @@ async function handleApiRequest(
       }
       const existing = await supabaseCatalogueRepo.listCategories();
       const slug = body.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      const newCatId = `cat_${crypto.randomUUID().slice(0, 8)}`;
       const newCat: Category = {
-        id: `cat_${crypto.randomUUID().slice(0, 8)}`,
+        id: newCatId,
         name: body.name,
         slug,
         description: body.description || '',
@@ -214,20 +263,85 @@ async function handleApiRequest(
         updatedAt: new Date().toISOString(),
       };
       const created = await supabaseCatalogueRepo.createCategory(newCat);
+
+      if (body.startingPrice !== undefined && body.startingPrice !== null && Number(body.startingPrice) > 0) {
+        const brand = await supabaseContentRepo.getBrandSettings();
+        const nextPrices = { ...(brand.categoryStartingPrices || {}), [newCatId]: Number(body.startingPrice) };
+        await supabaseContentRepo.updateBranding({ categoryStartingPrices: nextPrices });
+        created.startingPrice = Number(body.startingPrice);
+        created.effectiveFromPrice = Number(body.startingPrice);
+        created.formattedFromPrice = `From KSh ${Number(body.startingPrice).toLocaleString('en-KE')}`;
+      }
+
       return NextResponse.json({ success: true, data: created }, { status: 201 });
     }
 
     if (segments[0] === 'categories' && segments[1] && method === 'PATCH') {
       if (!getAuthenticatedStaffUser(req)) return unauthorizedStaffResponse();
       const body = await safeJsonBody(req);
-      const updated = await supabaseCatalogueRepo.updateCategory(segments[1], body);
+      const categoryId = segments[1];
+
+      // Handle custom starting price sync to Supabase
+      if (body.startingPrice !== undefined) {
+        const brand = await supabaseContentRepo.getBrandSettings();
+        const nextPrices = { ...(brand.categoryStartingPrices || {}) };
+        if (body.startingPrice === null || body.startingPrice === '' || Number(body.startingPrice) <= 0) {
+          delete nextPrices[categoryId];
+        } else {
+          nextPrices[categoryId] = Number(body.startingPrice);
+        }
+        await supabaseContentRepo.updateBranding({ categoryStartingPrices: nextPrices });
+      }
+
+      const { startingPrice, ...categoryUpdates } = body;
+      let updated: Category | null = null;
+      if (Object.keys(categoryUpdates).length > 0) {
+        updated = await supabaseCatalogueRepo.updateCategory(categoryId, categoryUpdates);
+      } else {
+        const all = await supabaseCatalogueRepo.listCategories();
+        updated = all.find((c) => c.id === categoryId) || null;
+      }
+
       if (!updated) {
         return NextResponse.json(
           { success: false, error: { code: 'NOT_FOUND', message: 'Category not found' } },
           { status: 404 }
         );
       }
-      return NextResponse.json({ success: true, data: updated });
+
+      // Re-calculate dynamic min product price for live response
+      const [products, prices, brand] = await Promise.all([
+        supabaseCatalogueRepo.listProducts({ categoryId, status: 'published' }),
+        supabasePricingRepo.listPrices(),
+        supabaseContentRepo.getBrandSettings(),
+      ]);
+
+      const priceMap = new Map<string, number>();
+      for (const p of prices) {
+        if (p.price && Number(p.price) > 0) priceMap.set(p.productId, Number(p.price));
+      }
+
+      const activePrices = products
+        .map((p) => priceMap.get(p.id))
+        .filter((pr): pr is number => typeof pr === 'number' && pr > 0);
+      const computedFromPrice = activePrices.length > 0 ? Math.min(...activePrices) : null;
+
+      const customStarting = brand.categoryStartingPrices?.[categoryId] ?? null;
+      const effectiveFromPrice = customStarting ?? computedFromPrice;
+      const formattedFromPrice = effectiveFromPrice
+        ? `From KSh ${effectiveFromPrice.toLocaleString('en-KE')}`
+        : 'Special Offer';
+
+      return NextResponse.json({
+        success: true,
+        data: {
+          ...updated,
+          startingPrice: customStarting,
+          computedFromPrice,
+          effectiveFromPrice,
+          formattedFromPrice,
+        },
+      });
     }
 
     if (segments[0] === 'categories' && segments[1] && method === 'DELETE') {

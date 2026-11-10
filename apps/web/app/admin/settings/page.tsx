@@ -158,6 +158,29 @@ export default function AdminSettingsPage() {
               />
             </div>
           </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs pt-2 border-t border-gray-100">
+            <div>
+              <label className="block font-bold text-gray-700 mb-1">Physical Shop Address</label>
+              <input
+                type="text"
+                value={brand.address || ''}
+                onChange={(e) => setBrand({ ...brand, address: e.target.value })}
+                placeholder="Kombo Munyiri Rd, Gikomba, next to Gold Stone Plaza, Nairobi, Kenya"
+                className="w-full px-3 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FF850D]"
+              />
+            </div>
+            <div>
+              <label className="block font-bold text-gray-700 mb-1">Google Maps Place URL / GPS Link</label>
+              <input
+                type="text"
+                value={brand.googleMapsUrl || ''}
+                onChange={(e) => setBrand({ ...brand, googleMapsUrl: e.target.value })}
+                placeholder="https://www.google.com/maps/place/1%C2%B016'55.3%22S+36%C2%B050'02.0%22E/@-1.282029,36.833892,17z"
+                className="w-full px-3 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#FF850D]"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Homepage Content Configuration */}

@@ -309,7 +309,11 @@ export default function CategoryStrip({
               cat.description?.split(',').map((s) => s.trim()) ||
               [];
 
-            const offerPrice = CATEGORY_OFFER_PRICES[cat.id] || 'Special Offer';
+            const offerPrice =
+              cat.formattedFromPrice ||
+              (cat.effectiveFromPrice ? `From KSh ${cat.effectiveFromPrice.toLocaleString('en-KE')}` : null) ||
+              CATEGORY_OFFER_PRICES[cat.id] ||
+              'Special Offer';
 
             return (
               <a

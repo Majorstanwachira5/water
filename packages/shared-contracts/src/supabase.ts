@@ -146,6 +146,10 @@ function mapCategoryRow(row: any): Category {
     imageUrl: row.image_url || '',
     displayOrder: Number(row.display_order ?? 1),
     isPublished: Boolean(row.is_published ?? true),
+    startingPrice:
+      row.starting_price !== null && row.starting_price !== undefined
+        ? Number(row.starting_price)
+        : undefined,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -368,6 +372,7 @@ export const DEFAULT_CATEGORIES: Category[] = [
     "imageUrl": "/images/products/product_synnova_urinal.png",
     "displayOrder": 1,
     "isPublished": true,
+    "startingPrice": 450,
     "createdAt": "2026-11-05T00:00:00Z",
     "updatedAt": "2026-11-05T00:00:00Z"
   },
@@ -380,6 +385,7 @@ export const DEFAULT_CATEGORIES: Category[] = [
     "imageUrl": "/images/products/product_lirlee_basin_tap.png",
     "displayOrder": 2,
     "isPublished": true,
+    "startingPrice": 650,
     "createdAt": "2026-11-05T00:00:00Z",
     "updatedAt": "2026-11-05T00:00:00Z"
   },
@@ -392,6 +398,7 @@ export const DEFAULT_CATEGORIES: Category[] = [
     "imageUrl": "/images/products/product_milano_instant_heater_shower.png",
     "displayOrder": 3,
     "isPublished": true,
+    "startingPrice": 750,
     "createdAt": "2026-11-05T00:00:00Z",
     "updatedAt": "2026-11-05T00:00:00Z"
   },
@@ -404,6 +411,7 @@ export const DEFAULT_CATEGORIES: Category[] = [
     "imageUrl": "/images/products/product_black_nano_double_bowl_sink_faucet.png",
     "displayOrder": 4,
     "isPublished": true,
+    "startingPrice": 2500,
     "createdAt": "2026-11-05T00:00:00Z",
     "updatedAt": "2026-11-05T00:00:00Z"
   },
@@ -416,6 +424,7 @@ export const DEFAULT_CATEGORIES: Category[] = [
     "imageUrl": "/images/products/product_kensplastic_magic_bend.png",
     "displayOrder": 5,
     "isPublished": true,
+    "startingPrice": 150,
     "createdAt": "2026-11-05T00:00:00Z",
     "updatedAt": "2026-11-05T00:00:00Z"
   },
@@ -428,6 +437,7 @@ export const DEFAULT_CATEGORIES: Category[] = [
     "imageUrl": "/images/products/product_wista_greek_key_mortise_lock.png",
     "displayOrder": 6,
     "isPublished": true,
+    "startingPrice": 150,
     "createdAt": "2026-11-05T00:00:00Z",
     "updatedAt": "2026-11-05T00:00:00Z"
   }
@@ -4625,6 +4635,21 @@ const DEFAULT_BRAND: BrandSettings = {
   smsNumber: '+254714843208',
   email: 'info@michaforge.co.ke',
   address: 'Kombo Munyiri Rd, Gikomba, next to Gold Stone Plaza, Nairobi, Kenya',
+  googleMapsUrl:
+    "https://www.google.com/maps/place/1%C2%B016'55.3%22S+36%C2%B050'02.0%22E/@-1.282029,36.833892,17z",
+  googleMapsPlusCode: 'PR9M+5HJ Nairobi',
+  coordinates: {
+    lat: -1.282029,
+    lng: 36.833892,
+  },
+  categoryStartingPrices: {
+    cat_sanitary_ware: 450,
+    cat_taps_faucets: 650,
+    cat_shower_systems: 750,
+    cat_kitchen_sinks: 2500,
+    cat_plumbing_pipes: 150,
+    cat_hardware_items: 150,
+  },
   country: 'Kenya',
   currency: 'KES',
   timezone: 'Africa/Nairobi',
@@ -4681,6 +4706,9 @@ const DEFAULT_ABOUT: AboutContent = {
     'To be the leading destination for plumbing and hardware solutions in quality, affordability and excellence.',
   slogan: '"Building Trust Through Quality and Reliability."',
   location: 'Kombo Munyiri Rd, Gikomba, next to Gold Stone Plaza, Nairobi, Kenya',
+  googleMapsUrl:
+    "https://www.google.com/maps/place/1%C2%B016'55.3%22S+36%C2%B050'02.0%22E/@-1.282029,36.833892,17z",
+  googleMapsPlusCode: 'PR9M+5HJ Nairobi',
 };
 
 export const supabaseContentRepo = {

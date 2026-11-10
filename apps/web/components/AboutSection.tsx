@@ -94,17 +94,24 @@ const DEFAULT_ABOUT_CONTENT: AboutContent = {
     'To be the leading destination for plumbing and hardware solutions in quality, affordability and excellence.',
   slogan: '"Building Trust Through Quality and Reliability."',
   location: 'Kombo Munyiri Rd, Gikomba, next to Gold Stone Plaza, Nairobi, Kenya',
+  googleMapsUrl: "https://www.google.com/maps/place/1%C2%B016'55.3%22S+36%C2%B050'02.0%22E/@-1.282029,36.833892,17z",
 };
 
 interface AboutSectionProps {
   aboutContent?: AboutContent | null;
   address?: string;
+  googleMapsUrl?: string;
 }
 
-export default function AboutSection({ aboutContent, address }: AboutSectionProps) {
+export default function AboutSection({ aboutContent, address, googleMapsUrl }: AboutSectionProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const touchStartXRef = useRef<number | null>(null);
+
+  const mapsLink =
+    googleMapsUrl ||
+    aboutContent?.googleMapsUrl ||
+    "https://www.google.com/maps/place/1%C2%B016'55.3%22S+36%C2%B050'02.0%22E/@-1.282029,36.833892,17z";
 
   const paragraphs =
     aboutContent?.paragraphs && aboutContent.paragraphs.length > 0
@@ -403,19 +410,34 @@ export default function AboutSection({ aboutContent, address }: AboutSectionProp
               </div>
             </div>
 
-            <div className="bg-[#0B3556] text-white rounded-2xl border border-[#FF850D]/40 p-5 flex items-start space-x-4 relative overflow-hidden">
-              <div className="w-11 h-11 rounded-xl bg-[#FF850D]/20 border border-[#FF850D]/40 flex items-center justify-center flex-shrink-0">
+            <a
+              href={mapsLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View Michaforge Enterprises location on Google Maps"
+              className="group bg-[#0B3556] hover:bg-[#073253] text-white rounded-2xl border border-[#FF850D]/40 hover:border-[#FF850D] p-5 flex items-start space-x-4 relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-[#FF850D]/10"
+            >
+              <div className="w-11 h-11 rounded-xl bg-[#FF850D]/20 border border-[#FF850D]/40 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
                 <MapPin className="w-5 h-5 text-[#FF850D]" />
               </div>
-              <div>
-                <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#FF850D]">
-                  LOCATION
-                </span>
+              <div className="flex-1">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#FF850D]">
+                    LOCATION
+                  </span>
+                  <span className="inline-flex items-center text-[10px] font-bold bg-[#FF850D]/20 text-[#FF850D] border border-[#FF850D]/40 px-2 py-0.5 rounded-full">
+                    📍 Google Maps
+                  </span>
+                </div>
                 <p className="text-sm sm:text-base font-bold text-white mt-1 leading-snug">
                   {locationText}
                 </p>
+                <div className="mt-2 inline-flex items-center text-xs font-bold text-[#FF850D] group-hover:text-white transition-colors">
+                  <span>Get Directions (PR9M+5HJ Nairobi)</span>
+                  <span className="ml-1 transition-transform group-hover:translate-x-1">→</span>
+                </div>
               </div>
-            </div>
+            </a>
           </div>
         </div>
       </div>
