@@ -4635,8 +4635,12 @@ const DEFAULT_BRAND: BrandSettings = {
   smsNumber: '+254714843208',
   email: 'info@michaforge.co.ke',
   address: 'Kombo Munyiri Rd, Gikomba, next to Gold Stone Plaza, Nairobi, Kenya',
+  siteUrl: 'https://www.michaforgeenterprises.com',
   googleMapsUrl:
-    "https://www.google.com/maps/place/1%C2%B016'55.3%22S+36%C2%B050'02.0%22E/@-1.282029,36.833892,17z",
+    'https://www.google.com/maps/search/?api=1&query=Michaforge+Enterprises+and+Hardware,+Kombo+Munyiri+Rd,+Nairobi',
+  googleMapsPlaceName: 'Michaforge Enterprises and Hardware',
+  googleMapsDirectionsUrl:
+    'https://www.google.com/maps/dir/?api=1&destination=Michaforge+Enterprises+and+Hardware,+Kombo+Munyiri+Rd,+Nairobi',
   googleMapsPlusCode: 'PR9M+5HJ Nairobi',
   coordinates: {
     lat: -1.282029,
@@ -4707,7 +4711,7 @@ const DEFAULT_ABOUT: AboutContent = {
   slogan: '"Building Trust Through Quality and Reliability."',
   location: 'Kombo Munyiri Rd, Gikomba, next to Gold Stone Plaza, Nairobi, Kenya',
   googleMapsUrl:
-    "https://www.google.com/maps/place/1%C2%B016'55.3%22S+36%C2%B050'02.0%22E/@-1.282029,36.833892,17z",
+    'https://www.google.com/maps/search/?api=1&query=Michaforge+Enterprises+and+Hardware,+Kombo+Munyiri+Rd,+Nairobi',
   googleMapsPlusCode: 'PR9M+5HJ Nairobi',
 };
 

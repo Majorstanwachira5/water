@@ -236,7 +236,10 @@ export interface BrandSettings {
   smsNumber: string; // "+254714843208"
   email?: string;
   address?: string;
+  siteUrl?: string; // e.g. "https://www.michaforgeenterprises.com"
   googleMapsUrl?: string;
+  googleMapsPlaceName?: string; // e.g. "Michaforge Enterprises and Hardware"
+  googleMapsDirectionsUrl?: string;
   googleMapsPlusCode?: string;
   coordinates?: {
     lat: number;

@@ -19,7 +19,7 @@ export default function Footer({
   secondaryPhone = '0721435772',
   secondaryWhatsappNumber = '+254721435772',
   address = 'Kombo Munyiri Rd, Gikomba, next to Gold Stone Plaza, Nairobi, Kenya',
-  googleMapsUrl = "https://www.google.com/maps/place/1%C2%B016'55.3%22S+36%C2%B050'02.0%22E/@-1.282029,36.833892,17z",
+  googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=Michaforge+Enterprises+and+Hardware,+Kombo+Munyiri+Rd,+Nairobi',
 }: FooterProps) {
   const primaryWaUrl = generateWhatsAppLink(
     whatsappNumber,
@@ -156,9 +156,11 @@ export default function Footer({
                       <ExternalLink className="w-2.5 h-2.5 ml-0.5" />
                     </span>
                   </div>
-                  <span className="text-[11px] text-gray-300 group-hover:text-gray-100 leading-snug block">{address}</span>
+                  <span className="text-[11px] text-gray-300 group-hover:text-gray-100 leading-snug block">
+                    Michaforge Enterprises and Hardware • {address}
+                  </span>
                   <span className="text-[10px] text-[#FF850D] font-semibold block mt-0.5 group-hover:underline">
-                    📍 Get Directions (PR9M+5HJ) &rarr;
+                    📍 Open Named Pin (PR9M+5HJ) &rarr;
                   </span>
                 </div>
               </a>

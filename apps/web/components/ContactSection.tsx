@@ -19,7 +19,7 @@ export default function ContactSection({
   secondaryPhone = '0721435772',
   secondaryWhatsappNumber = '+254721435772',
   address = 'Kombo Munyiri Rd, Gikomba, next to Gold Stone Plaza, Nairobi, Kenya',
-  googleMapsUrl = "https://www.google.com/maps/place/1%C2%B016'55.3%22S+36%C2%B050'02.0%22E/@-1.282029,36.833892,17z",
+  googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=Michaforge+Enterprises+and+Hardware,+Kombo+Munyiri+Rd,+Nairobi',
 }: ContactSectionProps) {
   const [formData, setFormData] = useState({
     customerName: '',
@@ -253,23 +253,66 @@ export default function ContactSection({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-start space-x-2.5 text-xs text-gray-200 pt-3 border-t border-[#0B3556] hover:text-white transition-colors"
-                title="Open Michaforge Enterprises on Google Maps"
+                title="Open Michaforge Enterprises and Hardware on Google Maps"
               >
                 <MapPin className="w-4 h-4 text-[#FF850D] flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
                 <div className="flex-1">
                   <div className="flex items-center justify-between gap-2">
                     <span className="block font-bold text-white group-hover:text-[#FF850D] transition-colors">
-                      {address}
+                      Michaforge Enterprises and Hardware
                     </span>
                     <span className="text-[10px] font-bold text-[#FF850D] bg-[#FF850D]/20 px-2 py-0.5 rounded border border-[#FF850D]/40 whitespace-nowrap">
                       Maps 📍
                     </span>
                   </div>
+                  <span className="text-[11px] text-gray-200 block mt-0.5">
+                    {address}
+                  </span>
                   <span className="text-[11px] text-gray-300 block mt-0.5">
-                    Nairobi &amp; Countrywide Deliveries in Kenya • <span className="text-[#FF850D] underline underline-offset-2">Get Directions (PR9M+5HJ) →</span>
+                    Nairobi &amp; Countrywide Deliveries • <span className="text-[#FF850D] underline underline-offset-2">View Named Pin (PR9M+5HJ) →</span>
                   </span>
                 </div>
               </a>
+            </div>
+
+            {/* Live Interactive Google Map with Named Business Pin */}
+            <div className="rounded-2xl border border-[#DFE5EB] bg-white p-3.5 shadow-sm space-y-2.5 overflow-hidden">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0BAA58] opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#0BAA58]" />
+                  </span>
+                  <span className="text-xs font-black text-[#073253]">
+                    Michaforge Enterprises and Hardware
+                  </span>
+                </div>
+                <a
+                  href={googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[11px] font-bold text-[#FF850D] hover:underline inline-flex items-center"
+                >
+                  <span>Open Full Map</span>
+                  <span className="ml-1">↗</span>
+                </a>
+              </div>
+              <div className="w-full h-44 rounded-xl overflow-hidden border border-[#DFE5EB] relative bg-slate-100">
+                <iframe
+                  title="Michaforge Enterprises and Hardware Location"
+                  src="https://maps.google.com/maps?q=Michaforge+Enterprises+and+Hardware,+Kombo+Munyiri+Rd,+Nairobi&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                  className="w-full h-full border-0"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  allowFullScreen
+                />
+              </div>
+              <div className="flex items-center justify-between text-[11px] text-[#667585] pt-0.5">
+                <span className="truncate">Kombo Munyiri Rd, next to Gold Stone Plaza</span>
+                <span className="font-mono text-[10px] bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">
+                  PR9M+5HJ Nairobi
+                </span>
+              </div>
             </div>
           </div>
 

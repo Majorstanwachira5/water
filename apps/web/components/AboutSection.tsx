@@ -94,7 +94,8 @@ const DEFAULT_ABOUT_CONTENT: AboutContent = {
     'To be the leading destination for plumbing and hardware solutions in quality, affordability and excellence.',
   slogan: '"Building Trust Through Quality and Reliability."',
   location: 'Kombo Munyiri Rd, Gikomba, next to Gold Stone Plaza, Nairobi, Kenya',
-  googleMapsUrl: "https://www.google.com/maps/place/1%C2%B016'55.3%22S+36%C2%B050'02.0%22E/@-1.282029,36.833892,17z",
+  googleMapsUrl:
+    'https://www.google.com/maps/search/?api=1&query=Michaforge+Enterprises+and+Hardware,+Kombo+Munyiri+Rd,+Nairobi',
 };
 
 interface AboutSectionProps {
@@ -111,7 +112,7 @@ export default function AboutSection({ aboutContent, address, googleMapsUrl }: A
   const mapsLink =
     googleMapsUrl ||
     aboutContent?.googleMapsUrl ||
-    "https://www.google.com/maps/place/1%C2%B016'55.3%22S+36%C2%B050'02.0%22E/@-1.282029,36.833892,17z";
+    'https://www.google.com/maps/search/?api=1&query=Michaforge+Enterprises+and+Hardware,+Kombo+Munyiri+Rd,+Nairobi';
 
   const paragraphs =
     aboutContent?.paragraphs && aboutContent.paragraphs.length > 0
@@ -433,7 +434,7 @@ export default function AboutSection({ aboutContent, address, googleMapsUrl }: A
                   {locationText}
                 </p>
                 <div className="mt-2 inline-flex items-center text-xs font-bold text-[#FF850D] group-hover:text-white transition-colors">
-                  <span>Get Directions (PR9M+5HJ Nairobi)</span>
+                  <span>Open Michaforge Enterprises Named Pin (PR9M+5HJ)</span>
                   <span className="ml-1 transition-transform group-hover:translate-x-1">→</span>
                 </div>
               </div>
